@@ -1,0 +1,4 @@
+/postgres
+/php/xdebug
+.env
+.env.backup
