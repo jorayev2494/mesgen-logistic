@@ -29,9 +29,9 @@ services:
             - 9000
         volumes:
             - ../:/var/project
-            - ./php/xdebug/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini:ro
-            - ./php/xdebug/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini:ro
-            - ./php/xdebug/logs/xdebug.log:/tmp/xdebug.log
+            # - ./php/xdebug/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini:ro
+            # - ./php/xdebug/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini:ro
+            # - ./php/xdebug/logs/xdebug.log:/tmp/xdebug.log
         networks:
             - mesgen
 
