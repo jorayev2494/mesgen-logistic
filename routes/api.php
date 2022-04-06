@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'], function (): void {
+    Route::controller('SliderController')->group(function (): void {
+        Route::get('/sliders', 'index');
+        Route::post('/sliders', 'store');
+        Route::get('/sliders/{id}', 'show');
+        Route::post('/sliders/{id}', 'update');
+        Route::delete('/sliders/{id}', 'destroy');
+    });
 });
