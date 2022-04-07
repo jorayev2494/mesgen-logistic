@@ -14,8 +14,13 @@ class Slider extends Model
      */
     protected $fillable = [
         'media',
-        'title',
-        'text',
+        'title_en',
+        'title_ru',
+        'title_tk',
+        'text_en',
+        'text_ru',
+        'text_tk',
+        'extension',
         'is_active',
         'position',
     ];

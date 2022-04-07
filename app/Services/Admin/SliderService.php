@@ -27,11 +27,24 @@ class SliderService
     }
 
     /**
+     * @param bool $isAdmin
      * @return Collection
      */
-    public function get(): Collection
+    public function get(bool $isAdmin = false): Collection
     {
-        return $this->repository->get();
+        return $isAdmin ? $this->repository->getAdmin()
+                        : $this->repository->get([
+                            'id',
+                            'media',
+                            'title_en',
+                            'title_ru',
+                            'title_tk',
+                            'text_en',
+                            'text_ru',
+                            'text_tk',
+                            'extension',
+                            'position'
+                         ]);
     }
 
     /**
@@ -50,10 +63,13 @@ class SliderService
     public function store(array $data): Slider
     {
         if (array_key_exists('media', $data)) {
-            ['full_path' => $data['media']] = $this->uploadFile(SliderServiceEnum::MEDIA_PATH->value, $data['media']);
+            [
+                'full_path' => $data['media'],
+                'extension' => $data['extension']
+            ] = $this->uploadFile(SliderServiceEnum::MEDIA_PATH->value, $data['media']);
         }
 
-       return $this->repository->create($data);
+        return $this->repository->create($data);
     }
 
     /**
@@ -67,7 +83,10 @@ class SliderService
         $foundSlider = $this->repository->findOrFail($id);
 
         if (array_key_exists('media', $data)) {
-            ['full_path' => $data['media']] = $this->updateFile(SliderServiceEnum::MEDIA_PATH->value, $foundSlider->media, $data['media']);
+            [
+                'full_path' => $data['media'],
+                'extension' => $data['extension']
+            ] = $this->updateFile(SliderServiceEnum::MEDIA_PATH->value, $foundSlider->media, $data['media']);
         }
 
         $foundSlider->update($data);

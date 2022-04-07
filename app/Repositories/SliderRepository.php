@@ -17,9 +17,24 @@ class SliderRepository extends BaseRepository
      * @param array<int, string> $columns
      * @return Collection
      */
+    public function getAdmin(array $columns = array('*')): Collection
+    {
+        return $this->getModelClone()->newQuery()
+                                    ->orderByDesc('position')
+                                    ->orderByDesc('id')
+                                    ->get($columns);
+    }
+
+    /**
+     * @param array<int, string> $columns
+     * @return Collection
+     */
     public function get(array $columns = array('*')): Collection
     {
         return $this->getModelClone()->newQuery()
+                                    ->where('is_active', true)
+                                    ->orderBy('position')
+                                    ->orderBy('id')
                                     ->get($columns);
     }
 }

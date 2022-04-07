@@ -89,6 +89,108 @@ info:
 #      - store_model
 
 paths:
+  /admin/auth/login:
+    post:
+      description: "Admin login"
+      tags:
+        - Admin login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: "user@gmail.com"
+                password:
+                  type: string
+                  example: "secret"
+                  minLength: 6
+                  maxLength: 20
+      responses:
+        200:
+          description: "Success response"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    example: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwODIvYXBpL2FkbWluL2F1dGgvbG9naW4iLCJpYXQiOjE2NDkzNjcwNTQsImV4cCI6MTY0OTM3MDY1NCwibmJmIjoxNjQ5MzY3MDU0LCJqdGkiOiJ0aFNZYXM1WUpsWHpOM2VHIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.wjAOSHUSC7-XxShDEgoKYamdQDsyOuqF02KyrFsRoSA"
+                  token_type:
+                    type: string
+                    example: "bearer"
+                  expires_in:
+                    type: integer
+                    example: 3600
+
+  /admin/auth/password_restore/email/code:
+    post:
+      description: "Admin send email code"
+      tags:
+        - Admin Restore
+      requestBody:
+        content:
+          applocation/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  example: "user@gmail.com"
+      responses:
+        202:
+          description: "Success sent restore code to admin email"
+#          content:
+#            application/json:
+
+  /admin/auth/password_restore/restore:
+    post:
+      description: "Admin restore password"
+      tags:
+        - Admin Restore
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email_code
+                - current_password
+                - new_password
+                - new_password_confirmation
+              properties:
+                email_code:
+                  type: integer
+                  example: 248586
+                  minLength: 6
+                  maxLength: 6
+                current_password:
+                  type: string
+                  example: "pas12345"
+                new_password:
+                  type: string
+                  example: "secret"
+                  minLength: 6
+                  maxLength: 20
+                new_password_confirmation:
+                  type: string
+                  example: "secret"
+                  minLength: 6
+                  maxLength: 20
+      responses:
+        202:
+          description: "Success restored password"
+#          content:
+#            application/json:
+
   /admin/sliders:
     get:
       description: "Get sliders"
@@ -141,10 +243,10 @@ paths:
       responses:
         201:
           description: "Created a slider"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SliderSchema'
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/SliderSchema'
 
   /admin/sliders/{id}:
     get:
@@ -208,10 +310,10 @@ paths:
       responses:
         202:
           description: "Updated a slider"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SliderSchema'
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/SliderSchema'
 
     delete:
       description: "Delete a slider"
