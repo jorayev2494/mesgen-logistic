@@ -17,8 +17,16 @@ return new class extends Migration
             $table->id();
 
             $table->string('media');
-            $table->string('title')->nullable();
-            $table->string('text')->nullable();
+
+            $table->string('title_en')->nullable();
+            $table->string('title_ru')->nullable();
+            $table->string('title_tk')->nullable();
+
+            $table->string('text_en')->nullable();
+            $table->string('text_ru')->nullable();
+            $table->string('text_tk')->nullable();
+            $table->string('extension')->nullable();
+
             $table->boolean('is_active')->default(true);
             $table->integer('position')->nullable();
 

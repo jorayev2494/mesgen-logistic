@@ -13,7 +13,7 @@ abstract class BaseRepository implements BaseModelRepositoryContract
     /**
      * @var Model $model
      */
-    public Model $model;
+    protected Model $model;
 
     public function __construct()
     {
