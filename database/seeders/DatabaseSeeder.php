@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(UserTableSeeder::class);
         $this->call(SliderSeeder::class);
+        $this->call(SliderBlockSeeder::class);
     }
 }
