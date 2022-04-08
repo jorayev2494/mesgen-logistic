@@ -3,6 +3,7 @@
 namespace App\Repositories\Base;
 
 use App\Repositories\Contracts\BaseModelRepositoryContract;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -57,5 +58,17 @@ abstract class BaseRepository implements BaseModelRepositoryContract
     {
         return $this->getModelClone()->newQuery()
                                     ->findOrFail($id, $columns);
+    }
+
+    /**
+     * @param array<int, string> $columns
+     * @return Collection
+     */
+    public function getAdmin(array $columns = array('*')): Collection
+    {
+        return $this->getModelClone()->newQuery()
+                                    ->orderBy('position')
+                                    ->orderBy('id')
+                                    ->get($columns);
     }
 }

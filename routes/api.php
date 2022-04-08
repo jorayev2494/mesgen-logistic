@@ -13,6 +13,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
     });
 
     Route::group(['middleware' => 'auth:api'], function (): void {
+        Route::resource('/sliders/blocks', 'SliderBlockController', ['only' => ['index', 'show', 'update']]);
         Route::controller('SliderController')->group(function (): void {
             Route::get('/sliders', 'index');
             Route::post('/sliders', 'store');
@@ -30,5 +31,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
 Route::group(['middleware' => 'lang'], function (): void {
     Route::get('/sliders', 'SliderController');
     Route::get('/socials', 'SocialController');
+    Route::get('/sliders/blocks', 'SliderBlockController');
 });
 #endregion

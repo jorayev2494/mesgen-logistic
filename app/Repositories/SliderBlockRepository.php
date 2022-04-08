@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Models\Social;
+use App\Models\SliderBlock;
 use App\Repositories\Base\BaseRepository;
 use Illuminate\Database\Eloquent\Collection;
 
-final class SocialRepository extends BaseRepository
+class SliderBlockRepository extends BaseRepository
 {
     /**
      * @return string
      */
-    function getModel(): string
+    public function getModel(): string
     {
-        return Social::class;
+        return SliderBlock::class;
     }
 
     /**
@@ -25,7 +25,6 @@ final class SocialRepository extends BaseRepository
     public function get(array $columns = ['*']): Collection
     {
         return $this->getModelClone()->newQuery()
-                                    ->where('is_active', true)
                                     ->orderBy('position')
                                     ->orderBy('id')
                                     ->get($columns);

@@ -497,6 +497,192 @@ paths:
                     type: string
                     example: "08-04-2022 12:31:00"
 
+  /admin/sliders/blocks:
+    get:
+      description: "Get slider blocks"
+      tags:
+        - Admin Slider Blocks
+      responses:
+        200:
+          description: "Success slider blocks"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 3
+                    icon:
+                      type: string
+                      example: "flaticon-transport-3"
+                    title_en:
+                      type: string
+                      example: "En Title"
+                    title_ru:
+                      type: string
+                      example: "Ru Title"
+                    title_tk:
+                      type: string
+                      example: "Tk Title"
+                    text_en:
+                      type: string
+                      example: "En text text text text"
+                    text_ru:
+                      type: string
+                      example: "Ru text text text text"
+                    text_tk:
+                      type: string
+                      example: "Tk text text text text"
+                    position:
+                      type: integer
+                      example: 3
+                      nullable: true
+                    created_at:
+                      type: string
+                      example: "08-04-2022 15:57:13"
+                    updated_at:
+                      type: string
+                      example: "08-04-2022 15:57:13"
+
+  /admin/sliders/blocks/{id}:
+    get:
+      description: "Show slider blocks"
+      tags:
+        - Admin Slider Blocks
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 3
+      responses:
+        200:
+          description: "Success slider blocks"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 3
+                  icon:
+                    type: string
+                    example: "flaticon-transport-3"
+                  title_en:
+                    type: string
+                    example: "En Title"
+                  title_ru:
+                    type: string
+                    example: "Ru Title"
+                  title_tk:
+                    type: string
+                    example: "Tk Title"
+                  text_en:
+                    type: string
+                    example: "En text text text text"
+                  text_ru:
+                    type: string
+                    example: "Ru text text text text"
+                  text_tk:
+                    type: string
+                    example: "Tk text text text text"
+                  position:
+                    type: integer
+                    example: 3
+                    nullable: true
+                  created_at:
+                    type: string
+                    example: "08-04-2022 15:57:13"
+                  updated_at:
+                    type: string
+                    example: "08-04-2022 15:57:13"
+    put:
+        description: "Update slider blocks"
+        tags:
+          - Admin Slider Blocks
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: integer
+              example: 4
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title_en:
+                    type: string
+                    example: "En Title"
+                  title_ru:
+                    type: string
+                    example: "Ru Title"
+                  title_tk:
+                    type: string
+                    example: "Tk Title"
+                  text_en:
+                    type: string
+                    example: "En text text text text"
+                  text_ru:
+                    type: string
+                    example: "Ru text text text text"
+                  text_tk:
+                    type: string
+                    example: "Tk text text text text"
+                  position:
+                    type: integer
+                    example: 3
+                    nullable: true
+        responses:
+          202:
+            description: "Updated slider blocks"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 4
+                    icon:
+                      type: string
+                      example: "flaticon-transport-3"
+                    title_en:
+                      type: string
+                      example: "En Title"
+                    title_ru:
+                      type: string
+                      example: "Ru Title"
+                    title_tk:
+                      type: string
+                      example: "Tk Title"
+                    text_en:
+                      type: string
+                      example: "En text text text text"
+                    text_ru:
+                      type: string
+                      example: "Ru text text text text"
+                    text_tk:
+                      type: string
+                      example: "Tk text text text text"
+                    position:
+                      type: integer
+                      example: 3
+                      nullable: true
+                    created_at:
+                      type: string
+                      example: "08-04-2022 15:57:13"
+                    updated_at:
+                      type: string
+                      example: "08-04-2022 15:57:13"
+
   /sliders:
     get:
       summary: "Get sliders"
@@ -553,6 +739,32 @@ paths:
                     link:
                       type: string
                       example: "https://facebook.com/mesgen-logistics"
+
+  /slider/blocks:
+    get:
+      summary: "Get slider blocks"
+      description: "Slider blocks"
+      tags:
+        - Client
+      responses:
+        200:
+          description: "Success get slider blocks"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    icon:
+                      type: string
+                      example: "flaticon-transport-3"
+                    title:
+                      type: string
+                      example: "Tk Title"
+                    text:
+                      type: string
+                      example: "Tk text text text text"
 
 components:
   schemas:
