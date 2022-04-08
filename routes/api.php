@@ -20,6 +20,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
             Route::post('/sliders/{id}', 'update');
             Route::delete('/sliders/{id}', 'destroy');
         });
+
+        Route::resource('/socials', 'SocialController', ['only' => ['index', 'show', 'update']]);
     });
 });
 #endregion
@@ -27,5 +29,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
 #region Clients
 Route::group(['middleware' => 'lang'], function (): void {
     Route::get('/sliders', 'SliderController');
+    Route::get('/socials', 'SocialController');
 });
 #endregion

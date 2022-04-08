@@ -11,6 +11,9 @@ class LangMiddleware
     /** @var string $defaultLang */
     private string $defaultLang = 'en';
 
+    /** @var string $defaultAdminLang */
+    private string $defaultAdminLang = 'ru';
+
     public const LANG = ['en', 'ru', 'tk'];
 
     /**
@@ -31,9 +34,27 @@ class LangMiddleware
      */
     private function getLang(Request $request): string
     {
+        return str_contains($request->route()->getPrefix(), 'admin')    ? $this->getAdminLang($request)
+                                                                        : $this->getClientLang($request);
+    }
 
+    /**
+     * @param Request $request
+     * @return string
+     */
+    private function getAdminLang(Request $request): string
+    {
+        return $this->defaultAdminLang;
+    }
+
+    /**
+     * @param Request $request
+     * @return string
+     */
+    private function getClientLang(Request $request): string
+    {
         return $request->headers->has('Accept-Language') && in_array($request->headers->get('Accept-Language'), self::LANG)
-                ? $request->headers->get('Accept-Language')
-                : $this->defaultLang;
+            ? $request->headers->get('Accept-Language')
+            : $this->defaultLang;
     }
 }

@@ -195,7 +195,7 @@ paths:
     get:
       description: "Get sliders"
       tags:
-        - Sliders
+        - Admin Sliders
       responses:
         200:
           description: "Sliders"
@@ -209,7 +209,7 @@ paths:
     post:
       description: "Create a slider"
       tags:
-        - Sliders
+        - Admin Sliders
       requestBody:
         content:
           application/json:
@@ -221,12 +221,24 @@ paths:
                 media:
                   type: string
                   format: binary
-                title:
+                title_en:
                   type: string
-                  example: "Rabbit in a update."
-                text:
+                  example: "En Rabbit in a update."
+                title_ru:
                   type: string
-                  example: "Ipsa non esse et update."
+                  example: "Ru Rabbit in a update."
+                title_tk:
+                  type: string
+                  example: "Tk Rabbit in a update."
+                text_en:
+                  type: string
+                  example: "En Ipsa non esse et update."
+                text_ru:
+                  type: string
+                  example: "Ru Ipsa non esse et update."
+                text_tk:
+                  type: string
+                  example: "Tk Ipsa non esse et update."
                 is_active:
                   type: boolean
                   example: true
@@ -252,7 +264,7 @@ paths:
     get:
       description: "Show a slider"
       tags:
-        - Sliders
+        - Admin Sliders
       parameters:
         - name: id
           in: path
@@ -271,7 +283,7 @@ paths:
     post:
       description: "Update a slider"
       tags:
-        - Sliders
+        - Admin Sliders
       parameters:
         - name: id
           in: path
@@ -288,12 +300,24 @@ paths:
                 media:
                   type: string
                   format: binary
-                title:
+                title_en:
                   type: string
-                  example: "Rabbit in a update."
-                text:
+                  example: "En Rabbit in a update."
+                title_ru:
                   type: string
-                  example: "Ipsa non esse et update."
+                  example: "Ru Rabbit in a update."
+                title_tk:
+                  type: string
+                  example: "Tk Rabbit in a update."
+                text_en:
+                  type: string
+                  example: "En Ipsa non esse et update."
+                text_ru:
+                  type: string
+                  example: "Ru Ipsa non esse et update."
+                text_tk:
+                  type: string
+                  example: "Tk Ipsa non esse et update."
                 is_active:
                   type: boolean
                   example: true
@@ -318,7 +342,7 @@ paths:
     delete:
       description: "Delete a slider"
       tags:
-        - Sliders
+        - Admin Sliders
       parameters:
         - name: id
           in: path
@@ -329,6 +353,206 @@ paths:
       responses:
         204:
           description: "Deleted a slider"
+
+  /admin/socials:
+    get:
+      description: "Ger socials"
+      tags:
+        - Admin Socials
+      responses:
+        200:
+          description: "Success socials"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    slug:
+                      type: string
+                      example: "instagram"
+                    link:
+                      type: string
+                      example: "https://instagram.com/mesgen-logistics"
+                    is_active:
+                      type: boolean
+                      example: true
+                      enum:
+                        - false
+                        - true
+                    position:
+                      type: integer
+                      example: 2
+                      nullable: true
+                    created_at:
+                      type: string
+                      example: "08-04-2022 12:31:00"
+                    updated_at:
+                      type: string
+                      example: "08-04-2022 12:31:00"
+
+  /admin/socials/{id}:
+    get:
+      description: "Show social"
+      tags:
+        - Admin Socials
+      responses:
+        200:
+          description: "Show social"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  slug:
+                    type: string
+                    example: "instagram"
+                  link:
+                    type: string
+                    example: "https://instagram.com/mesgen-logistics"
+                  is_active:
+                    type: boolean
+                    example: true
+                    enum:
+                      - false
+                      - true
+                  position:
+                    type: integer
+                    example: 2
+                    nullable: true
+                  created_at:
+                    type: string
+                    example: "08-04-2022 12:31:00"
+                  updated_at:
+                    type: string
+                    example: "08-04-2022 12:31:00"
+
+    put:
+      description: "Update social"
+      tags:
+        - Admin Socials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 2
+                slug:
+                  type: string
+                  example: "instagram"
+                link:
+                  type: string
+                  example: "https://instagram.com/mesgen-logistics"
+                is_active:
+                  type: boolean
+                  example: true
+                  enum:
+                    - false
+                    - true
+                position:
+                  type: integer
+                  example: 2
+                  nullable: true
+      responses:
+        202:
+          description: "Updated social"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 2
+                  slug:
+                    type: string
+                    example: "instagram"
+                  link:
+                    type: string
+                    example: "https://instagram.com/mesgen-logistics"
+                  is_active:
+                    type: boolean
+                    example: true
+                    enum:
+                      - false
+                      - true
+                  position:
+                    type: integer
+                    example: 2
+                    nullable: true
+                  created_at:
+                    type: string
+                    example: "08-04-2022 12:31:00"
+                  updated_at:
+                    type: string
+                    example: "08-04-2022 12:31:00"
+
+  /sliders:
+    get:
+      summary: "Get sliders"
+      description: "Get sliders"
+      tags:
+        - Client
+      responses:
+        200:
+          description: "Success full"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    media:
+                      type: string
+                      example: "http://127.0.0.1:8082/storage/slider/medias/0qNQC5yG91KJ35bocCxkxg1IQvjD7JTo.jpg"
+                    title:
+                      type: string
+                      example: "En Rabbit in a update."
+                    text:
+                      type: string
+                      example: "En Ipsa non esse et update."
+                    extension:
+                      type: string
+                      example: "jpg"
+                      enum:
+                        - "jpg"
+                        - "jpeg"
+                        - "png"
+                        - "gif"
+
+  /socials:
+    get:
+      summary: "Get socials"
+      description: "Socials"
+      tags:
+        - Client
+      responses:
+        200:
+          description: "Success full socials"
+          content:
+            applicatin/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    slug:
+                      type: string
+                      example: "facebook"
+                    link:
+                      type: string
+                      example: "https://facebook.com/mesgen-logistics"
 
 components:
   schemas:
@@ -341,12 +565,24 @@ components:
         media:
           type: string
           example: "/storage/slider/medias/VvMB5CTPil36941IMTgNF875346XeHxP.jpg"
-        title:
+        title_en:
           type: string
-          example: "Then it got down."
-        text:
+          example: "En Rabbit in a update."
+        title_ru:
           type: string
-          example: "Quis aut expedita et sed."
+          example: "Ru Rabbit in a update."
+        title_tk:
+          type: string
+          example: "Tk Rabbit in a update."
+        text_en:
+          type: string
+          example: "En Ipsa non esse et update."
+        text_ru:
+          type: string
+          example: "Ru Ipsa non esse et update."
+        text_tk:
+          type: string
+          example: "Tk Ipsa non esse et update."
         is_active:
           type: boolean
           example: true
