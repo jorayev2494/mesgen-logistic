@@ -31,7 +31,7 @@ class SliderController extends Controller
      */
     public function index(): JsonResponse
     {
-        $sliders = $this->service->get();
+        $sliders = $this->service->get(true);
 
         return response()->json($sliders);
     }

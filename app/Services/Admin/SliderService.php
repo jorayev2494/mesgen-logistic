@@ -5,10 +5,11 @@ namespace App\Services\Admin;
 use App\Enums\Services\SliderServiceEnum;
 use App\Models\Slider;
 use App\Repositories\SliderRepository;
+use App\Services\Admin\Base\BaseService;
 use App\Traits\FileTrait;
 use Illuminate\Support\Collection;
 
-class SliderService
+class SliderService extends BaseService
 {
 
     use FileTrait;
@@ -34,16 +35,10 @@ class SliderService
     {
         return $isAdmin ? $this->repository->getAdmin()
                         : $this->repository->get([
-                            'id',
                             'media',
-                            'title_en',
-                            'title_ru',
-                            'title_tk',
-                            'text_en',
-                            'text_ru',
-                            'text_tk',
+                            $this->getLocalPrefix('title', true),
+                            $this->getLocalPrefix('text', true),
                             'extension',
-                            'position'
                          ]);
     }
 

@@ -47,4 +47,15 @@ abstract class BaseRepository implements BaseModelRepositoryContract
     {
         return $this->getModelClone()->newQuery()->$name(array_shift($arguments));
     }
+
+    /**
+     * @param int $id
+     * @param array $columns
+     * @return Model
+     */
+    public function find(int $id, array $columns = ['*']): Model
+    {
+        return $this->getModelClone()->newQuery()
+                                    ->findOrFail($id, $columns);
+    }
 }
