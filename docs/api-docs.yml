@@ -683,6 +683,577 @@ paths:
                       type: string
                       example: "08-04-2022 15:57:13"
 
+  /admin/countries:
+    get:
+      summary: "Get Countries"
+      description: "Get Countries"
+      tags:
+        - Admin Countries
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - slug
+                    - title_en
+                    - title_ru
+                    - title_tk
+                  properties:
+                    id:
+                      type: integer
+                      example: 5
+                    slug:
+                      type: string
+                      example: "turkmenistan"
+                      uniqueItems: true
+                    title_en:
+                      type: string
+                      example: "Turkmenistan"
+                    title_ru:
+                      type: string
+                      example: "Туркменистан"
+                    title_tk:
+                      type: string
+                      example: "Turkmenistan"
+                    is_active:
+                      type: boolean
+                      example: true
+                      enum:
+                        - true
+                        - false
+                    position:
+                      type: integer
+                      example: 2
+                      minimum: 1
+                    created_at:
+                      type: string
+                      example: "08-04-2022 22:10:11"
+                    updated_at:
+                      type: string
+                      example: "08-04-2022 22:10:11"
+
+    post:
+      summary: "Create a country"
+      description: "Create a country"
+      tags:
+        - Admin Countries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - slug
+                - title_en
+                - title_ru
+                - title_tk
+              properties:
+                slug:
+                  type: string
+                  example: "turkmenistan"
+                  uniqueItems: true
+                title_en:
+                  type: string
+                  example: "Turkmenistan"
+                title_ru:
+                  type: string
+                  example: "Туркменистан"
+                title_tk:
+                  type: string
+                  example: "Turkmenistan"
+                is_active:
+                  type: boolean
+                  example: true
+                  enum:
+                    - true
+                    - false
+                position:
+                  type: integer
+                  example: 2
+                  minimum: 1
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 5
+                    slug:
+                      type: string
+                      example: "turkmenistan"
+                    title_en:
+                      type: string
+                      example: "Turkmenistan"
+                    title_ru:
+                      type: string
+                      example: "Туркменистан"
+                    title_tk:
+                      type: string
+                      example: "Turkmenistan"
+                    is_active:
+                      type: boolean
+                      example: true
+                      enum:
+                        - true
+                        - false
+                    position:
+                      type: integer
+                      example: 2
+                      minimum: 1
+                    created_at:
+                      type: string
+                      example: "08-04-2022 22:10:11"
+                    updated_at:
+                      type: string
+                      example: "08-04-2022 22:10:11"
+
+  /admin/country/{id}:
+    get:
+      summary: "Show a country"
+      tags:
+        - Admin Countries
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 5
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 5
+                    slug:
+                      type: string
+                      example: "turkmenistan"
+                    title_en:
+                      type: string
+                      example: "Turkmenistan"
+                    title_ru:
+                      type: string
+                      example: "Туркменистан"
+                    title_tk:
+                      type: string
+                      example: "Turkmenistan"
+                    is_active:
+                      type: boolean
+                      example: true
+                      enum:
+                        - true
+                        - false
+                    position:
+                      type: integer
+                      example: 2
+                      minimum: 1
+                    created_at:
+                      type: string
+                      example: "08-04-2022 22:10:11"
+                    updated_at:
+                      type: string
+                      example: "08-04-2022 22:10:11"
+
+    put:
+      summary: "Update a country"
+      tags:
+        - Admin Countries
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 5
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                slug:
+                  type: string
+                  example: "turkmenistan"
+                  uniqueItems: true
+                title_en:
+                  type: string
+                  example: "Turkmenistan"
+                title_ru:
+                  type: string
+                  example: "Туркменистан"
+                title_tk:
+                  type: string
+                  example: "Turkmenistan"
+                is_active:
+                  type: boolean
+                  example: true
+                  enum:
+                    - true
+                    - false
+                position:
+                  type: integer
+                  example: 2
+                  minimum: 1
+      responses:
+        200:
+          description: "Success updated"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 5
+                    slug:
+                      type: string
+                      example: "turkmenistan"
+                    title_en:
+                      type: string
+                      example: "Turkmenistan"
+                    title_ru:
+                      type: string
+                      example: "Туркменистан"
+                    title_tk:
+                      type: string
+                      example: "Turkmenistan"
+                    is_active:
+                      type: boolean
+                      example: true
+                      enum:
+                        - true
+                        - false
+                    position:
+                      type: integer
+                      example: 2
+                      minimum: 1
+                    created_at:
+                      type: string
+                      example: "08-04-2022 22:10:11"
+                    updated_at:
+                      type: string
+                      example: "08-04-2022 22:10:11"
+
+    delete:
+      summary: "Delete a country"
+      tags:
+        - Admin Countries
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 5
+      responses:
+        204:
+          description: "Success deleted"
+
+  /admin/countries/{country_id}/addersses:
+    get:
+      summary: "Get addresses"
+      tags:
+        - Admin Address
+      parameters:
+        - name: country_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 2
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdminAddressSchema'
+
+    post:
+      summary: "Create an address"
+      tags:
+        - Admin Address
+      parameters:
+        - name: country_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 10
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - address_en
+                - address_ru
+                - address_tk
+              properties:
+                address_en:
+                  type: string
+                  example: "EN adaen"
+                address_ru:
+                  type: string
+                  example: "RU adaen"
+                address_tk:
+                  type: string
+                  example: "TK adaenEN"
+                position:
+                  type: integer
+                  example: 1
+                  default: null
+                is_active:
+                  type: boolean
+                  example: false
+                  default: true
+                  enum:
+                    - true
+                    - false
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdminAddressSchema'
+
+  /admin/countries/{country_id}/addresses/{address_id}:
+    get:
+      summary: "Show address"
+      tags:
+        - Admin Address
+      parameters:
+        - $ref: '#/components/parameters/CountryParam'
+        - $ref: '#/components/parameters/AddressParam'
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminAddressSchema'
+
+    put:
+      summary: "Update address"
+      tags:
+        - Admin Address
+      parameters:
+        - $ref: '#/components/parameters/CountryParam'
+        - $ref: '#/components/parameters/AddressParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address_en:
+                  type: string
+                  example: "EN Updated"
+                address_ru:
+                  type: string
+                  example: "RU Updated"
+                address_tk:
+                  type: string
+                  example: "Tk Updated"
+                position:
+                  type: integer
+                  example: 2
+                  minimum: 1
+                  default: null
+                is_active:
+                  type: boolean
+                  example: false
+                  enum:
+                    - true
+                    - false
+
+      responses:
+        202:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminAddressSchema'
+
+    delete:
+      summary: "Delete address"
+      tags:
+        - Admin Address
+      parameters:
+        - $ref: '#/components/parameters/CountryParam'
+        - $ref: '#/components/parameters/AddressParam'
+      responses:
+        204:
+          $ref: '#/components/responses/NoContentResponse'
+
+  /admin/countries/{country_id}/phones:
+    get:
+      summary: "Get phones"
+      tags:
+        - Admin Phones
+      parameters:
+        - $ref: '#/components/parameters/CountryParam'
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdminPhoneSchema'
+
+    post:
+      summary: "Create a phone"
+      tags:
+        - Admin Phones
+      parameters:
+        - $ref: '#/components/parameters/CountryParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title_en
+                - title_ru
+                - title_tk
+                - value
+                - country_id
+              properties:
+                title_en:
+                  type: string
+                  example: "EN adaen"
+                title_ru:
+                  type: string
+                  example: "RU adaen"
+                title_tk:
+                  type: string
+                  example: "TK adaenEN"
+                value:
+                  type: string
+                  example: "+24098345"
+                country_id:
+                  type: integer
+                  example: 3
+                position:
+                  type: integer
+                  example: 1
+                  default: null
+                is_active:
+                  type: boolean
+                  example: false
+                  enum:
+                    - true
+                    - false
+                  default: true
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdminPhoneSchema'
+
+  /admin/countries/{country_id}/phones/{phone_id}:
+    get:
+      summary: "Show a phone"
+      tags:
+        - Admin Phones
+      parameters:
+        - $ref: '#/components/parameters/CountryParam'
+        - $ref: '#/components/parameters/PhoneParam'
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminPhoneSchema'
+
+    put:
+      summary: "Update a phone"
+      tags:
+        - Admin Phones
+      parameters:
+        - $ref: '#/components/parameters/CountryParam'
+        - $ref: '#/components/parameters/PhoneParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title_en:
+                  type: string
+                  example: "EN adaen update"
+                title_ru:
+                  type: string
+                  example: "RU adaen update"
+                title_tk:
+                  type: string
+                  example: "TK adaen  update"
+                value:
+                  type: string
+                  example: "+240983450003040"
+                country_id:
+                  type: integer
+                  example: 3
+                position:
+                  type: integer
+                  example: 1
+                is_active:
+                  type: boolean
+                  example: false
+                  enum:
+                    - true
+                    - false
+      responses:
+        202:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminPhoneSchema'
+
+    delete:
+      summary: "Delete a phone"
+      tags:
+        - Admin Phones
+      parameters:
+        - $ref: '#/components/parameters/CountryParam'
+        - $ref: '#/components/parameters/PhoneParam'
+      responses:
+        204:
+          $ref: '#/components/responses/NoContentResponse'
+
   /sliders:
     get:
       summary: "Get sliders"
@@ -766,8 +1337,132 @@ paths:
                       type: string
                       example: "Tk text text text text"
 
+  /countries:
+    get:
+      summary: "Get countries"
+      tags:
+        - Client
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - slug
+                    - title_en
+                    - title_ru
+                    - title_tk
+                  properties:
+                    id:
+                      type: integer
+                      example: 5
+                    slug:
+                      type: string
+                      example: "turkmenistan"
+                      uniqueItems: true
+                    title:
+                      type: string
+                      example: "Turkmenistan"
+
+  /countries/{country_id}/addresses:
+    get:
+      summary: "Get country addresses"
+      tags:
+        - Client
+      responses:
+        200:
+          $ref: '#/components/responses/GetClientAddressesResponse'
+
+  /countries/{country_id}/phones:
+    get:
+      summary: "Get country phones"
+      tags:
+        - Client
+      responses:
+        200:
+          $ref: '#/components/responses/GetClientPhonesResponse'
+
 components:
   schemas:
+    #region Admin
+    AdminAddressSchema:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        address_en:
+          type: string
+          example: "En 511 Aurelio Stravenue Suite 830"
+        address_ru:
+          type: string
+          example: "Ru 511 Aurelio Stravenue Suite 830"
+        address_tk:
+          type: string
+          example: "TK 511 Aurelio Stravenue Suite 830"
+        country_id:
+          type: integer
+          example: 2
+        position:
+          type: integer
+          example: 1
+          nullable: true
+        is_active:
+          type: boolean
+          example: true
+          enum:
+            - true
+            - false
+        created_at:
+          type: string
+          example: "08-04-2022 23:09:57"
+        updated_at:
+          type: string
+          example: "08-04-2022 23:09:57"
+    AdminPhoneSchema:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        title_en:
+          type: string
+          example: "En 511 Aurelio Stravenue Suite 830"
+        title_ru:
+          type: string
+          example: "Ru 511 Aurelio Stravenue Suite 830"
+        title_tk:
+          type: string
+          example: "TK 511 Aurelio Stravenue Suite 830"
+        value:
+          type: string
+          example: "+13806744362"
+        country_id:
+          type: integer
+          example: 2
+        position:
+          type: integer
+          example: 1
+          nullable: true
+        is_active:
+          type: boolean
+          example: true
+          enum:
+            - true
+            - false
+        created_at:
+          type: string
+          example: "08-04-2022 23:09:57"
+        updated_at:
+          type: string
+          example: "08-04-2022 23:09:57"
+    #endregion
+
+    #region Client
     SliderSchema:
       type: object
       properties:
@@ -813,6 +1508,82 @@ components:
         updated_at:
           type: string
           example: "05-04-2022 21:06:47"
+    ClientAddressSchema:
+      type: object
+      properties:
+        country_id:
+          type: integer
+          example: 2
+        address:
+          type: string
+          example: "248 Krajcik Terrace Suite 276"
+
+    ClientPhoneSchema:
+      type: object
+      properties:
+        country_id:
+          type: integer
+          example: 2
+        title:
+          type: string
+          example: "RU 63041 Katlyn Loop Suite 222\nKingbury, WV 43825-1957"
+        value:
+          type: string
+          example: "+1-754-482-3643"
+    #endregion
+  headers:
+  parameters:
+    CountryParam:
+      name: country_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 2
+
+    AddressParam:
+        name: address_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 5
+    PhoneParam:
+        name: phone_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 7
+  responses:
+    NoContentResponse:
+      description: "No content"
+
+    #region Admin
+    #endregion
+
+    #region Client
+    GetClientAddressesResponse:
+      description: "Addresses"
+      content:
+        application/json:
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/ClientAddressSchema'
+
+    GetClientPhonesResponse:
+      description: "Phones"
+      content:
+        application/json:
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/ClientPhoneSchema'
+
+    #endregion
 
   requestBodies:
   securitySchemes:

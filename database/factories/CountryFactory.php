@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Database\Factories\Base\BaseFactory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Slider>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Country>
  */
-class SliderFactory extends BaseFactory
+class CountryFactory extends BaseFactory
 {
     /**
      * Define the model's default state.
@@ -17,14 +17,12 @@ class SliderFactory extends BaseFactory
     public function definition(): array
     {
         $data = [
-            'media' => $this->faker->imageUrl(1920, 850),
+            'slug' => strtolower($country = $this->faker->century),
             'is_active' => $this->faker->boolean,
-            'extension' => "png",
             'position' => null
         ];
 
-        $this->localization($data, 'title', $this->faker->realTextBetween(5, 20));
-        $this->localization($data, 'text', $this->faker->text(30));
+        $this->localization($data, 'title', $country);
 
         return $data;
     }

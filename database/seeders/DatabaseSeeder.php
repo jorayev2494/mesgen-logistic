@@ -12,10 +12,13 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->call(UserTableSeeder::class);
         $this->call(SliderSeeder::class);
         $this->call(SliderBlockSeeder::class);
+        $this->call(CountrySeeder::class);
+        $this->call(AddressSeeder::class);
+        $this->call(PhoneSeeder::class);
     }
 }

@@ -48,7 +48,7 @@ class SliderService extends BaseService
      */
     public function show(int $id): Slider
     {
-        return $this->repository->findOrFail($id);
+        return $this->repository->find($id);
     }
 
     /**
@@ -75,7 +75,7 @@ class SliderService extends BaseService
     public function update(int $id, array $data): Slider
     {
         /** @var Slider $foundSlider */
-        $foundSlider = $this->repository->findOrFail($id);
+        $foundSlider = $this->repository->find($id);
 
         if (array_key_exists('media', $data)) {
             [
@@ -96,7 +96,7 @@ class SliderService extends BaseService
     public function destroy(int $id): void
     {
         /** @var Slider $foundSlider */
-        $foundSlider = $this->repository->findOrFail($id);
+        $foundSlider = $this->repository->find($id);
 
         if ($foundSlider->media) {
             $this->deleteFile(SliderServiceEnum::MEDIA_PATH->value, $foundSlider->media);
