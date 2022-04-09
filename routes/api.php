@@ -13,7 +13,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
     });
 
     Route::group(['middleware' => 'auth:api'], function (): void {
-        Route::resource('/sliders/blocks', 'SliderBlockController', ['only' => ['index', 'show', 'update']]);
+        Route::apiResource('/sliders/blocks', 'SliderBlockController', ['only' => ['index', 'show', 'update']]);
         Route::controller('SliderController')->group(function (): void {
             Route::get('/sliders', 'index');
             Route::post('/sliders', 'store');
@@ -22,7 +22,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
             Route::delete('/sliders/{id}', 'destroy');
         });
 
-        Route::resource('/socials', 'SocialController', ['only' => ['index', 'show', 'update']]);
+        Route::apiResource('/socials', 'SocialController', ['only' => ['index', 'show', 'update']]);
+        Route::apiResource('/countries', 'CountryController');
+        Route::apiResource('/countries.addresses', 'AddressController');
+        Route::apiResource('/countries.phones', 'PhoneController');
     });
 });
 #endregion
@@ -32,5 +35,8 @@ Route::group(['middleware' => 'lang'], function (): void {
     Route::get('/sliders', 'SliderController');
     Route::get('/socials', 'SocialController');
     Route::get('/sliders/blocks', 'SliderBlockController');
+    Route::get('/countries', 'CountryController');
+    Route::get('/countries/{country}/addresses', 'AddressController');
+    Route::get('/countries/{country}/phones', 'PhoneController');
 });
 #endregion
