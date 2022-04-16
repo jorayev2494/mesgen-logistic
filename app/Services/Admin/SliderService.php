@@ -29,17 +29,12 @@ class SliderService extends BaseService
 
     /**
      * @param bool $isAdmin
+     * @param array $columns
      * @return Collection
      */
-    public function get(bool $isAdmin = false): Collection
+    public function index(bool $isAdmin = false, array $columns = ['*']): Collection
     {
-        return $isAdmin ? $this->repository->getAdmin()
-                        : $this->repository->get([
-                            'media',
-                            $this->getLocalPrefix('title', true),
-                            $this->getLocalPrefix('text', true),
-                            'extension',
-                         ]);
+        return $this->repository->get($isAdmin, $columns);
     }
 
     /**

@@ -24,15 +24,6 @@ final class UserRepository extends BaseRepository
     }
 
     /**
-     * @param array $columns
-     * @return Collection
-     */
-    public function get(array $columns = ['*']): Collection
-    {
-        return $this->getModelClone()->newQuery()->get($columns);
-    }
-
-    /**
      * @param string $field
      * @param string $value
      * @param array $columns

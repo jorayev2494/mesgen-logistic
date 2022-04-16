@@ -2,20 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\GetKeyByLocalePrefix;
+use App\Services\Admin\SliderBlockService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class SliderBlockController extends Controller
 {
     /**
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param SliderBlockService $service
+     * @return JsonResponse
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(SliderBlockService $service): JsonResponse
     {
-        $result = app()->call('\App\Services\Admin\SliderBlockService@get');
+        $result = $service->index(auth()->check(), [
+            'icon',
+            GetKeyByLocalePrefix::execute('title', true),
+            GetKeyByLocalePrefix::execute('text', true),
+        ]);
 
         return response()->json($result);
     }

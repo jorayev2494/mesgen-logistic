@@ -12,17 +12,4 @@ class SliderRepository extends BaseRepository
     {
         return Slider::class;
     }
-
-    /**
-     * @param array<int, string> $columns
-     * @return Collection
-     */
-    public function get(array $columns = array('*')): Collection
-    {
-        return $this->getModelClone()->newQuery()
-                                    ->where('is_active', true)
-                                    ->orderBy('position')
-                                    ->orderBy('id')
-                                    ->get($columns);
-    }
 }

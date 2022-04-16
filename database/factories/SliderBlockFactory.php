@@ -19,6 +19,7 @@ class SliderBlockFactory extends BaseFactory
         $data = [
             'icon' => 'flaticon-transport-3',
             'position' => null,
+            // 'is_active' => $this->faker->boolean,
         ];
 
         $this->localization($data, 'title', $this->faker->realTextBetween(5, 15));
