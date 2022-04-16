@@ -6,9 +6,10 @@ namespace App\Repositories;
 
 use App\Models\Country;
 use App\Repositories\Base\BaseRepository;
+use App\Repositories\Base\RestApiRepository;
 use Illuminate\Database\Eloquent\Collection;
 
-class CountryRepository extends BaseRepository
+class CountryRepository extends RestApiRepository
 {
     /**
      * @return string
@@ -16,18 +17,5 @@ class CountryRepository extends BaseRepository
     public function getModel(): string
     {
         return Country::class;
-    }
-
-    /**
-     * @param array $columns
-     * @return Collection
-     */
-    public function get(array $columns = ['*']): Collection
-    {
-        return $this->getModelClone()->newQuery()
-                                ->where('is_active', true)
-                                ->orderBy('position')
-                                ->orderBy('id')
-                                ->get($columns);
     }
 }

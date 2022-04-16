@@ -2,14 +2,15 @@
 
 namespace App\Repositories\Base;
 
-use App\Repositories\Contracts\BaseModelRepositoryContract;
+use App\Repositories\Contracts\BaseModelRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * @mixin  Model
  */
-abstract class BaseRepository implements BaseModelRepositoryContract
+abstract class BaseRepository implements BaseModelRepositoryInterface
 {
     /**
      * @var Model $model
@@ -25,11 +26,6 @@ abstract class BaseRepository implements BaseModelRepositoryContract
     {
         $this->model = app()->make($this->getModel());
     }
-
-    /**
-     * @return string
-     */
-    abstract public function getModel(): string;
 
     /**
      * @return Model
@@ -61,12 +57,17 @@ abstract class BaseRepository implements BaseModelRepositoryContract
     }
 
     /**
-     * @param array<int, string> $columns
+     * @param bool $isAdmin
+     * @param array $columns
      * @return Collection
      */
-    public function getAdmin(array $columns = array('*')): Collection
+    public function get(bool $isAdmin = false, array $columns = array('*')): Collection
     {
         return $this->getModelClone()->newQuery()
+                                    ->when(
+                                        $isAdmin,
+                                        fn (Builder $query): Builder => $query,
+                                        fn (Builder $query): Builder => $query->where('is_active', true))
                                     ->orderBy('position')
                                     ->orderBy('id')
                                     ->get($columns);

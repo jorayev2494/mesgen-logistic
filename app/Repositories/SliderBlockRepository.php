@@ -6,9 +6,10 @@ namespace App\Repositories;
 
 use App\Models\SliderBlock;
 use App\Repositories\Base\BaseRepository;
+use App\Repositories\Base\RestApiRepository;
 use Illuminate\Database\Eloquent\Collection;
 
-class SliderBlockRepository extends BaseRepository
+class SliderBlockRepository extends RestApiRepository
 {
     /**
      * @return string
@@ -16,17 +17,5 @@ class SliderBlockRepository extends BaseRepository
     public function getModel(): string
     {
         return SliderBlock::class;
-    }
-
-    /**
-     * @param array $columns
-     * @return Collection
-     */
-    public function get(array $columns = ['*']): Collection
-    {
-        return $this->getModelClone()->newQuery()
-                                    ->orderBy('position')
-                                    ->orderBy('id')
-                                    ->get($columns);
     }
 }

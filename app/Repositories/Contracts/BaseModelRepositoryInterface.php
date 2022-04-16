@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
-interface BaseModelRepositoryContract {
+interface BaseModelRepositoryInterface {
     /**
      * @return string
      */

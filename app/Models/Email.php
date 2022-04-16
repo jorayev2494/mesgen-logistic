@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SliderBlock extends Model
+class Email extends Model
 {
     use HasFactory;
 
@@ -13,16 +13,7 @@ class SliderBlock extends Model
      * @var string[] $fillable
      */
     protected $fillable = [
-        'icon',
-
-        'title_en',
-        'title_ru',
-        'title_tk',
-
-        'text_en',
-        'text_ru',
-        'text_tk',
-
+        'email',
         'position',
         'is_active',
     ];
@@ -31,6 +22,8 @@ class SliderBlock extends Model
      * @var string[] $casts
      */
     protected $casts = [
+        'position' => 'integer',
+        'is_active' => 'boolean',
         'created_at' => 'datetime:d-m-Y H:i:s',
         'updated_at' => 'datetime:d-m-Y H:i:s',
     ];

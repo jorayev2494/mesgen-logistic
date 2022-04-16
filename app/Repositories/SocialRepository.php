@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Social;
-use App\Repositories\Base\BaseRepository;
-use Illuminate\Database\Eloquent\Collection;
+use App\Repositories\Base\RestApiRepository;
 
-final class SocialRepository extends BaseRepository
+final class SocialRepository extends RestApiRepository
 {
     /**
      * @return string
@@ -16,18 +15,5 @@ final class SocialRepository extends BaseRepository
     function getModel(): string
     {
         return Social::class;
-    }
-
-    /**
-     * @param array $columns
-     * @return Collection
-     */
-    public function get(array $columns = ['*']): Collection
-    {
-        return $this->getModelClone()->newQuery()
-                                    ->where('is_active', true)
-                                    ->orderBy('position')
-                                    ->orderBy('id')
-                                    ->get($columns);
     }
 }

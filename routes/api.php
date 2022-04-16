@@ -23,6 +23,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
         });
 
         Route::apiResource('/socials', 'SocialController', ['only' => ['index', 'show', 'update']]);
+        Route::apiResource('/emails', 'EmailController');
         Route::apiResource('/countries', 'CountryController');
         Route::apiResource('/countries.addresses', 'AddressController');
         Route::apiResource('/countries.phones', 'PhoneController');
@@ -34,6 +35,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
 Route::group(['middleware' => 'lang'], function (): void {
     Route::get('/sliders', 'SliderController');
     Route::get('/socials', 'SocialController');
+    Route::get('/emails', 'EmailController');
     Route::get('/sliders/blocks', 'SliderBlockController');
     Route::get('/countries', 'CountryController');
     Route::get('/countries/{country}/addresses', 'AddressController');

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\GetKeyByLocalePrefix;
+use App\Services\Admin\SliderService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class SliderController extends Controller
 {
@@ -13,9 +14,14 @@ class SliderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(SliderService $service): JsonResponse
     {
-        $result = app()->call('\App\Services\Admin\SliderService@get');
+        $result = $service->index(auth()->check(), [
+                            'media',
+                            GetKeyByLocalePrefix::execute('title', true),
+                            GetKeyByLocalePrefix::execute('text', true),
+                            'extension',
+                         ]);
 
         return response()->json($result);
     }

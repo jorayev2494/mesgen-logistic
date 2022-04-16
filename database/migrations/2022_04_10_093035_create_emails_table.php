@@ -13,20 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('slider_blocks', function (Blueprint $table) {
+        Schema::create('emails', function (Blueprint $table): void {
             $table->id();
 
-            $table->string('icon');
-            $table->string('title_en');
-            $table->string('title_ru');
-            $table->string('title_tk');
-
-            $table->string('text_en');
-            $table->string('text_ru');
-            $table->string('text_tk');
-
+            $table->string('email');
             $table->integer('position')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(false);
 
             $table->timestamps();
         });
@@ -39,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('slider_blocks');
+        Schema::dropIfExists('emails');
     }
 };
