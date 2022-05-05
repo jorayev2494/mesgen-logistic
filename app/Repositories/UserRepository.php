@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @package App\Repositories
  * @property User $model
  */
-final class UserRepository extends BaseRepository
+class UserRepository extends BaseRepository
 {
     /**
      * @return string

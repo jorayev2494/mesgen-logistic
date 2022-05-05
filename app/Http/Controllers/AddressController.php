@@ -12,9 +12,9 @@ class AddressController extends Controller
 {
     private CountryChildrenServiceContract $service;
 
-    public function __construct()
+    public function __construct(AddressRepository $addressRepository)
     {
-        $this->service = new CountryChildrenService(resolve(AddressRepository::class));
+        $this->service = new CountryChildrenService($addressRepository);
     }
 
     /**

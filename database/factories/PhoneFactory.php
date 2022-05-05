@@ -20,7 +20,7 @@ class PhoneFactory extends BaseFactory
 
             'country_id' => 1,
             'position' => null,
-            'is_active' => $this->faker->boolean,
+            'is_active' => true,
         ];
 
         $this->localization($data, 'title', $this->faker->address);

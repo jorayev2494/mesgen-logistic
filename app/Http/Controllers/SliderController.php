@@ -9,10 +9,8 @@ use Illuminate\Http\JsonResponse;
 class SliderController extends Controller
 {
     /**
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param SliderService $service
+     * @return JsonResponse
      */
     public function __invoke(SliderService $service): JsonResponse
     {

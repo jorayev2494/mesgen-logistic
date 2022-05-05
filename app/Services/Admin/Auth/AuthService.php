@@ -7,7 +7,7 @@ namespace App\Services\Admin\Auth;
 use App\Repositories\UserRepository;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
-final class AuthService
+class AuthService
 {
 
     private UserRepository $repository;
@@ -34,7 +34,7 @@ final class AuthService
      * @param string $token
      * @return string[]
      */
-    private function generateAccessToken(string $token): array
+    public function generateAccessToken(string $token): array
     {
         return [
             'access_token' => $token,

@@ -19,7 +19,7 @@ class SocialFactory extends Factory
         return [
             'slug' => 'instagram',
             'link' => null,
-            'is_active' => $this->faker->boolean,
+            'is_active' => true,
             'position' => null,
         ];
     }

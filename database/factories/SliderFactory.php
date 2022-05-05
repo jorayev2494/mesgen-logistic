@@ -18,7 +18,7 @@ class SliderFactory extends BaseFactory
     {
         $data = [
             'media' => $this->faker->imageUrl(1920, 850),
-            'is_active' => $this->faker->boolean,
+            'is_active' => true,
             'extension' => "png",
             'position' => null
         ];

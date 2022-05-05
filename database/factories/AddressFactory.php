@@ -16,7 +16,7 @@ class AddressFactory extends BaseFactory
     {
         $data = [
             'position' => null,
-            'is_active' => $this->faker->boolean,
+            'is_active' => true,
         ];
 
         $this->localization($data, 'address', $this->faker->streetAddress());

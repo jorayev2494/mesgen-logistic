@@ -19,7 +19,7 @@ class EmailFactory extends Factory
         return [
             'email' => $this->faker->email,
             'position' => null,
-            'is_active' => $this->faker->boolean
+            'is_active' => true
         ];
     }
 }

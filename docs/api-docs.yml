@@ -53,10 +53,10 @@ info:
 #   description: Find out how to create Github repo for your OpenAPI spec.
 #   url: 'https://github.com/Rebilly/generator-openapi-repo'
 
-#tags:
-#  - description: Everything about your Pets
-#    name: pet
-#
+tags:
+  - description: Everything about your Pets
+    name: Admin Sliders
+
 #  - description: Access to Petstore orders
 #    name: store
 #
@@ -73,20 +73,23 @@ info:
 #    name: store_model
 #    x-displayName: The Order Model
 
-#x-tagGroups:
-#  - name: General
-#    tags:
-#      - pet
-#      - store
-#
-#  - name: User Management
-#    tags:
-#      - user
-#
-#  - name: Models
-#    tags:
-#      - pet_model
-#      - store_model
+x-tagGroups:
+  - name: Admin
+    tags:
+      - Admin login
+      - Admin Restore
+      - Admin Sliders
+      - Admin Socials
+      - Admin Slider Blocks
+      - Admin Countries
+      - Admin Address
+      - Admin Phones
+      - Admin About Company
+      - Admin Partners
+
+  - name: Client
+    tags:
+      - Client
 
 paths:
   /admin/auth/login:
@@ -1254,6 +1257,94 @@ paths:
         204:
           $ref: '#/components/responses/NoContentResponse'
 
+  /admin/abouts/company:
+    get:
+      summary: "Get Admin About Companies"
+      tags:
+        - Admin About Company
+      responses:
+        200:
+          $ref: '#/components/responses/AdminAboutsCompanyResponse'
+
+  /admmin/abouts/company/{company_id}:
+    get:
+      summary: "Show Admin About Company"
+      tags:
+        - Admin About Company
+      parameters:
+        - $ref: '#/components/parameters/CompanyIdParam'
+      responses:
+        200:
+          $ref: '#/components/responses/AdminAboutCompanyResponse'
+
+    post:
+      summary: "Update Admin About Company"
+      tags:
+        - Admin About Company
+      parameters:
+        - $ref: '#/components/parameters/CompanyIdParam'
+      requestBody:
+        $ref: '#/components/requestBodies/AdminUpdateAboutCompanyRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/AdminAboutCompanyResponse'
+
+  /admin/partners:
+    get:
+      summary: "Get Partners"
+      tags:
+        - Admin Partners
+      security:
+        - bearerToken: []
+      responses:
+        200:
+          $ref: '#/components/responses/AdminPartnersResponse'
+
+    post:
+      summary: "Create Partner"
+      tags:
+        - Admin Partners
+      security:
+        - bearerToken: []
+      requestBody:
+        $ref: '#/components/requestBodies/AdminCreatePartnerRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/AdminPartnerResponse'
+
+  /admin/partners/{partner_id}:
+    get:
+      summary: "Show Partner"
+      tags:
+        - Admin Partners
+      parameters:
+        - $ref: '#/components/parameters/PartnerIdParam'
+      responses:
+        200:
+          $ref: '#/components/responses/AdminPartnerResponse'
+
+    post:
+      summary: "Update Partner"
+      tags:
+        - Admin Partners
+      parameters:
+        - $ref: '#/components/parameters/PartnerIdParam'
+      requestBody:
+        $ref: '#/components/requestBodies/AdminCreatePartnerRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/AdminPartnerResponse'
+
+    delete:
+      summary: "Delete Partners"
+      tags:
+        - Admin Partners
+      parameters:
+        - $ref: '#/components/parameters/PartnerIdParam'
+      responses:
+        204:
+          $ref: '#/components/responses/NoContentResponse'
+
   /sliders:
     get:
       summary: "Get sliders"
@@ -1386,9 +1477,143 @@ paths:
         200:
           $ref: '#/components/responses/GetClientPhonesResponse'
 
+  /abouts/company:
+    get:
+      summary: "Get About Company"
+      tags:
+        - Client
+      responses:
+        200:
+          $ref: '#/components/responses/AdminAboutCompanyResponse'
+
+  /partners:
+    get:
+      summary: "Get Partners"
+      tags:
+        - Client
+      responses:
+        200:
+          $ref: '#/components/responses/ClientPartnersResponse'
+
 components:
   schemas:
+    #region Basic Types
+    BasicIdScheme:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+
+    BasicUploadMediaScheme:
+      type: object
+      properties:
+        media:
+          type: string
+          format: binary
+          example: "file"
+          enum:
+            - jpg
+            - jpeg
+            - png
+            - gif
+
+    BasicMediaScheme:
+      type: object
+      properties:
+        media:
+          type: string
+          example: "http://127.0.0.1:8082/storage/abouts/company/medias/GOT1k0NTIc2qwPL8x1CaPy2lNjoo473m.jpg"
+
+    BasicExtensionScheme:
+      type: object
+      properties:
+        extension:
+          type: string
+          example: "jpg"
+          enum:
+            - jpg
+            - jpeg
+            - png
+            - gif
+
+    BaseMediaWithExtensionScheme:
+      allOf:
+        - $ref: '#/components/schemas/BasicMediaScheme'
+        - $ref: '#/components/schemas/BasicExtensionScheme'
+
+    BasicPositionScheme:
+      type: object
+      properties:
+        position:
+          type: integer
+          example: 1
+          nullable: true
+
+    BasicIsActiveScheme:
+      type: object
+      properties:
+        is_active:
+          type: boolean
+          example: true
+
+    BasicCreatedAtScheme:
+      type: object
+      properties:
+        created_at:
+          type: string
+          example: "17-04-2022 15:40:14"
+
+    BasicUpdatedAtScheme:
+      type: object
+      properties:
+        updated_at:
+          type: string
+          example: "17-04-2022 15:40:14"
+
+    BasicCreatedAtAndUpdatedAtScheme:
+      allOf:
+        - type: object
+        - $ref: '#/components/schemas/BasicCreatedAtScheme'
+        - $ref: '#/components/schemas/BasicUpdatedAtScheme'
+
+    BasicLinkScheme:
+      type: object
+      properties:
+        link:
+          type: string
+          example: "http://instagram.com/testUser"
+          nullable: true
+          uniqueItems: true
+
+    #endregion
+
     #region Admin
+    AdminTitleScheme:
+      type: object
+      properties:
+        title_en:
+          type: string
+          example: "EN Test title title"
+        title_ru:
+          type: string
+          example: "RU Test title title"
+        title_tk:
+          type: string
+          example: "TK Test title title"
+
+    AdminTextScheme:
+      type: object
+      properties:
+        text_en:
+          type: string
+          example: "EN Test text text text text text text text"
+        text_ru:
+          type: string
+          example: "RU Test text text text text text text text"
+        text_tk:
+          type: string
+          example: "TK Test text text text text text text text"
     AdminAddressSchema:
       type: object
       properties:
@@ -1460,6 +1685,27 @@ components:
         updated_at:
           type: string
           example: "08-04-2022 23:09:57"
+    AdminAboutCompanyScheme:
+      allOf:
+        - type: object
+        - $ref: '#/components/schemas/BasicIdScheme'
+        - $ref: '#/components/schemas/AdminTitleScheme'
+        - $ref: '#/components/schemas/AdminTextScheme'
+        - $ref: '#/components/schemas/BaseMediaWithExtensionScheme'
+        - $ref: '#/components/schemas/BasicPositionScheme'
+        - $ref: '#/components/schemas/BasicIsActiveScheme'
+        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+
+    AdminPartnerScheme:
+      allOf:
+        - type: object
+        - $ref: '#/components/schemas/BasicIdScheme'
+        - $ref: '#/components/schemas/AdminTitleScheme'
+        - $ref: '#/components/schemas/BaseMediaWithExtensionScheme'
+        - $ref: '#/components/schemas/BasicLinkScheme'
+        - $ref: '#/components/schemas/BasicPositionScheme'
+        - $ref: '#/components/schemas/BasicIsActiveScheme'
+        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
     #endregion
 
     #region Client
@@ -1530,9 +1776,58 @@ components:
         value:
           type: string
           example: "+1-754-482-3643"
+    ClientAboutCompanyScheme:
+      allOf:
+        - type: object
+        - $ref: '#/components/schemas/BasicIdScheme'
+        - $ref: '#/components/schemas/AdminTitleScheme'
+        - $ref: '#/components/schemas/AdminTextScheme'
+        - $ref: '#/components/schemas/BaseMediaWithExtensionScheme'
+        - $ref: '#/components/schemas/BasicPositionScheme'
+        - $ref: '#/components/schemas/BasicIsActiveScheme'
+        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+
+    ClientPartnerScheme:
+      allOf:
+        - type: object
+        - $ref: '#/components/schemas/BasicIdScheme'
+        - $ref: '#/components/schemas/ClientTitleScheme'
+        - $ref: '#/components/schemas/BaseMediaWithExtensionScheme'
+        - $ref: '#/components/schemas/BasicLinkScheme'
+
+    ClientTitleScheme:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "RU Test title title"
+
+    ClientTextScheme:
+      type: object
+      properties:
+        text:
+          type: string
+          example: "RU Test text text text text text text text"
     #endregion
   headers:
   parameters:
+    #region Admin
+    CompanyIdParam:
+      name: company_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 1
+
+    PartnerIdParam:
+      name: partner_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 1
+    #endregion
     CountryParam:
       name: country_id
       in: path
@@ -1560,6 +1855,37 @@ components:
       description: "No content"
 
     #region Admin
+    AdminAboutsCompanyResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              - $ref: '#/components/schemas/AdminAboutCompanyScheme'
+
+    AdminAboutCompanyResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdminAboutCompanyScheme'
+
+    AdminPartnersResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              - $ref: '#/components/schemas/AdminPartnerScheme'
+
+    AdminPartnerResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdminPartnerScheme'
     #endregion
 
     #region Client
@@ -1583,9 +1909,41 @@ components:
             items:
               $ref: '#/components/schemas/ClientPhoneSchema'
 
+    ClientPartnersResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/ClientPartnerScheme'
+
     #endregion
 
   requestBodies:
+    #region Admin
+    AdminUpdateAboutCompanyRequest:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+              - $ref: '#/components/schemas/AdminTitleScheme'
+              - $ref: '#/components/schemas/AdminTextScheme'
+              - $ref: '#/components/schemas/BasicUploadMediaScheme'
+
+    AdminCreatePartnerRequest:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+              - $ref: '#/components/schemas/AdminTitleScheme'
+              - $ref: '#/components/schemas/BasicUploadMediaScheme'
+              - $ref: '#/components/schemas/BasicLinkScheme'
+    #endregion
   securitySchemes:
+    bearerToken: []
   examples:
 x-webhooks:

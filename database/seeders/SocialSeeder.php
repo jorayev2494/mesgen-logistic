@@ -11,11 +11,11 @@ class SocialSeeder extends Seeder
      * @var array<int, string>|string[] $defaultSocials
      */
     private array $defaultSocials = [
-        'facebook',
+//        'facebook',
         'instagram',
         'telegram',
-        'twitter',
-        'google-plus',
+//        'twitter',
+//        'google-plus',
         'skype',
         'youtube',
     ];
