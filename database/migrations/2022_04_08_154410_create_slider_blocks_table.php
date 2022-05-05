@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('slider_blocks', function (Blueprint $table) {
+        Schema::create('slider_blocks', static function (Blueprint $table) {
             $table->id();
 
             $table->string('icon');

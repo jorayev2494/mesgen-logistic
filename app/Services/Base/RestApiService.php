@@ -2,13 +2,18 @@
 
 namespace App\Services\Base;
 
+use App\Enums\Services\SliderServiceEnum;
 use App\Repositories\Base\RestApiRepository;
 use App\Services\Contracts\RestApiServiceInterface;
+use App\Traits\FileTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class RestApiService implements RestApiServiceInterface
 {
+
+    use FileTrait;
+
     /**
      * @var RestApiRepository $repository
      */
@@ -26,10 +31,24 @@ abstract class RestApiService implements RestApiServiceInterface
 
     /**
      * @param array $data
+     * @param string $mediaPath
      * @return Model
      */
-    public function store(array $data): Model
+    public function store(array $data, string $mediaPath = '/medias'): Model
     {
+        if (array_key_exists('media', $data)) {
+            [
+                'full_path' => $data['media'],
+                'extension' => $data['extension']
+            ] = $this->uploadFile($mediaPath, $data['media']);
+        }
+
+//        dd(
+//            __METHOD__,
+//            $data,
+//            $this->repository->getModel()
+//        );
+
         return $this->repository->create($data);
     }
 
@@ -45,12 +64,21 @@ abstract class RestApiService implements RestApiServiceInterface
     /**
      * @param int $id
      * @param array $data
+     * @param string $mediaPath
      * @return Model
      */
-    public function update(int $id, array $data): Model
+    public function update(int $id, array $data, string $mediaPath = '/medias'): Model
     {
         /** @var Model $foundModel */
         $foundModel = $this->repository->find($id);
+
+        if (array_key_exists('media', $data)) {
+            [
+                'full_path' => $data['media'],
+                'extension' => $data['extension']
+            ] = $this->updateFile($mediaPath, $foundModel->media, $data['media']);
+        }
+
         $foundModel->update($data);
 
         return $foundModel->refresh();
@@ -63,6 +91,11 @@ abstract class RestApiService implements RestApiServiceInterface
     public function destroy(int $id): void
     {
         $foundModel = $this->repository->find($id);
+
+        if (array_key_exists('media', $foundModel->toArray()) && $media = $foundModel->getRawOriginal('media')) {
+            $this->deleteFile(SliderServiceEnum::MEDIA_PATH->value, $media);
+        }
+
         $foundModel->delete();
     }
 

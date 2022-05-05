@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
@@ -81,6 +82,14 @@ class Handler extends ExceptionHandler
                 'error' => 'Endpoint not found'
             ],
             Response::HTTP_NOT_FOUND);
+        }
+
+        if ($ex instanceof AuthenticationException) {
+            return response()->json([
+                'message' => 'Unauthenticated',
+                'error' => 'Endpoint not found'
+            ],
+            Response::HTTP_UNAUTHORIZED);
         }
 
         return response()->json([

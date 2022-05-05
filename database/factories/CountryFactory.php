@@ -18,7 +18,7 @@ class CountryFactory extends BaseFactory
     {
         $data = [
             'slug' => strtolower($country = $this->faker->century),
-            'is_active' => $this->faker->boolean,
+            'is_active' => true,
             'position' => null
         ];
 

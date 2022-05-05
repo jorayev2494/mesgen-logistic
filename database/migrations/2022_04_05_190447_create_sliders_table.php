@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sliders', function (Blueprint $table): void {
+        Schema::create('sliders', static function (Blueprint $table): void {
             $table->id();
 
             $table->string('media');

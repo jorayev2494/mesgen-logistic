@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Traits\ModelMediaAttribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Slider extends Model
 {
     use HasFactory;
+    use ModelMediaAttribute;
 
     /**
      * @var array<int, string> $fillable
@@ -35,14 +36,4 @@ class Slider extends Model
         'created_at' => 'datetime:d-m-Y H:i:s',
         'updated_at' => 'datetime:d-m-Y H:i:s',
     ];
-
-    /**
-     * @return Attribute
-     */
-    public function media(): Attribute
-    {
-        return Attribute::get(
-            fn(string $val) => filter_var($val, FILTER_VALIDATE_URL) ?: getenv('APP_URL') . $val
-        );
-    }
 }
