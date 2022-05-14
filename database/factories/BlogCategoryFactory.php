@@ -6,9 +6,9 @@ use Database\Factories\Base\BaseFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Partner>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\BlogCategory>
  */
-class PartnerFactory extends BaseFactory
+class BlogCategoryFactory extends BaseFactory
 {
     /**
      * Define the model's default state.
@@ -18,14 +18,12 @@ class PartnerFactory extends BaseFactory
     public function definition(): array
     {
         $data = [
-            'media' => $this->faker->imageUrl(295, 175),
-            'is_active' => true,
-            'extension' => "png",
-            'position' => null
+            'position' => null,
+            'is_active' => true
         ];
 
-        $this->localization($data, 'title', $this->faker->text);
-
+        $this->localization($data, 'title', $this->faker->slug());
+        
         return $data;
     }
 }

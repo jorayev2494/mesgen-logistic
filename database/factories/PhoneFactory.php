@@ -23,7 +23,7 @@ class PhoneFactory extends BaseFactory
             'is_active' => true,
         ];
 
-        $this->localization($data, 'title', $this->faker->address);
+        $this->localization($data, 'title', $this->faker->realTextBetween(1, 10));
 
         return  $data;
     }

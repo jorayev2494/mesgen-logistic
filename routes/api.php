@@ -43,6 +43,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
                 Route::post('/company/{company}', 'update');
             });
         });
+
+        Route::apiResource('/tags', 'TagController');
+        Route::apiResource('/blogs/categories', 'BlogCategoryController');
+        Route::post('/blogs/{blog_id}', 'BlogController@update');
+        Route::apiResource('/blogs', 'BlogController', ['except' => ['update']]);
     });
 });
 #endregion
@@ -61,5 +66,12 @@ Route::group(['middleware' => 'lang'], static function (): void {
     Route::group(['prefix' => 'abouts', 'namespace' => 'About'], static function (): void {
         Route::get('/company', 'AboutController@about');
     });
+
+    Route::post('/contact', ['uses' => 'ContactController@contact', 'as' => 'contact']);
+
+    Route::get('/blogs/categories', 'BlogCategoryController');
+    Route::get('/blogs', ['uses' => 'BlogController', 'as' => 'blogs']);
+    Route::get('/blogs/{blog_id}', ['uses' => 'BlogController@show', 'as' => 'blogs']);
+    Route::get('/hastags', ['uses' => 'TagController', 'as' => 'tags']);
 });
 #endregion

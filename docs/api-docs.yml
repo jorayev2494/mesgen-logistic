@@ -86,6 +86,7 @@ x-tagGroups:
       - Admin Phones
       - Admin About Company
       - Admin Partners
+      - Admin Blogs
 
   - name: Client
     tags:
@@ -94,7 +95,7 @@ x-tagGroups:
 paths:
   /admin/auth/login:
     post:
-      description: "Admin login"
+      summary: "Admin login"
       tags:
         - Admin login
       requestBody:
@@ -191,8 +192,6 @@ paths:
       responses:
         202:
           description: "Success restored password"
-#          content:
-#            application/json:
 
   /admin/sliders:
     get:
@@ -1345,6 +1344,23 @@ paths:
         204:
           $ref: '#/components/responses/NoContentResponse'
 
+  /admin/blogs:
+    get:
+      summary: "Get Blogs"
+      tags:
+        - Admin Blogs
+      security:
+        - bearerToken: []
+      parameters:
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            example: 10
+      responses:
+        200:
+          $ref: '#/components/responses/AdminBlogPaginateResponse'
+
   /sliders:
     get:
       summary: "Get sliders"
@@ -1477,9 +1493,18 @@ paths:
         200:
           $ref: '#/components/responses/GetClientPhonesResponse'
 
+  /emails:
+    get:
+      summary: "Get emails"
+      tags:
+        - Client
+      responses:
+        200:
+          $ref: '#/components/responses/ClientEmailsRespose'
+
   /abouts/company:
     get:
-      summary: "Get About Company"
+      summary: "Get about company"
       tags:
         - Client
       responses:
@@ -1488,12 +1513,86 @@ paths:
 
   /partners:
     get:
-      summary: "Get Partners"
+      summary: "Get partners"
       tags:
         - Client
       responses:
         200:
           $ref: '#/components/responses/ClientPartnersResponse'
+
+  /contact:
+    post:
+      summary: "Send message"
+      tags:
+        - Client
+      requestBody:
+        content:
+          applocation/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+                - country_id
+                - message
+              properties:
+                name:
+                  type: string
+                  example: "Vasya Pupkin"
+                email:
+                  type: sgring
+                  example: "client@gmail.com"
+                country_id:
+                  type: integer
+                  example: 1
+                message:
+                  type: string
+                  example: "Message Hi I'm want to send the message."
+                phone:
+                  type: string
+                  example: "+38066123456789"
+      responses:
+       202:
+        description: "Successfull"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Ваше сообщение успешно отправлено. Наш менеджер свяжется с вами в ближайшее время."
+                  enum:
+                    - Your message successfull sent. Our manager will contact you shortly.
+                    - Ваше сообщение успешно отправлено. Наш менеджер свяжется с вами в ближайшее время.
+                    - Habaryňyz üstünlikli iberildi Dolandyryjymyz gysga wagtda siziň bilen habarlaşar.
+
+  /blogs/categories:
+    get:
+      summary: "Get blog categories"
+      tags:
+        - Client
+      responses:
+        200:
+          $ref: "#/components/responses/ClientBlogCategoryResponse"
+                    
+  /hastags:
+    get:
+      summary: "Get hashTags"
+      tags:
+        -  Client
+      responses:
+        200:
+          $ref: "#/components/responses/ClientHashtagsResponse"
+
+  /blogs:
+    get:
+      summary: "Get blogs"
+      tags:
+        -  Client
+      responses:
+        200:
+          $ref: "#/components/responses/ClientBlogsPaginateResponse"
 
 components:
   schemas:
@@ -1504,6 +1603,21 @@ components:
         id:
           type: integer
           example: 1
+
+    BasicTitleScheme:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Title example"
+          uniqueItems: true
+          
+    BasicTextScheme:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Text example Text example Text example Text example Text example Text example"
 
     BasicUploadMediaScheme:
       type: object
@@ -1537,7 +1651,7 @@ components:
             - png
             - gif
 
-    BaseMediaWithExtensionScheme:
+    BasicMediaWithExtensionScheme:
       allOf:
         - $ref: '#/components/schemas/BasicMediaScheme'
         - $ref: '#/components/schemas/BasicExtensionScheme'
@@ -1585,6 +1699,113 @@ components:
           example: "http://instagram.com/testUser"
           nullable: true
           uniqueItems: true
+
+    BasicEmailScheme:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "email@gmail.com"
+          uniqueItems: true
+    
+    BasicFirstNameScheme:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: "Alex"
+          uniqueItems: true
+    
+    BasicLastNameScheme:
+      type: object
+      properties:
+        last_name:
+          type: string
+          example: "Petrov"
+          uniqueItems: true
+
+    BasicAvatarScheme:
+      type: object
+      properties:
+        avatar:
+          type: string
+          example: "http://127.0.0.1:8082/storage/blogs/medias/5x4KyUGHMO7MdS25dVgtVhGqNfzZoGgC.jpg"
+          uniqueItems: true
+    
+    BasicHashtagScheme:
+      type: object
+      properties:
+        value:
+          type: string
+          example: "#testHashtag"
+          uniqueItems: true
+    
+    BasicPaginateLinksScheme:
+      type: array
+      items:
+        type: object
+        properties:
+          url:
+            type: string
+            example: "http://127.0.0.1:8082/api/blogs?page=3"
+            nullable: true
+          label:
+            type: string
+            example: "&laquo; Öňki"
+          active:
+            type: boolean
+            example: true
+            enum:
+              - true
+              - false
+
+    BasicPaginatorScheme:
+      type: object
+      properties:
+        currtent_page:
+          type: integer
+          example: 2
+        data:
+          type: array
+          example: []
+        first_page_url:
+          type: string
+          example: "http://127.0.0.1:8082/api/blogs?page=2"
+          nullable: true
+        from:
+          type: integer
+          example: 1
+        last_page:
+          type: integer
+          example: 5
+        last_page_url:
+          type: string
+          example: "http://127.0.0.1:8082/api/blogs?page=5"
+          nullable: true
+        links:
+          $ref: "#/components/schemas/BasicPaginateLinksScheme"
+          # $ref: "modules/components/schemas/paginate/BasicPaginateLinksScheme.yml"
+        next_page_url:
+          type: string
+          example: "http://127.0.0.1:8082/api/blogs?page=3"
+          nullable: true
+        path:
+          type: string
+          example: "http://127.0.0.1:8082/api/blogs"
+        per_page:
+          type: integer
+          example: 10
+          default: 15
+        prev_page_url:
+          type: string
+          example: "http://127.0.0.1:8082/api/blogs?page=1"
+          nullable: true
+        to:
+          type: integer
+          example: 10
+        total:
+          type: integer
+          example: 72
 
     #endregion
 
@@ -1685,13 +1906,25 @@ components:
         updated_at:
           type: string
           example: "08-04-2022 23:09:57"
+    
+    AdminUserScheme:
+      allOf:
+        - type: object
+        - $ref: '#/components/schemas/BasicIdScheme'
+        - $ref: '#/components/schemas/BasicFirstNameScheme'
+        - $ref: '#/components/schemas/BasicLastNameScheme'
+        - $ref: '#/components/schemas/BasicAvatarScheme'
+        - $ref: '#/components/schemas/BasicEmailScheme'
+        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+      
+
     AdminAboutCompanyScheme:
       allOf:
         - type: object
         - $ref: '#/components/schemas/BasicIdScheme'
         - $ref: '#/components/schemas/AdminTitleScheme'
         - $ref: '#/components/schemas/AdminTextScheme'
-        - $ref: '#/components/schemas/BaseMediaWithExtensionScheme'
+        - $ref: '#/components/schemas/BasicMediaWithExtensionScheme'
         - $ref: '#/components/schemas/BasicPositionScheme'
         - $ref: '#/components/schemas/BasicIsActiveScheme'
         - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
@@ -1701,11 +1934,25 @@ components:
         - type: object
         - $ref: '#/components/schemas/BasicIdScheme'
         - $ref: '#/components/schemas/AdminTitleScheme'
-        - $ref: '#/components/schemas/BaseMediaWithExtensionScheme'
+        - $ref: '#/components/schemas/BasicMediaWithExtensionScheme'
         - $ref: '#/components/schemas/BasicLinkScheme'
         - $ref: '#/components/schemas/BasicPositionScheme'
         - $ref: '#/components/schemas/BasicIsActiveScheme'
         - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+    
+    AdminBlogScheme:
+      allOf:
+        - type: object
+        - $ref: '#/components/schemas/BasicIdScheme'
+        - $ref: '#/components/schemas/AdminTitleScheme'
+        - $ref: '#/components/schemas/AdminTextScheme'
+        - $ref: '#/components/schemas/BasicMediaWithExtensionScheme'
+        - $ref: '#/components/schemas/BasicIsActiveScheme'
+        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+        - properties:
+            user:
+              type: object
+              $ref: "#/components/schemas/AdminUserScheme"
     #endregion
 
     #region Client
@@ -1754,6 +2001,7 @@ components:
         updated_at:
           type: string
           example: "05-04-2022 21:06:47"
+
     ClientAddressSchema:
       type: object
       properties:
@@ -1763,6 +2011,12 @@ components:
         address:
           type: string
           example: "248 Krajcik Terrace Suite 276"
+
+    ClientEmailSchema:
+      allOf:
+        - type: object
+        - $ref: '#/components/schemas/BasicIdScheme'
+        - $ref: '#/components/schemas/BasicEmailScheme'
 
     ClientPhoneSchema:
       type: object
@@ -1776,13 +2030,25 @@ components:
         value:
           type: string
           example: "+1-754-482-3643"
+
     ClientAboutCompanyScheme:
       allOf:
         - type: object
         - $ref: '#/components/schemas/BasicIdScheme'
         - $ref: '#/components/schemas/AdminTitleScheme'
         - $ref: '#/components/schemas/AdminTextScheme'
-        - $ref: '#/components/schemas/BaseMediaWithExtensionScheme'
+        - $ref: '#/components/schemas/BasicMediaWithExtensionScheme'
+        - $ref: '#/components/schemas/BasicPositionScheme'
+        - $ref: '#/components/schemas/BasicIsActiveScheme'
+        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+
+    ClientAddressScheme:
+      allOf:
+        - type: object
+        - $ref: '#/components/schemas/BasicIdScheme'
+        - $ref: '#/components/schemas/AdminTitleScheme'
+        - $ref: '#/components/schemas/AdminTextScheme'
+        - $ref: '#/components/schemas/BasicMediaWithExtensionScheme'
         - $ref: '#/components/schemas/BasicPositionScheme'
         - $ref: '#/components/schemas/BasicIsActiveScheme'
         - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
@@ -1792,7 +2058,7 @@ components:
         - type: object
         - $ref: '#/components/schemas/BasicIdScheme'
         - $ref: '#/components/schemas/ClientTitleScheme'
-        - $ref: '#/components/schemas/BaseMediaWithExtensionScheme'
+        - $ref: '#/components/schemas/BasicMediaWithExtensionScheme'
         - $ref: '#/components/schemas/BasicLinkScheme'
 
     ClientTitleScheme:
@@ -1808,6 +2074,57 @@ components:
         text:
           type: string
           example: "RU Test text text text text text text text"
+    
+    ClientBlogUserScheme:
+      type: object
+      allOf:
+        - type: object
+        - $ref: "#/components/schemas/BasicIdScheme"
+        - properties:
+            first_name:
+              type: string
+              example: "Alex"
+            last_name:
+              type: string
+              example: "Petrov"
+            avatar:
+              type: string
+              example: "http://127.0.0.1:8982/storage/blogs/medias/5x4KyUGHMO7MdS25dVgtVhGqNfzZoGgC.jpg"
+              nullable: true
+        - $ref: "#/components/schemas/BasicEmailScheme"
+
+
+    ClientBlogCategoryScheme:
+      allOf:
+        - type: object
+        - $ref: "#/components/schemas/BasicIdScheme"
+        - $ref: "#/components/schemas/BasicTitleScheme"
+
+    ClientHashtagScheme:
+      allOf:
+        - type: object
+        - $ref: "#/components/schemas/BasicIdScheme"
+        - $ref: "#/components/schemas/BasicHashtagScheme"
+    
+    ClientBlogScheme:
+      allOf:
+        - type: object
+        - $ref: "#/components/schemas/BasicIdScheme"
+        - $ref: "#/components/schemas/ClientTitleScheme"
+        - $ref: "#/components/schemas/ClientTextScheme"
+        - $ref: "#/components/schemas/BasicMediaWithExtensionScheme"
+        - $ref: "#/components/schemas/BasicCreatedAtScheme"
+        - properties:
+            user:
+              type: object
+              $ref: "#/components/schemas/ClientBlogUserScheme"
+            categoty:
+              type: object
+              $ref: "#/components/schemas/ClientBlogCategoryScheme"
+            hashtags:
+              type: object
+              $ref: "#/components/schemas/ClientHashtagScheme"
+
     #endregion
   headers:
   parameters:
@@ -1886,6 +2203,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/AdminPartnerScheme'
+            
+    AdminBlogPaginateResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+              - $ref: "#/components/schemas/BasicPaginatorScheme"
+              - properties:
+                  data:
+                    type: array
+                    items: 
+                      $ref: "#/components/schemas/AdminBlogScheme"
     #endregion
 
     #region Client
@@ -1898,6 +2229,15 @@ components:
             uniqueItems: true
             items:
               $ref: '#/components/schemas/ClientAddressSchema'
+
+    ClientEmailsRespose:
+      description: "Emails"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ClientEmailSchema'
 
     GetClientPhonesResponse:
       description: "Phones"
@@ -1918,6 +2258,39 @@ components:
             uniqueItems: true
             items:
               $ref: '#/components/schemas/ClientPartnerScheme'
+
+    ClientHashtagsResponse:
+      description: "Response hashTags"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ClientHashtagScheme"
+
+    ClientBlogCategoryResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: "#/components/schemas/ClientBlogCategoryScheme"
+
+    ClientBlogsPaginateResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+              - $ref: "#/components/schemas/BasicPaginatorScheme"
+              - properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ClientBlogScheme"
 
     #endregion
 

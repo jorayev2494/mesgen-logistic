@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Base\AuthModel;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends AuthModel
 {
@@ -38,5 +39,16 @@ class User extends AuthModel
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'email_verified_at' => 'datetime:d-m-Y H:i:s',
+        'created_at' => 'datetime:d-m-Y H:i:s',
+        'updated_at' => 'datetime:d-m-Y H:i:s',
     ];
+
+    /**
+     * @return HasMany
+     */
+    public function tags(): HasMany
+    {
+        return $this->hasMany(Tag::class, 'user_id', 'id');
+    }
 }

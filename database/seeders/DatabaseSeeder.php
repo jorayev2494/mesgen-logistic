@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Blog;
+use App\Models\BlogCategory;
+use App\Models\Tag;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -24,5 +27,9 @@ class DatabaseSeeder extends Seeder
         $this->call(EmailSeeder::class);
         $this->call(AboutSeeder::class);
         $this->call(PartnerSeeder::class);
+        $this->call(ContactSeeder::class);
+        $this->call(BlogCategorySeeder::class);
+        $this->call(TagSeeder::class);
+        $this->call(BlogSeeder::class);
     }
 }
