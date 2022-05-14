@@ -1,0 +1,19 @@
+#openapi
+BasicPaginateLinksScheme:
+  type: array
+  items:
+    type: object
+    properties:
+      url:
+        type: string
+        example: "http://127.0.0.1:8082/api/blogs?page=1"
+        nullable: true
+      label:
+        type: string
+        example: "&laquo; Öňki"
+      active:
+        type: boolean
+        example: true
+        enum:
+          - true
+          - false

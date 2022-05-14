@@ -43,12 +43,6 @@ abstract class RestApiService implements RestApiServiceInterface
             ] = $this->uploadFile($mediaPath, $data['media']);
         }
 
-//        dd(
-//            __METHOD__,
-//            $data,
-//            $this->repository->getModel()
-//        );
-
         return $this->repository->create($data);
     }
 
