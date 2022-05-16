@@ -30,9 +30,9 @@ class BlogController extends Controller
     /**
      * @return \Illuminate\Http\Response
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $result = $this->service->index();
+        $result = $this->service->index(auth()->check(), $request->query->getInt('per_page'));
 
         return response()->json($result);
     }

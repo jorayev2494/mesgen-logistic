@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Helpers\GetKeyByLocalePrefix;
 use App\Models\User;
 use App\Repositories\BlogCategoryRepository;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 

@@ -33,7 +33,7 @@ class TagSeeder extends Seeder
         /** @var Collection $users */
         $users = User::all();
         foreach ($this->testTags as $key => $value) {
-            Tag::factory(random_int(5, 10))->create(
+            Tag::factory()->create(
                 compact('value') + ['user_id' => $users->random(1)->first()->id]
             );
         }
