@@ -1360,6 +1360,192 @@ paths:
       responses:
         200:
           $ref: '#/components/responses/AdminBlogPaginateResponse'
+          
+    post:
+      summary: "Create Blog"
+      tags:
+        - Admin Blogs
+      security:
+        - bearerToken: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - title_en
+                - title_ru
+                - title_tk
+                - text_en
+                - text_ru
+                - text_tk
+                - media
+                - category_id
+                - user_id
+              allOf:
+                - type: object
+                - $ref: "#/components/schemas/AdminTitleScheme"
+                - $ref: "#/components/schemas/AdminTextScheme"
+                - $ref: "#/components/schemas/BasicUploadMediaScheme"
+                - $ref: "#/components/schemas/BasicIsActiveScheme"
+                - properties:
+                    category_id:
+                      type: integer
+                      example: 3
+                    user_id:
+                      type: integer
+                      example: 1
+                    tags:
+                      type: array
+                      items:
+                        type: string
+                        example: "#test"
+                        enum:
+                          - "#test"
+                          - "#programmig"
+      responses:
+        200:
+          $ref: '#/components/responses/AdminBlogShowResponse'
+                                         
+          
+  /admin/blogs/{blog_id}:
+    get:
+      summary: "Show blog"
+      tags:
+        - Admin Blogs
+      security:
+        - bearerToken: []
+      parameters:
+        - name: blog_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            example: 10
+      responses:
+        200:
+          $ref: '#/components/responses/AdminBlogShowResponse'
+
+          post:
+            summary: "Create Blog"
+            tags:
+              - Admin Blogs
+            security:
+              - bearerToken: []
+            requestBody:
+              content:
+                multipart/form-data:
+                  schema:
+                    required:
+                      - title_en
+                      - title_ru
+                      - title_tk
+                      - text_en
+                      - text_ru
+                      - text_tk
+                      - media
+                      - category_id
+                      - user_id
+                    allOf:
+                      - type: object
+                      - $ref: "#/components/schemas/AdminTitleScheme"
+                      - $ref: "#/components/schemas/AdminTextScheme"
+                      - $ref: "#/components/schemas/BasicUploadMediaScheme"
+                      - $ref: "#/components/schemas/BasicIsActiveScheme"
+                      - properties:
+                          category_id:
+                            type: integer
+                            example: 3
+                          user_id:
+                            type: integer
+                            example: 1
+                          tags:
+                            type: array
+                            items:
+                              type: string
+                              example: "#test"
+                              enum:
+                                - "#test"
+                                - "#programmig"
+            responses:
+              200:
+                $ref: '#/components/responses/AdminBlogShowResponse'
+    post:
+      summary: "Update Blog"
+      tags:
+        - Admin Blogs
+      security:
+        - bearerToken: []
+      parameters:
+        - name: blog_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              allOf:
+                - type: object
+                - $ref: "#/components/schemas/AdminTitleScheme"
+                - $ref: "#/components/schemas/AdminTextScheme"
+                - $ref: "#/components/schemas/BasicUploadMediaScheme"
+                - $ref: "#/components/schemas/BasicIsActiveScheme"
+                - properties:
+                    category_id:
+                      type: integer
+                      example: 3
+                    user_id:
+                      type: integer
+                      example: 1
+                    tags:
+                      type: array
+                      items:
+                        type: string
+                        example: "#test"
+                        enum:
+                          - "#test"
+                          - "#programmig"
+      responses:
+        200:
+          $ref: '#/components/responses/AdminBlogShowResponse'
+    
+          /admin/blogs/{blog_id}:
+            get:
+              summary: "Show blog"
+              tags:
+                - Admin Blogs
+              security:
+                - bearerToken: []
+              parameters:
+                - name: blog_id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    example: 1
+                - name: per_page
+                  in: query
+                  schema:
+                    type: integer
+                    example: 10
+              
+    delete:
+      summary: "Delete Blog"
+      tags:
+        - Admin Blogs
+      security:
+        - bearerToken: []
+      
+      responses:
+        204:
+          $ref: '#/components/responses/NoContentResponse'
 
   /sliders:
     get:
@@ -1567,7 +1753,7 @@ paths:
                     - Ваше сообщение успешно отправлено. Наш менеджер свяжется с вами в ближайшее время.
                     - Habaryňyz üstünlikli iberildi Dolandyryjymyz gysga wagtda siziň bilen habarlaşar.
 
-  /blogs/categories:
+  /blog_categories:
     get:
       summary: "Get blog categories"
       tags:
@@ -1585,11 +1771,59 @@ paths:
         200:
           $ref: "#/components/responses/ClientHashtagsResponse"
 
+  /hastags/{hastag_id}/blogs:
+    get:
+      summary: "Get blogs by hashtag id"
+      tags:
+        -  Client
+      parameters:
+        - name: hastag_id
+          in: path
+          required: true
+          scheme:
+            type: integer
+            example: 2
+      responses:
+        200:
+          $ref: "#/components/responses/ClientBlogsPaginateResponse"
+
   /blogs:
     get:
       summary: "Get blogs"
       tags:
         -  Client
+      responses:
+        200:
+          $ref: "#/components/responses/ClientBlogsPaginateResponse"
+          
+  /blogs/{blog_id}:
+    get:
+      summary: "Show blog"
+      tags:
+        -  Client
+      parameters:
+        - name: blog_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses: 
+       200:
+         $ref: "#/components/responses/ClientBlogShowResponse"
+
+  /blog_categories/{category_id}/blogs:
+    get:
+      summary: "Get blogs by blog category id"
+      tags:
+        -  Client
+      parameters:
+        - name: category_id
+          in: path
+          required: true
+          scheme:
+            type: integer
+            example: 2
       responses:
         200:
           $ref: "#/components/responses/ClientBlogsPaginateResponse"
@@ -1816,12 +2050,15 @@ components:
         title_en:
           type: string
           example: "EN Test title title"
+          uniqueItems: true
         title_ru:
           type: string
           example: "RU Test title title"
+          uniqueItems: true
         title_tk:
           type: string
           example: "TK Test title title"
+          uniqueItems: true
 
     AdminTextScheme:
       type: object
@@ -1939,6 +2176,26 @@ components:
         - $ref: '#/components/schemas/BasicPositionScheme'
         - $ref: '#/components/schemas/BasicIsActiveScheme'
         - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+
+    AdminBlogCategoryScheme:
+      allOf:
+        - type: object
+        - $ref: "#/components/schemas/BasicIdScheme"
+        - $ref: "#/components/schemas/AdminTitleScheme"
+        - $ref: "#/components/schemas/BasicIsActiveScheme"
+        - $ref: "#/components/schemas/BasicCreatedAtAndUpdatedAtScheme"
+
+    AdminHashtagScheme:
+      allOf:
+        - type: object
+        - $ref: "#/components/schemas/BasicIdScheme"
+        - $ref: "#/components/schemas/BasicHashtagScheme"
+        - properties:
+            user_id:
+              type: integer
+              example: 6
+        - $ref: "#/components/schemas/BasicIsActiveScheme"
+        - $ref: "#/components/schemas/BasicCreatedAtAndUpdatedAtScheme"
     
     AdminBlogScheme:
       allOf:
@@ -1953,6 +2210,13 @@ components:
             user:
               type: object
               $ref: "#/components/schemas/AdminUserScheme"
+            category:
+              type: object
+              $ref: "#/components/schemas/AdminBlogCategoryScheme"
+            tags:
+              type: array
+              items:
+                $ref: '#/components/schemas/AdminHashtagScheme'
     #endregion
 
     #region Client
@@ -2122,8 +2386,9 @@ components:
               type: object
               $ref: "#/components/schemas/ClientBlogCategoryScheme"
             hashtags:
-              type: object
-              $ref: "#/components/schemas/ClientHashtagScheme"
+              type: array
+              items:
+                $ref: "#/components/schemas/ClientHashtagScheme"
 
     #endregion
   headers:
@@ -2217,6 +2482,13 @@ components:
                     type: array
                     items: 
                       $ref: "#/components/schemas/AdminBlogScheme"
+    
+    AdminBlogShowResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AdminBlogScheme"
     #endregion
 
     #region Client
@@ -2291,6 +2563,14 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/ClientBlogScheme"
+
+    ClientBlogShowResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: "#/components/schemas/ClientBlogScheme"
 
     #endregion
 

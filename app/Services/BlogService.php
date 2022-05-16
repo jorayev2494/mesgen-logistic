@@ -35,17 +35,17 @@ class BlogService
     /**
      * @return Paginator
      */
-    public function index(): Paginator
+    public function index(bool $isAdmin = false, int $perPage = null): Paginator
     {
         $this->repository->setColumns(['*'])->setWith(['user'])->setWithCount(['tags']);
 
-        return $this->repository->getPaginate();
+        return $this->repository->getPaginate($isAdmin, $perPage);
     }
 
     /**
      * @return Paginator
      */
-    public function getBlogs(): Paginator
+    public function getBlogs(bool $isAdmin = false, int $perPage = null): Paginator
     {
         $this->repository->setColumns([
             'id',
@@ -67,7 +67,7 @@ class BlogService
         ]);
 
         /** @var PaginationPaginator $blogs */
-        $blogs = $this->repository->getPaginate();
+        $blogs = $this->repository->getPaginate($isAdmin, $perPage);
         $blogs->getCollection()->each->setHidden([
             'user_id',
             'category_id'
@@ -94,7 +94,7 @@ class BlogService
         $cratedBlog = $this->repository->create($data);
         $this->setHashtags($user, $cratedBlog, $data);
 
-        return $cratedBlog->loadMissing(['user', 'tags']);
+        return $cratedBlog->loadMissing(['user', 'category', 'tags']);
     }
 
     /**
@@ -211,5 +211,63 @@ class BlogService
         }
 
         return $result;
+    }
+
+    /**
+     * @param integer $id
+     * @param integer|null $perPage
+     * @return void
+     */
+    public function getBlogsByTag(int $id, int $perPage = null)
+    {
+        $this->repository->setColumns([
+            'id',
+            $transtaltedTitle = GetKeyByLocalePrefix::execute('title', true),
+            GetKeyByLocalePrefix::execute('text', true),
+            'media',
+            'extension',
+            'user_id',
+            'category_id',
+            'created_at'
+        ])
+        ->setWith([
+            'user:id,first_name,last_name,avatar,email',
+            "category:id,{$transtaltedTitle}",
+            'tags:id,value'
+        ])
+        ->setWithCount([
+            'tags'
+        ]);
+
+        return $this->repository->whereByTag($id, $perPage);
+    }
+
+    /**
+     * @param integer $id
+     * @param integer|null $perPage
+     * @return Paginator
+     */
+    public function getBlogsByCategory(int $id, int $perPage = null): Paginator
+    {
+        $this->repository->setColumns([
+            'id',
+            $transtaltedTitle = GetKeyByLocalePrefix::execute('title', true),
+            GetKeyByLocalePrefix::execute('text', true),
+            'media',
+            'extension',
+            'user_id',
+            'category_id',
+            'created_at'
+        ])
+        ->setWith([
+            'user:id,first_name,last_name,avatar,email',
+            "category:id,{$transtaltedTitle}",
+            'tags:id,value'
+        ])
+        ->setWithCount([
+            'tags'
+        ]);
+        
+        return $this->repository->getBlogsByCategory($id, $perPage);
     }
 }

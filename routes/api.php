@@ -69,9 +69,11 @@ Route::group(['middleware' => 'lang'], static function (): void {
 
     Route::post('/contact', ['uses' => 'ContactController@contact', 'as' => 'contact']);
 
-    Route::get('/blogs/categories', 'BlogCategoryController');
+    Route::get('/blog_categories', 'BlogCategoryController');
+    Route::get('/blog_categories/{category_id}/blogs', 'BlogController@getBlogsByCategory');
     Route::get('/blogs', ['uses' => 'BlogController', 'as' => 'blogs']);
     Route::get('/blogs/{blog_id}', ['uses' => 'BlogController@show', 'as' => 'blogs']);
     Route::get('/hastags', ['uses' => 'TagController', 'as' => 'tags']);
+    Route::get('/hastags/{blog_id}/blogs', ['uses' => 'BlogController@getBlogsByTag', 'as' => 'tags']);
 });
 #endregion

@@ -36,7 +36,7 @@ class BlogSeeder extends Seeder
         
         $blogs = Blog::all(['id']);
         Tag::all()->each(
-            fn (Tag $t) => $t->blogs()->attach($blogs->random(1)->pluck('id'))
+            fn (Tag $t) => $t->blogs()->attach($blogs->random(random_int(1, 4))->pluck('id'))
         );
     }
 }
