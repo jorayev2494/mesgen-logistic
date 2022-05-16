@@ -1352,11 +1352,7 @@ paths:
       security:
         - bearerToken: []
       parameters:
-        - name: per_page
-          in: query
-          schema:
-            type: integer
-            example: 10
+        - $ref: '#/components/parameters/perPageParam'
       responses:
         200:
           $ref: '#/components/responses/AdminBlogPaginateResponse'
@@ -1777,12 +1773,8 @@ paths:
       tags:
         -  Client
       parameters:
-        - name: hastag_id
-          in: path
-          required: true
-          scheme:
-            type: integer
-            example: 2
+        - $ref: '#/components/parameters/perPageParam'
+        - $ref: '#/components/parameters/HashtagIdParam'
       responses:
         200:
           $ref: "#/components/responses/ClientBlogsPaginateResponse"
@@ -1792,6 +1784,8 @@ paths:
       summary: "Get blogs"
       tags:
         -  Client
+      parameters:
+        - $ref: '#/components/parameters/perPageParam'
       responses:
         200:
           $ref: "#/components/responses/ClientBlogsPaginateResponse"
@@ -1812,18 +1806,14 @@ paths:
        200:
          $ref: "#/components/responses/ClientBlogShowResponse"
 
-  /blog_categories/{category_id}/blogs:
+  /blog_categories/{blog_category_id}/blogs:
     get:
       summary: "Get blogs by blog category id"
       tags:
         -  Client
       parameters:
-        - name: category_id
-          in: path
-          required: true
-          scheme:
-            type: integer
-            example: 2
+        - $ref: '#/components/parameters/perPageParam'
+        - $ref: '#/components/parameters/BlogCategoryIdParam'
       responses:
         200:
           $ref: "#/components/responses/ClientBlogsPaginateResponse"
@@ -2394,6 +2384,13 @@ components:
   headers:
   parameters:
     #region Admin
+    perPageParam:
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        example: 10
+
     CompanyIdParam:
       name: company_id
       in: path
@@ -2409,6 +2406,23 @@ components:
       schema:
         type: integer
         example: 1
+    
+    BlogCategoryIdParam:
+      name: blog_category_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 2
+    
+    HashtagIdParam:
+      name: hastag_id
+      in: path
+      required: true
+      scheme:
+        type: integer
+        example: 2
+    
     #endregion
     CountryParam:
       name: country_id
