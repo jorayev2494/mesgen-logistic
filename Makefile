@@ -23,9 +23,6 @@ restart:	## Restart project
 down:		## Down project
 	docker-compose --file $(COMPOSE_FILE_PATH) down
 
-restart:	## Restart project
-	@docker-compose --file $(COMPOSE_FILE_PATH) restart
-
 bash:		## Project bash terminal
 	@docker-compose --file $(COMPOSE_FILE_PATH) exec php-fpm bash
 
@@ -37,6 +34,9 @@ cc:			## Clear cache
 
 migrate:
 	@docker-compose --file $(COMPOSE_FILE_PATH) exec php-fpm ./artisan migrate
+
+migrate_seed:
+	@docker-compose --file $(COMPOSE_FILE_PATH) exec php-fpm ./artisan migrate:refresh --seed
 
 vendor_install:		## Composer install
 	@docker-compose --file $(COMPOSE_FILE_PATH) exec php-fpm composer install
