@@ -22,6 +22,7 @@ class BlogSeeder extends Seeder
         $categories = BlogCategory::all();
         /** @var Collection $users */
         $users = User::all(['id']);
+        $tags = Tag::all();
 
         /**
          * @var BlogCategory $category
@@ -34,9 +35,8 @@ class BlogSeeder extends Seeder
             );
         }
         
-        $blogs = Blog::all(['id']);
-        Tag::all()->each(
-            fn (Tag $t) => $t->blogs()->attach($blogs->random(random_int(1, 4))->pluck('id'))
+        Blog::all()->each(
+            fn (Blog $b) => $b->tags()->attach($tags->random(random_int(2, 4))->pluck('id'))
         );
     }
 }
