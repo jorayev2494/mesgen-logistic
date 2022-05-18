@@ -51,4 +51,20 @@ class User extends AuthModel
     {
         return $this->hasMany(Tag::class, 'user_id', 'id');
     }
+
+    /**
+     * @return HasMany
+     */
+    public function socials(): HasMany
+    {
+        return $this->hasMany(UserSocial::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAdmin(): bool
+    {
+        return $this->is_admin;
+    }
 }

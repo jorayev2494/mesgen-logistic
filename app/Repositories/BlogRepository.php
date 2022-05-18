@@ -65,4 +65,23 @@ class BlogRepository extends BaseRepository
                                     ->withCount($this->getWithCount())
                                     ->paginate($perPage);
     }
+
+    /**
+     * @param string|null $searchText
+     * @param integer|null $perPage
+     * @return Paginator
+     */
+    public function search(?string $searchText, int $perPage = null): Paginator
+    {
+        return $this->getModelClone()->newQuery()
+                                    ->select($this->getColumns())
+                                    ->where([
+                                        ['title_en', 'LIKE', "%{$searchText}%", 'or'],
+                                        ['title_ru', 'LIKE', "%{$searchText}%", 'or'],
+                                        ['title_tk', 'LIKE', "%{$searchText}%", 'or'],
+                                    ])
+                                    ->with($this->getWith())
+                                    ->withCount($this->getWithCount())
+                                    ->paginate($perPage);
+    }
 }
