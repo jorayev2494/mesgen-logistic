@@ -20,10 +20,10 @@ class UserFactory extends Factory
         return [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
-            'avatar' => null,
+            'avatar' => $this->faker->imageUrl(265, 220),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => 'password', // password
+            'password' => 'password',
         ];
     }
 

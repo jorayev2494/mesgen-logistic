@@ -21,6 +21,16 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->integer('email_code')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
+
+            $table->boolean('is_admin')->default(false);
+
+            $table->string('position_en')->nullable();
+            $table->string('position_ru')->nullable();
+            $table->string('position_tk')->nullable();
+
+            $table->boolean('is_active')->default(true);
+            $table->integer('position')->nullable();
+
             $table->string('password');
             $table->timestamps();
         });
