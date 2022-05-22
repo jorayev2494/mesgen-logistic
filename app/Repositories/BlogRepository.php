@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Helpers\GetKeyByLocalePrefix;
 use App\Models\Blog;
 use App\Repositories\Base\BaseRepository;
 use Illuminate\Contracts\Pagination\Paginator;
@@ -76,12 +77,11 @@ class BlogRepository extends BaseRepository
         return $this->getModelClone()->newQuery()
                                     ->select($this->getColumns())
                                     ->where([
-                                        ['title_en', 'LIKE', "%{$searchText}%", 'or'],
-                                        ['title_ru', 'LIKE', "%{$searchText}%", 'or'],
-                                        ['title_tk', 'LIKE', "%{$searchText}%", 'or'],
+                                        [GetKeyByLocalePrefix::execute('title'), 'LIKE', "%{$searchText}%", 'or']
                                     ])
                                     ->with($this->getWith())
                                     ->withCount($this->getWithCount())
                                     ->paginate($perPage);
+
     }
 }
