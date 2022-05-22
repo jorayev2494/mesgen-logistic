@@ -22,7 +22,7 @@ class BlogSearchController extends Controller
      */
     public function __invoke(SearchBlogRequest $request): JsonResponse
     {
-        $result = $this->service->search($request->query->get('search'), $request->query->getInt('per_page'));
+        $result = $this->service->search($request->query->get('s'), $request->query->getInt('per_page'));
 
         return response()->json($result);
     }

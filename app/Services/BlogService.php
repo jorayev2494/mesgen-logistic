@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Helpers\GetKeyByLocalePrefix;
 use App\Models\Blog;
-use App\Models\Tag;
 use App\Models\User;
 use App\Repositories\BlogRepository;
 use App\Repositories\TagRepository;
@@ -14,7 +13,6 @@ use App\Traits\FileTrait;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator as PaginationPaginator;
-use Illuminate\Support\Collection;
 
 class BlogService
 {
@@ -23,7 +21,7 @@ class BlogService
     /**
      * @var string|null
      */
-    private readonly ?string $mediaPath;
+    private ?string $mediaPath;
     
     public function __construct(
         private BlogRepository $repository

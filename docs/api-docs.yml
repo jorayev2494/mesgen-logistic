@@ -85,6 +85,7 @@ x-tagGroups:
       - Admin Address
       - Admin Phones
       - Admin About Company
+      - Admin About Steps
       - Admin Partners
       - Admin Blogs
 
@@ -1543,6 +1544,48 @@ paths:
         204:
           $ref: '#/components/responses/NoContentResponse'
 
+  /admin/abouts/steps:
+    get:
+      summary: "Get abaut steps"
+      tags:
+        -  Admin About Steps
+      responses:
+        200:
+          $ref: '#/components/responses/AdminAboutsStepsResponse'
+          
+  /admin/abouts/steps/{step_id}:
+    get:
+      summary: "Show about step"
+      tags:
+        -  Admin About Steps
+      parameters:
+        - name: step_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          $ref: '#/components/responses/AdminAboutsStepResponse'
+
+    put:
+      summary: "Update about step"
+      tags:
+        -  Admin About Steps
+      parameters:
+        - name: step_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        $ref: '#/components/requestBodies/AdminAboutStepRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/AdminAboutsStepResponse'
+
   /sliders:
     get:
       summary: "Get sliders"
@@ -1816,7 +1859,37 @@ paths:
         - $ref: '#/components/parameters/BlogCategoryIdParam'
       responses:
         200:
-          $ref: "#/components/responses/ClientBlogsPaginateResponse"
+          $ref: '#/components/responses/ClientBlogsPaginateResponse'
+
+  /blogs/search:
+    get:
+      summary: "Search blogs"
+      tags:
+        - Client
+      parameters:
+        - $ref: '#/components/parameters/searchParam'
+        - $ref: '#/components/parameters/perPageParam'
+      responses:
+        200:
+          $ref: '#/components/responses/ClientBlogsPaginateResponse'
+          
+  /team:
+    get:
+      summary: "Get team"
+      tags:
+        - Client
+      responses:
+        200:
+          $ref: "#/components/responses/ClientTeamResponse"
+  
+  /abouts/steps:
+    get:
+      summary: "Get blogs steps"
+      tags:
+        - Client
+      responses:
+        200:
+          $ref: "#/components/responses/ClientBlogStepsResponse"
 
 components:
   schemas:
@@ -1839,7 +1912,7 @@ components:
     BasicTextScheme:
       type: object
       properties:
-        title:
+        text:
           type: string
           example: "Text example Text example Text example Text example Text example Text example"
 
@@ -1921,6 +1994,15 @@ components:
         link:
           type: string
           example: "http://instagram.com/testUser"
+          nullable: true
+          uniqueItems: true
+          
+    BasicTeamSocialSlugScheme:
+      type: object
+      properties:
+        slug:
+          type: string
+          example: "facebook"
           nullable: true
           uniqueItems: true
 
@@ -2030,7 +2112,13 @@ components:
         total:
           type: integer
           example: 72
-
+    
+    BasicCharScheme:
+      type: object
+      properties:
+        char:
+          type: string
+          example: 'T'
     #endregion
 
     #region Admin
@@ -2062,6 +2150,7 @@ components:
         text_tk:
           type: string
           example: "TK Test text text text text text text text"
+
     AdminAddressSchema:
       type: object
       properties:
@@ -2096,6 +2185,7 @@ components:
         updated_at:
           type: string
           example: "08-04-2022 23:09:57"
+
     AdminPhoneSchema:
       type: object
       properties:
@@ -2142,8 +2232,7 @@ components:
         - $ref: '#/components/schemas/BasicLastNameScheme'
         - $ref: '#/components/schemas/BasicAvatarScheme'
         - $ref: '#/components/schemas/BasicEmailScheme'
-        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
-      
+        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'    
 
     AdminAboutCompanyScheme:
       allOf:
@@ -2207,6 +2296,30 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/AdminHashtagScheme'
+    
+    AdminCharScheme:
+      type: object
+      properties:
+        char_en:
+          type: string
+          example: 'E'
+        char_ru:
+          type: string
+          example: 'R'
+        char_tk:
+          type: string
+          example: 'T'
+    
+    AdminAboutStepScheme:
+      allOf:
+      - type: object
+      - $ref: '#/components/schemas/BasicIdScheme'
+      - $ref: '#/components/schemas/AdminCharScheme'
+      - $ref: '#/components/schemas/AdminTitleScheme'
+      - $ref: '#/components/schemas/AdminTextScheme'
+      - $ref: '#/components/schemas/BasicPositionScheme'
+      - $ref: '#/components/schemas/BasicIsActiveScheme'
+      - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
     #endregion
 
     #region Client
@@ -2347,7 +2460,6 @@ components:
               nullable: true
         - $ref: "#/components/schemas/BasicEmailScheme"
 
-
     ClientBlogCategoryScheme:
       allOf:
         - type: object
@@ -2380,16 +2492,53 @@ components:
               items:
                 $ref: "#/components/schemas/ClientHashtagScheme"
 
+    ClientTeamSocialScheme:
+      allOf:
+        - type: object
+        - $ref: "#/components/schemas/BasicIdScheme"
+        - $ref: "#/components/schemas/BasicTeamSocialSlugScheme"
+        - $ref: "#/components/schemas/BasicLinkScheme"
+
+    ClientTeamScheme:
+      allOf:
+        - type: object
+        - $ref: "#/components/schemas/BasicIdScheme"
+        - $ref: "#/components/schemas/BasicFirstNameScheme"
+        - $ref: "#/components/schemas/BasicLastNameScheme"
+        - $ref: "#/components/schemas/BasicAvatarScheme"
+        - properties:
+            position:
+              type: string
+              example: "Accountant"
+            socials:
+              $ref: "#/components/schemas/ClientTeamSocialScheme"
+    
+    ClientAboutStepScheme:
+      allOf:
+        - type: object
+        - $ref: '#/components/schemas/BasicIdScheme'
+        - $ref: '#/components/schemas/BasicCharScheme'
+        - $ref: '#/components/schemas/BasicTitleScheme'
+        - $ref: '#/components/schemas/BasicTextScheme'
+
     #endregion
   headers:
   parameters:
-    #region Admin
+    #region Admin      
     perPageParam:
       name: per_page
       in: query
       schema:
         type: integer
         example: 10
+        
+    searchParam:
+      name: s
+      in: query
+      required: true
+      schema:
+        type: string
+        example: "Alice"
 
     CompanyIdParam:
       name: company_id
@@ -2450,7 +2599,7 @@ components:
     NoContentResponse:
       description: "No content"
 
-    #region Admin
+  #region Admin
     AdminAboutsCompanyResponse:
       description: "Success"
       content:
@@ -2503,7 +2652,24 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/AdminBlogScheme"
-    #endregion
+            
+    AdminAboutsStepResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdminAboutStepScheme'
+
+    AdminAboutsStepsResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/AdminAboutStepScheme'
+
+  #endregion
 
     #region Client
     GetClientAddressesResponse:
@@ -2586,6 +2752,28 @@ components:
             type: object
             $ref: "#/components/schemas/ClientBlogScheme"
 
+    ClientTeamResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+              - $ref: "#/components/schemas/BasicPaginatorScheme"
+              - properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ClientTeamScheme"
+                      
+    ClientBlogStepsResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ClientAboutStepScheme'
     #endregion
 
   requestBodies:
@@ -2609,6 +2797,32 @@ components:
               - $ref: '#/components/schemas/AdminTitleScheme'
               - $ref: '#/components/schemas/BasicUploadMediaScheme'
               - $ref: '#/components/schemas/BasicLinkScheme'
+    #endregion
+    
+    #region
+    AdminAboutStepRequest:
+      content:
+        application/json:
+          schema:
+            required:
+              - char_en
+              - char_ru
+              - char_tk
+              - title_en
+              - title_ru
+              - title_tk
+              - text_en
+              - text_ru
+              - text_tk
+            allOf:
+            - type: object
+            - $ref: '#/components/schemas/BasicIdScheme'
+            - $ref: '#/components/schemas/AdminCharScheme'
+            - $ref: '#/components/schemas/AdminTitleScheme'
+            - $ref: '#/components/schemas/AdminTextScheme'
+            - $ref: '#/components/schemas/BasicPositionScheme'
+            - $ref: '#/components/schemas/BasicIsActiveScheme'
+            - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
     #endregion
   securitySchemes:
     bearerToken: []

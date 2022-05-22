@@ -26,7 +26,8 @@ abstract class RestApiService implements RestApiServiceInterface
      */
     public function index(bool $isAdmin = false, array $columns = ['*']): Collection
     {
-        return  $this->repository->get($isAdmin, $columns);
+
+        return  $this->repository->setColumns($columns)->get($isAdmin);
     }
 
     /**

@@ -29,7 +29,7 @@ class SearchBlogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'search' => 'required|string'
+            's' => 'required|string'
         ];
     }
 }

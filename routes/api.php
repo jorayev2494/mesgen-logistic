@@ -37,6 +37,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
         });
 
         Route::group(['prefix' => 'abouts', 'namespace' => 'About'], static function (): void {
+            Route::apiResource('/steps', 'AboutStepController', ['except' => 'store', 'delete']);
             Route::controller('AboutController')->group(static function (): void {
                 Route::get('/company', 'index');
                 Route::get('/company/{company}', 'show');
@@ -65,17 +66,18 @@ Route::group(['middleware' => 'lang'], static function (): void {
 
     Route::group(['prefix' => 'abouts', 'namespace' => 'About'], static function (): void {
         Route::get('/company', 'AboutController@about');
+        Route::get('/steps', 'AboutStepController');
     });
 
-    Route::post('/contact', ['uses' => 'ContactController@contact', 'as' => 'contact']);
+    Route::post('/contact', ['uses' => 'ContactController@contact']);
 
     Route::get('/blog_categories', 'BlogCategoryController');
     Route::get('/blog_categories/{category_id}/blogs', 'BlogController@getBlogsByCategory');
-    Route::get('/blogs', ['uses' => 'BlogController', 'as' => 'blogs']);
-    Route::get('/blogs/search', ['uses' => 'BlogSearchController', 'as' => 'blogs.search']);
-    Route::get('/blogs/{blog_id}', ['uses' => 'BlogController@show', 'as' => 'blogs']);
+    Route::get('/blogs', ['uses' => 'BlogController']);
+    Route::get('/blogs/search', ['uses' => 'BlogSearchController']);
+    Route::get('/blogs/{blog_id}', ['uses' => 'BlogController@show']);
     Route::get('/hastags', ['uses' => 'TagController', 'as' => 'tags']);
-    Route::get('/hastags/{blog_id}/blogs', ['uses' => 'BlogController@getBlogsByTag', 'as' => 'tags']);
+    Route::get('/hastags/{blog_id}/blogs', ['uses' => 'BlogController@getBlogsByTag']);
     Route::get('/team', 'TeamController');
 });
 #endregion

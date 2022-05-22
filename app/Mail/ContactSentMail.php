@@ -25,6 +25,6 @@ class ContactSentMail extends Mailable
      */
     public function build()
     {
-        return $this->to(getenv('MAIL_TO_ADDRESS'))->view('email.contact_send');
+        return $this->to(getenv('MAIL_FROM_ADDRESS'))->view('email.contact_send');
     }
 }
