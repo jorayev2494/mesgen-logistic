@@ -22,16 +22,27 @@ class ServiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(): JsonResponse
+    public function __invoke(int $id = null): JsonResponse
     {
-        $result = $this->service->index(columns: [
+
+        $columns = [
             'id',
             GetKeyByLocalePrefix::execute('title', true),
             GetKeyByLocalePrefix::execute('text', true),
             'media',
             'extension',
             'created_at',
-        ]);
+        ];
+
+        if(!is_null($id))
+        {
+            $result = $this->service->find($id, $columns);
+        } 
+        else
+        {
+            $result = $this->service->index(columns: $columns);
+        }
+
 
         return response()->json($result);
     }

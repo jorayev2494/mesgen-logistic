@@ -90,6 +90,6 @@ Route::group(['middleware' => 'lang'], static function (): void {
     Route::get('/hastags', ['uses' => 'TagController', 'as' => 'tags']);
     Route::get('/hastags/{blog_id}/blogs', ['uses' => 'BlogController@getBlogsByTag']);
     Route::get('/team', 'TeamController');
-    Route::get('/services', 'ServiceController');
+    Route::get('/services/{id?}', 'ServiceController');
 });
 #endregion

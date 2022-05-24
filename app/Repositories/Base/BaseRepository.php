@@ -125,7 +125,7 @@ abstract class BaseRepository implements BaseModelRepositoryInterface
      */
     public function find(int $id, array $columns = ['*']): Model
     {
-        $columns = $columns === $this->getColumns() ? $columns : $this->getColumns();
+        $columns = $columns !== $this->getColumns() ? $columns : $this->getColumns();
 
         return $this->getModelClone()->newQuery()
                                     ->select($columns)
