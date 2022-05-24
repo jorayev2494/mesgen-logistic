@@ -7,7 +7,6 @@ use Illuminate\Database\Seeder;
 
 class SliderBlockSeeder extends Seeder
 {
-
     /**
      * @var array|string[] $defaultTransports
      */
