@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('about_steps', static function (Blueprint $table): void {
+        Schema::create('steps', static function (Blueprint $table): void {
             $table->id();
 
-            $table->string('char_en');
-            $table->string('char_ru');
-            $table->string('char_tk');
-
+            $table->string('icon');
             $table->string('title_en');
             $table->string('title_ru');
             $table->string('title_tk');
@@ -42,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('about_steps');
+        Schema::dropIfExists('steps');
     }
 };

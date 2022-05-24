@@ -59,7 +59,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
         Route::apiResource('/blogs/categories', 'BlogCategoryController');
         Route::post('/blogs/{blog_id}', 'BlogController@update');
         Route::apiResource('/blogs', 'BlogController', ['except' => ['update']]);
-        
+        Route::apiResource('/steps', 'StepController', ['only' => ['index', 'show', 'update']]);        
     });
 });
 #endregion
@@ -91,5 +91,6 @@ Route::group(['middleware' => 'lang'], static function (): void {
     Route::get('/hastags/{blog_id}/blogs', ['uses' => 'BlogController@getBlogsByTag']);
     Route::get('/team', 'TeamController');
     Route::get('/services/{id?}', 'ServiceController');
+    Route::get('/steps', 'StepController');
 });
 #endregion

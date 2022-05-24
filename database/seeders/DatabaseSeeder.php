@@ -34,5 +34,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSocialSeeder::class);
         $this->call(AboutStepSeeder::class);
         $this->call(ServiceSeeder::class);
+        $this->call(StepSeeder::class);
     }
 }
