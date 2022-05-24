@@ -45,10 +45,21 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
             });
         });
 
+        Route::controller('ServiceController')->group(static function (): void {
+            Route::get('/services', 'index');
+            Route::post('/services', 'store');
+            Route::get('/services/{service}', 'show');
+            Route::post('/services/{service}', 'update');
+            Route::delete('/services/{service}', 'destroy');
+        });
+
+        Route::apiResource('/services', 'ServiceController');
+
         Route::apiResource('/tags', 'TagController');
         Route::apiResource('/blogs/categories', 'BlogCategoryController');
         Route::post('/blogs/{blog_id}', 'BlogController@update');
         Route::apiResource('/blogs', 'BlogController', ['except' => ['update']]);
+        
     });
 });
 #endregion
@@ -79,5 +90,6 @@ Route::group(['middleware' => 'lang'], static function (): void {
     Route::get('/hastags', ['uses' => 'TagController', 'as' => 'tags']);
     Route::get('/hastags/{blog_id}/blogs', ['uses' => 'BlogController@getBlogsByTag']);
     Route::get('/team', 'TeamController');
+    Route::get('/services', 'ServiceController');
 });
 #endregion

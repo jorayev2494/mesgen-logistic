@@ -88,6 +88,7 @@ x-tagGroups:
       - Admin About Steps
       - Admin Partners
       - Admin Blogs
+      - Admin Services
 
   - name: Client
     tags:
@@ -1586,6 +1587,57 @@ paths:
         200:
           $ref: '#/components/responses/AdminAboutsStepResponse'
 
+  /admin/services:
+    get:
+      summary: "Get Servies"
+      tags:
+        - Admin Services
+      responses:
+        200:
+          $ref: '#/components/responses/AdimnServicesResponse'
+
+    post:
+      summary: "Create Service"
+      tags:
+        - Admin Services
+      requestBody:
+        $ref: '#/components/requestBodies/AdminCreateServiceRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/AdimnServiceResponse'
+
+  /admin/services/{service_id}:
+    get:
+      summary: "Show sevice"
+      tags:
+        - "Admin Services"
+      parameters:
+        - $ref: '#/components/parameters/ServiceParam'
+      responses:
+        200:
+          $ref: '#/components/responses/AdimnServiceResponse'
+
+    post:
+      summary: "Update service"
+      tags:
+        - Admin Services
+      requestBody:
+        $ref: '#/components/requestBodies/AdminUpdateServiceRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/AdimnServiceResponse'
+
+    delete:
+      summary: "Delete service"
+      tags:
+        - Admin Services
+      parameters:
+        - $ref: '#/components/parameters/ServiceParam'
+      responses:
+        204:
+          $ref: '#/components/responses/NoContentResponse'
+        
+
   /sliders:
     get:
       summary: "Get sliders"
@@ -1890,6 +1942,15 @@ paths:
       responses:
         200:
           $ref: "#/components/responses/ClientBlogStepsResponse"
+
+  /services:
+    get:
+      summary: "Get services"
+      tags:
+        - Client
+      responses:
+        200:
+          $ref: "#/components/responses/ClientServiceRespose"
 
 components:
   schemas:
@@ -2320,6 +2381,17 @@ components:
       - $ref: '#/components/schemas/BasicPositionScheme'
       - $ref: '#/components/schemas/BasicIsActiveScheme'
       - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+
+    AdminServicescheme:
+      allOf:
+        - type: object
+        - $ref: '#/components/schemas/BasicIdScheme'
+        - $ref: '#/components/schemas/AdminTitleScheme'
+        - $ref: '#/components/schemas/AdminTextScheme'
+        - $ref: '#/components/schemas/BasicMediaWithExtensionScheme'
+        - $ref: '#/components/schemas/BasicIsActiveScheme'
+        - $ref: '#/components/schemas/BasicPositionScheme'
+        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
     #endregion
 
     #region Client
@@ -2521,6 +2593,15 @@ components:
         - $ref: '#/components/schemas/BasicTitleScheme'
         - $ref: '#/components/schemas/BasicTextScheme'
 
+    ClientServiceScheme:
+      allOf:
+        - type: object
+        - $ref: '#/components/schemas/BasicIdScheme'
+        - $ref: '#/components/schemas/BasicTitleScheme'
+        - $ref: '#/components/schemas/BasicTextScheme'
+        - $ref: '#/components/schemas/BasicMediaWithExtensionScheme'
+        - $ref: '#/components/schemas/BasicCreatedAtScheme'
+      
     #endregion
   headers:
   parameters:
@@ -2582,19 +2663,29 @@ components:
         example: 2
 
     AddressParam:
-        name: address_id
-        in: path
-        required: true
-        schema:
-          type: integer
-          example: 5
+      name: address_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 5
+
     PhoneParam:
-        name: phone_id
-        in: path
-        required: true
-        schema:
-          type: integer
-          example: 7
+      name: phone_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 7
+    
+    ServiceParam:
+      name: service_id
+      in: query
+      required: true
+      schema:
+        type: integer
+        example: 1
+
   responses:
     NoContentResponse:
       description: "No content"
@@ -2668,6 +2759,22 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/AdminAboutStepScheme'
+
+    AdimnServiceResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdminServicescheme'
+
+    AdimnServicesResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/AdminServicescheme'
 
   #endregion
 
@@ -2774,6 +2881,15 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/ClientAboutStepScheme'
+
+    ClientServiceRespose:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ClientServiceScheme'
     #endregion
 
   requestBodies:
@@ -2823,6 +2939,41 @@ components:
             - $ref: '#/components/schemas/BasicPositionScheme'
             - $ref: '#/components/schemas/BasicIsActiveScheme'
             - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+
+    AdminCreateServiceRequest:
+      content:
+        multipart/form-data:
+          schema:
+            required:
+              - title_en
+              - title_ru
+              - title_tk
+              - text_en
+              - text_ru
+              - text_tk
+              - media
+            allOf:
+              - type: object
+              - $ref: "#/components/schemas/BasicIdScheme"
+              - $ref: "#/components/schemas/AdminTitleScheme"
+              - $ref: "#/components/schemas/AdminTextScheme"
+              - $ref: "#/components/schemas/BasicMediaScheme"
+              - $ref: "#/components/schemas/BasicIsActiveScheme"
+              - $ref: "#/components/schemas/BasicPositionScheme"
+
+    AdminUpdateServiceRequest:
+      content:
+        multipart/form-data:
+          schema:
+            allOf:
+              - type: object
+              - $ref: "#/components/schemas/BasicIdScheme"
+              - $ref: "#/components/schemas/AdminTitleScheme"
+              - $ref: "#/components/schemas/AdminTextScheme"
+              - $ref: "#/components/schemas/BasicMediaScheme"
+              - $ref: "#/components/schemas/BasicIsActiveScheme"
+              - $ref: "#/components/schemas/BasicPositionScheme"
+
     #endregion
   securitySchemes:
     bearerToken: []
