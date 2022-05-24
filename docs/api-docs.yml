@@ -1952,6 +1952,17 @@ paths:
         200:
           $ref: "#/components/responses/ClientServiceRespose"
 
+  /services/{service_id}:
+    get:
+      summary: "Show service"
+      tags:
+        - Client
+      parameters:
+        - $ref: "#/components/parameters/ServiceParam"
+      responses:
+        200:
+          $ref: "#/components/responses/ClientServiceRespose"
+
 components:
   schemas:
     #region Basic Types
