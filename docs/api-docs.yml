@@ -2012,7 +2012,7 @@ paths:
         - $ref: '#/components/parameters/LimitParam'
       responses:
         200:
-          $ref: '#/components/responses/AdminBlogResponse'
+          $ref: '#/components/responses/ClientBlogsPopularResponse'
 
   /blogs/search:
     get:
@@ -2724,7 +2724,6 @@ components:
         - type: object
         - $ref: "#/components/schemas/BasicIdScheme"
         - $ref: "#/components/schemas/ClientTitleScheme"
-        - $ref: "#/components/schemas/ClientTextScheme"
         - $ref: "#/components/schemas/BasicMediaWithExtensionScheme"
         - $ref: "#/components/schemas/BasicCreatedAtScheme"
         - properties:
@@ -3104,6 +3103,14 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/ClientBlogScheme"
+
+    ClientBlogsPopularResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: "#/components/schemas/ClientBlogScheme"
 
     ClientBlogShowResponse:
       description: "Success"

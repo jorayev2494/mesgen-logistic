@@ -94,7 +94,7 @@ class BlogRepository extends BaseRepository
     public function getPopular(int $limit = 4, array $columns = ['*']): Collection
     {
         return $this->getModelClone()->newQuery()
-                                    ->select($this->getColumns())
+                                    ->select($columns)
                                     ->take($limit)
                                     ->orderBy('id', 'DESC')
                                     ->get();

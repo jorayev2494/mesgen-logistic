@@ -48,7 +48,6 @@ class BlogService
         $this->repository->setColumns([
             'id',
             $transtaltedTitle = GetKeyByLocalePrefix::execute('title', true),
-            GetKeyByLocalePrefix::execute('text', true),
             'media',
             'extension',
             'user_id',
