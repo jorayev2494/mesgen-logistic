@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\GetKeyByLocalePrefix;
 use App\Services\BlogPopularService;
 use App\Services\BlogService;
 use Illuminate\Http\JsonResponse;
@@ -25,7 +26,13 @@ class BlogPopularController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $result = $this->service->getPopular($request->query->getInt('limit'));
+        $result = $this->service->getPopular($request->query->getInt('limit'), [
+            'id',
+            GetKeyByLocalePrefix::execute('title', true),
+            'media',
+            'extension',
+            'created_at'
+        ]);
 
         return response()->json($result);
     }
