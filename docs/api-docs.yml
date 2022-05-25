@@ -2724,6 +2724,7 @@ components:
         - type: object
         - $ref: "#/components/schemas/BasicIdScheme"
         - $ref: "#/components/schemas/ClientTitleScheme"
+        - $ref: "#/components/schemas/ClientTextScheme"
         - $ref: "#/components/schemas/BasicMediaWithExtensionScheme"
         - $ref: "#/components/schemas/BasicCreatedAtScheme"
         - properties:
