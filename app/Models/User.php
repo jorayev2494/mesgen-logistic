@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends AuthModel
 {
+    public const AVATAR_PATH = '/users/avatar';
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +21,11 @@ class User extends AuthModel
         'email',
         'email_code',
         'password',
+        'position',
+        'position_en',
+        'position_ru',
+        'position_tk',
+        'is_admin',
     ];
 
     /**
@@ -30,6 +36,8 @@ class User extends AuthModel
     protected $hidden = [
         'password',
         'remember_token',
+        'email_code',
+        'email_verified_at'
     ];
 
     /**

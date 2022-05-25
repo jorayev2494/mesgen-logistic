@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
 #region Admin
@@ -12,7 +13,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
         });
     });
 
-    Route::group(['middleware' => 'auth:api'], static function (): void {
+    Route::group(['middleware' => ['auth:api', 'admin']], static function (): void {
+        Route::controller('UserController')->group(static function (Router $route): void {
+            $route->get('/users', 'UserController@index');
+            $route->post('/users', 'UserController@store');
+            $route->get('/users/{id}', 'UserController@show');
+            $route->post('/users/{id}', 'UserController@update');
+            $route->delete('/users/{id}', 'UserController@destroy');
+        });
+
         Route::apiResource('/sliders/blocks', 'SliderBlockController', ['only' => ['index', 'show', 'update']]);
         Route::controller('SliderController')->group(static function (): void {
             Route::get('/sliders', 'index')->name('sliders.index');
@@ -86,6 +95,7 @@ Route::group(['middleware' => 'lang'], static function (): void {
     Route::get('/blog_categories/{category_id}/blogs', 'BlogController@getBlogsByCategory');
     Route::get('/blogs', ['uses' => 'BlogController']);
     Route::get('/blogs/search', ['uses' => 'BlogSearchController']);
+    Route::get('/blogs/popular', ['uses' => 'BlogPopularController']);
     Route::get('/blogs/{blog_id}', ['uses' => 'BlogController@show']);
     Route::get('/hastags', ['uses' => 'TagController', 'as' => 'tags']);
     Route::get('/hastags/{blog_id}/blogs', ['uses' => 'BlogController@getBlogsByTag']);

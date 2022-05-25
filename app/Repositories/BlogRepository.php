@@ -9,6 +9,7 @@ use App\Models\Blog;
 use App\Repositories\Base\BaseRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 class BlogRepository extends BaseRepository
 {
@@ -83,5 +84,19 @@ class BlogRepository extends BaseRepository
                                     ->withCount($this->getWithCount())
                                     ->paginate($perPage);
 
+    }
+
+    /**
+     * @param integer $limit
+     * @param array $columns
+     * @return Collection
+     */
+    public function getPopular(int $limit = 4, array $columns = ['*']): Collection
+    {
+        return $this->getModelClone()->newQuery()
+                                    ->select($this->getColumns())
+                                    ->take($limit)
+                                    ->orderBy('id', 'DESC')
+                                    ->get();
     }
 }
