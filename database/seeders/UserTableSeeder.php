@@ -25,7 +25,7 @@ class UserTableSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory()->create(['email' => 'admin@gmail.com'] + $this->getUserPosition());
+        \App\Models\User::factory()->create(['email' => 'admin@gmail.com', 'is_admin' => true] + $this->getUserPosition());
 
         for ($i=0; $i <= 10; $i++) { 
             \App\Models\User::factory()->create($this->getUserPosition());

@@ -90,6 +90,7 @@ x-tagGroups:
       - Admin Blogs
       - Admin Services
       - Admin Steps
+      - Admin Users
 
   - name: Client
     tags:
@@ -1670,6 +1671,63 @@ paths:
         200:
           $ref: '#/components/responses/AdminStepResponse'
 
+  /admin/users:
+    get:
+      summary: "Get Users"
+      tags:
+        - Admin Users
+      parameters:
+        - $ref: "#/components/parameters/perPageParam"
+      responses:
+        200:
+          $ref: "#/components/responses/AdminUsersResponse"
+    
+    post:
+      summary: "Create User"
+      tags:
+        - Admin Users
+      requestBody:
+        $ref: '#/components/requestBodies/AdminCreateUserRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/AdminUserResponse'
+
+  /admin/users/{user_id}:
+    get:
+      summary: "Show User"
+      tags:
+        - Admin Users
+      parameters:
+        - $ref: '#/components/parameters/UserParam'
+      requestBody:
+        $ref: '#/components/requestBodies/AdminUpdateUserRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/AdminUserResponse'
+
+    post:
+      summary: "Update User"
+      tags:
+        - Admin Users
+      parameters:
+        - $ref: '#/components/parameters/UserParam'
+      requestBody:
+        - $ref: 'Admin'
+      responses:
+        200:
+          $ref: '#/components/responses/AdminUserResponse'
+          
+    delete:
+      summary: "Delete User"
+      tags:
+        - Admin Users
+      parameters:
+        - $ref: "#/components/parameters/UserParam"
+      responses:
+        204:
+          $ref: "#/components/responses/NoContentResponse"
+        
+
   /sliders:
     get:
       summary: "Get sliders"
@@ -1945,6 +2003,17 @@ paths:
         200:
           $ref: '#/components/responses/ClientBlogsPaginateResponse'
 
+  /blogs/popular:
+    get:
+      summary: "Get popular blogs"
+      tags:
+        - Client
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        200:
+          $ref: '#/components/responses/AdminBlogResponse'
+
   /blogs/search:
     get:
       summary: "Search blogs"
@@ -2033,6 +2102,19 @@ components:
       type: object
       properties:
         media:
+          type: string
+          format: binary
+          example: "file"
+          enum:
+            - jpg
+            - jpeg
+            - png
+            - gif
+    
+    BasicUploadAvatarScheme:
+      type: object
+      properties:
+        avatar:
           type: string
           format: binary
           example: "file"
@@ -2133,7 +2215,6 @@ components:
         first_name:
           type: string
           example: "Alex"
-          uniqueItems: true
     
     BasicLastNameScheme:
       type: object
@@ -2141,7 +2222,6 @@ components:
         last_name:
           type: string
           example: "Petrov"
-          uniqueItems: true
 
     BasicAvatarScheme:
       type: object
@@ -2149,7 +2229,6 @@ components:
         avatar:
           type: string
           example: "http://127.0.0.1:8082/storage/blogs/medias/5x4KyUGHMO7MdS25dVgtVhGqNfzZoGgC.jpg"
-          uniqueItems: true
     
     BasicHashtagScheme:
       type: object
@@ -2239,6 +2318,16 @@ components:
         icon:
           type: string
           example: 'cat'
+    
+    BasicIsAdminSchema:
+      type: object
+      properties:
+        is_admin:
+          type: integer
+          example: true
+          enum:
+            - true
+            - false
     #endregion
 
     #region Admin
@@ -2270,6 +2359,19 @@ components:
         text_tk:
           type: string
           example: "TK Test text text text text text text text"
+
+    AdminPositonScheme:
+      type: object
+      properties:
+        position_en:
+          type: string
+          example: "En Front-end"
+        position_ru:
+          type: string
+          example: "Ru Front-end"
+        position_tk:
+          type: string
+          example: "Tk Front-end"
 
     AdminAddressSchema:
       type: object
@@ -2352,6 +2454,10 @@ components:
         - $ref: '#/components/schemas/BasicLastNameScheme'
         - $ref: '#/components/schemas/BasicAvatarScheme'
         - $ref: '#/components/schemas/BasicEmailScheme'
+        - $ref: '#/components/schemas/BasicIsAdminSchema'
+        - $ref: '#/components/schemas/AdminPositonScheme'
+        - $ref: '#/components/schemas/BasicIsActiveScheme'
+        - $ref: '#/components/schemas/BasicPositionScheme'
         - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'    
 
     AdminAboutCompanyScheme:
@@ -2689,6 +2795,7 @@ components:
       schema:
         type: integer
         example: 10
+        default: 15
         
     searchParam:
       name: s
@@ -2771,6 +2878,22 @@ components:
         type: integer
         example: 1
 
+    UserParam:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 1
+        
+    LimitParam:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        example: 5
+        default: 4
+
   responses:
     NoContentResponse:
       description: "No content"
@@ -2807,6 +2930,15 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/AdminPartnerScheme'
+
+    AdminBlogResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: array
+            items: 
+              $ref: "#/components/schemas/AdminBlogScheme"
             
     AdminBlogPaginateResponse:
       description: "Success"
@@ -2876,6 +3008,27 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/AdminStepScheme'
+              
+    AdminUserResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdminUserScheme'
+    
+    AdminUsersResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            allOf:
+              -  type: object
+              -  $ref: '#/components/schemas/BasicPaginatorScheme'
+              -  properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminUserScheme'
 
   #endregion
 
@@ -3094,6 +3247,41 @@ components:
               -  $ref: '#/components/schemas/AdminTextScheme'
               -  $ref: '#/components/schemas/BasicPositionScheme'
               -  $ref: '#/components/schemas/BasicIsActiveScheme'
+
+    AdminCreateUserRequest:
+      content:
+        application/json:
+          schema:
+            required:
+              -  first_name
+              -  last_name
+              -  email
+              -  position_en
+              -  position_ru
+              -  position_tk
+            allOf:
+              -  type: object
+              -  $ref: "#/components/schemas/BasicFirstNameScheme"
+              -  $ref: "#/components/schemas/BasicLastNameScheme"
+              -  $ref: "#/components/schemas/BasicEmailScheme"
+              -  $ref: "#/components/schemas/BasicUploadAvatarScheme"
+              -  $ref: "#/components/schemas/BasicIsAdminSchema"
+              -  $ref: "#/components/schemas/AdminPositonScheme"
+              -  $ref: "#/components/schemas/BasicIsActiveScheme"
+
+    AdminUpdateUserRequest:
+      content:
+        application/json:
+          schema:
+            allOf:
+              -  type: object
+              -  $ref: "#/components/schemas/BasicFirstNameScheme"
+              -  $ref: "#/components/schemas/BasicLastNameScheme"
+              -  $ref: "#/components/schemas/BasicEmailScheme"
+              -  $ref: "#/components/schemas/BasicUploadAvatarScheme"
+              -  $ref: "#/components/schemas/BasicIsAdminSchema"
+              -  $ref: "#/components/schemas/AdminPositonScheme"
+              -  $ref: "#/components/schemas/BasicIsActiveScheme"
 
     #endregion
   securitySchemes:

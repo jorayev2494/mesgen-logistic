@@ -23,6 +23,7 @@ class UserFactory extends Factory
             'avatar' => $this->faker->imageUrl(265, 220),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
+            'is_admin' => false,
             'password' => 'password',
         ];
     }
