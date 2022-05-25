@@ -26,9 +26,10 @@ class BlogPopularController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $result = $this->service->getPopular($request->query->getInt('limit'), [
+        $result = $this->service->getPopular($request->query->getInt('limit', 4), [
             'id',
             GetKeyByLocalePrefix::execute('title', true),
+            GetKeyByLocalePrefix::execute('text', true),
             'media',
             'extension',
             'created_at'
