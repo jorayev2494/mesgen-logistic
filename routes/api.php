@@ -68,7 +68,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
         Route::apiResource('/blogs/categories', 'BlogCategoryController');
         Route::post('/blogs/{blog_id}', 'BlogController@update');
         Route::apiResource('/blogs', 'BlogController', ['except' => ['update']]);
-        Route::apiResource('/steps', 'StepController', ['only' => ['index', 'show', 'update']]);        
+        Route::apiResource('/steps', 'StepController', ['only' => ['index', 'show', 'update']]);
+        Route::apiResource('/processes', 'ProcessController', ['only' => ['index', 'show', 'update']]);     
+        Route::apiResource('/chooses', 'ChooseController', ['only' => ['index', 'show', 'update']]);     
     });
 });
 #endregion
@@ -102,5 +104,7 @@ Route::group(['middleware' => 'lang'], static function (): void {
     Route::get('/team', 'TeamController');
     Route::get('/services/{id?}', 'ServiceController');
     Route::get('/steps', 'StepController');
+    Route::get('/processes', 'ProcessController');
+    Route::get('/chooses', 'ChooseController');
 });
 #endregion
