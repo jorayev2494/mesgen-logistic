@@ -91,6 +91,8 @@ x-tagGroups:
       - Admin Services
       - Admin Steps
       - Admin Users
+      - Admin Processes
+      - Admin Chooses
 
   - name: Client
     tags:
@@ -1383,10 +1385,10 @@ paths:
                 - user_id
               allOf:
                 - type: object
-                - $ref: "#/components/schemas/AdminTitleScheme"
-                - $ref: "#/components/schemas/AdminTextScheme"
-                - $ref: "#/components/schemas/BasicUploadMediaScheme"
-                - $ref: "#/components/schemas/BasicIsActiveScheme"
+                - $ref: "#/components/schemas/AdminTitleSchema"
+                - $ref: "#/components/schemas/AdminTextSchema"
+                - $ref: "#/components/schemas/BasicUploadMediaSchema"
+                - $ref: "#/components/schemas/BasicIsActiveSchema"
                 - properties:
                     category_id:
                       type: integer
@@ -1452,10 +1454,10 @@ paths:
                       - user_id
                     allOf:
                       - type: object
-                      - $ref: "#/components/schemas/AdminTitleScheme"
-                      - $ref: "#/components/schemas/AdminTextScheme"
-                      - $ref: "#/components/schemas/BasicUploadMediaScheme"
-                      - $ref: "#/components/schemas/BasicIsActiveScheme"
+                      - $ref: "#/components/schemas/AdminTitleSchema"
+                      - $ref: "#/components/schemas/AdminTextSchema"
+                      - $ref: "#/components/schemas/BasicUploadMediaSchema"
+                      - $ref: "#/components/schemas/BasicIsActiveSchema"
                       - properties:
                           category_id:
                             type: integer
@@ -1493,10 +1495,10 @@ paths:
             schema:
               allOf:
                 - type: object
-                - $ref: "#/components/schemas/AdminTitleScheme"
-                - $ref: "#/components/schemas/AdminTextScheme"
-                - $ref: "#/components/schemas/BasicUploadMediaScheme"
-                - $ref: "#/components/schemas/BasicIsActiveScheme"
+                - $ref: "#/components/schemas/AdminTitleSchema"
+                - $ref: "#/components/schemas/AdminTextSchema"
+                - $ref: "#/components/schemas/BasicUploadMediaSchema"
+                - $ref: "#/components/schemas/BasicIsActiveSchema"
                 - properties:
                     category_id:
                       type: integer
@@ -1659,7 +1661,7 @@ paths:
         200:
           $ref: '#/components/responses/AdminStepsResponse'
 
-    post:
+    put:
       summary: "Update steps"
       tags:
         - Admin Steps
@@ -1727,6 +1729,69 @@ paths:
         204:
           $ref: "#/components/responses/NoContentResponse"
         
+  /admin/processes:
+    get:
+      summary: "Get Processes"
+      tags:
+        - Admin Processes
+      responses:
+        200:
+          $ref: "#/components/responses/AdminProcessesResponse"
+
+  /admin/processes/{process_id}:
+    get:
+      summary: "Show Process"
+      tags:
+        -  Admin Processes
+      parameters:
+        - $ref: "#/components/parameters/ProcessParam"
+      responses:
+        200:
+          $ref: "#/components/responses/AdminProcessResponse"
+      
+    put:
+      summary: "Update Process"
+      tags:
+        - Admin Processes
+      parameters:
+        - $ref: "#/components/parameters/ProcessParam"
+      requestBody:
+        $ref: '#/components/requestBodies/AdminUpdateProcessRquest'
+      responses:
+        200:
+          $ref: "#/components/responses/AdminProcessResponse"
+
+  /admin/chooses:
+    get:
+      summary: "Get Chooses"
+      tags:
+        - Admin Chooses
+      responses:
+        200:
+          $ref: "#/components/responses/AdminChoosesResponse"
+
+  /admin/chooses/{choose_id}:
+    get:
+      summary: "Show Chooses"
+      tags:
+        - Admin Chooses
+      parameters:
+        - $ref: "#/components/parameters/ChooseParam"
+      responses:
+        200:
+          $ref: "#/components/responses/AdminChooseResponse"
+    
+    put:
+      summary: "Update Chooses"
+      tags:
+        - Admin Chooses
+      parameters:
+        - $ref: "#/components/parameters/ChooseParam"
+      requestBody:
+        $ref: '#/components/requestBodies/AdminUpdateChoosesRquest'
+      responses:
+        200:
+          $ref: "#/components/responses/AdminChooseResponse"
 
   /sliders:
     get:
@@ -2037,7 +2102,7 @@ paths:
   
   /abouts/steps:
     get:
-      summary: "Get blogs steps"
+      summary: "Get abouts steps"
       tags:
         - Client
       responses:
@@ -2073,17 +2138,35 @@ paths:
         200:
           $ref: "#/components/responses/ClientStepResponse"
 
+  /processes:
+    get:
+      summary: "Get Processes"
+      tags:
+        -  Client
+      responses:
+        200:
+          $ref: '#/components/responses/ClientProcessesResponse'
+          
+  /chooses:
+    get:
+      summary: "Get Chooses"
+      tags:
+        -  Client
+      responses:
+        200:
+          $ref: '#/components/responses/ClientChoosesResponse'
+
 components:
   schemas:
     #region Basic Types
-    BasicIdScheme:
+    BasicIdSchema:
       type: object
       properties:
         id:
           type: integer
           example: 1
 
-    BasicTitleScheme:
+    BasicTitleSchema:
       type: object
       properties:
         title:
@@ -2091,14 +2174,14 @@ components:
           example: "Title example"
           uniqueItems: true
           
-    BasicTextScheme:
+    BasicTextSchema:
       type: object
       properties:
         text:
           type: string
           example: "Text example Text example Text example Text example Text example Text example"
 
-    BasicUploadMediaScheme:
+    BasicUploadMediaSchema:
       type: object
       properties:
         media:
@@ -2111,7 +2194,7 @@ components:
             - png
             - gif
     
-    BasicUploadAvatarScheme:
+    BasicUploadAvatarSchema:
       type: object
       properties:
         avatar:
@@ -2124,14 +2207,14 @@ components:
             - png
             - gif
 
-    BasicMediaScheme:
+    BasicMediaSchema:
       type: object
       properties:
         media:
           type: string
           example: "http://127.0.0.1:8082/storage/abouts/company/medias/GOT1k0NTIc2qwPL8x1CaPy2lNjoo473m.jpg"
 
-    BasicExtensionScheme:
+    BasicExtensionSchema:
       type: object
       properties:
         extension:
@@ -2143,12 +2226,12 @@ components:
             - png
             - gif
 
-    BasicMediaWithExtensionScheme:
+    BasicMediaWithExtensionSchema:
       allOf:
-        - $ref: '#/components/schemas/BasicMediaScheme'
-        - $ref: '#/components/schemas/BasicExtensionScheme'
+        - $ref: '#/components/schemas/BasicMediaSchema'
+        - $ref: '#/components/schemas/BasicExtensionSchema'
 
-    BasicPositionScheme:
+    BasicPositionSchema:
       type: object
       properties:
         position:
@@ -2156,34 +2239,34 @@ components:
           example: 1
           nullable: true
 
-    BasicIsActiveScheme:
+    BasicIsActiveSchema:
       type: object
       properties:
         is_active:
           type: boolean
           example: true
 
-    BasicCreatedAtScheme:
+    BasicCreatedAtSchema:
       type: object
       properties:
         created_at:
           type: string
           example: "17-04-2022 15:40:14"
 
-    BasicUpdatedAtScheme:
+    BasicUpdatedAtSchema:
       type: object
       properties:
         updated_at:
           type: string
           example: "17-04-2022 15:40:14"
 
-    BasicCreatedAtAndUpdatedAtScheme:
+    BasicCreatedAtAndUpdatedAtSchema:
       allOf:
         - type: object
-        - $ref: '#/components/schemas/BasicCreatedAtScheme'
-        - $ref: '#/components/schemas/BasicUpdatedAtScheme'
+        - $ref: '#/components/schemas/BasicCreatedAtSchema'
+        - $ref: '#/components/schemas/BasicUpdatedAtSchema'
 
-    BasicLinkScheme:
+    BasicLinkSchema:
       type: object
       properties:
         link:
@@ -2192,7 +2275,7 @@ components:
           nullable: true
           uniqueItems: true
           
-    BasicTeamSocialSlugScheme:
+    BasicTeamSocialSlugSchema:
       type: object
       properties:
         slug:
@@ -2201,7 +2284,7 @@ components:
           nullable: true
           uniqueItems: true
 
-    BasicEmailScheme:
+    BasicEmailSchema:
       type: object
       properties:
         email:
@@ -2209,28 +2292,28 @@ components:
           example: "email@gmail.com"
           uniqueItems: true
     
-    BasicFirstNameScheme:
+    BasicFirstNameSchema:
       type: object
       properties:
         first_name:
           type: string
           example: "Alex"
     
-    BasicLastNameScheme:
+    BasicLastNameSchema:
       type: object
       properties:
         last_name:
           type: string
           example: "Petrov"
 
-    BasicAvatarScheme:
+    BasicAvatarSchema:
       type: object
       properties:
         avatar:
           type: string
           example: "http://127.0.0.1:8082/storage/blogs/medias/5x4KyUGHMO7MdS25dVgtVhGqNfzZoGgC.jpg"
     
-    BasicHashtagScheme:
+    BasicHashtagSchema:
       type: object
       properties:
         value:
@@ -2238,7 +2321,7 @@ components:
           example: "#testHashtag"
           uniqueItems: true
     
-    BasicPaginateLinksScheme:
+    BasicPaginateLinksSchema:
       type: array
       items:
         type: object
@@ -2257,7 +2340,7 @@ components:
               - true
               - false
 
-    BasicPaginatorScheme:
+    BasicPaginatorSchema:
       type: object
       properties:
         currtent_page:
@@ -2281,8 +2364,8 @@ components:
           example: "http://127.0.0.1:8082/api/blogs?page=5"
           nullable: true
         links:
-          $ref: "#/components/schemas/BasicPaginateLinksScheme"
-          # $ref: "modules/components/schemas/paginate/BasicPaginateLinksScheme.yml"
+          $ref: "#/components/schemas/BasicPaginateLinksSchema"
+          # $ref: "modules/components/schemas/paginate/BasicPaginateLinksSchema.yml"
         next_page_url:
           type: string
           example: "http://127.0.0.1:8082/api/blogs?page=3"
@@ -2305,7 +2388,7 @@ components:
           type: integer
           example: 72
     
-    BasicCharScheme:
+    BasicCharSchema:
       type: object
       properties:
         char:
@@ -2331,7 +2414,7 @@ components:
     #endregion
 
     #region Admin
-    AdminTitleScheme:
+    AdminTitleSchema:
       type: object
       properties:
         title_en:
@@ -2347,7 +2430,7 @@ components:
           example: "TK Test title title"
           uniqueItems: true
 
-    AdminTextScheme:
+    AdminTextSchema:
       type: object
       properties:
         text_en:
@@ -2360,7 +2443,7 @@ components:
           type: string
           example: "TK Test text text text text text text text"
 
-    AdminPositonScheme:
+    AdminPositonSchema:
       type: object
       properties:
         position_en:
@@ -2446,84 +2529,84 @@ components:
           type: string
           example: "08-04-2022 23:09:57"
     
-    AdminUserScheme:
+    AdminUserSchema:
       allOf:
         - type: object
-        - $ref: '#/components/schemas/BasicIdScheme'
-        - $ref: '#/components/schemas/BasicFirstNameScheme'
-        - $ref: '#/components/schemas/BasicLastNameScheme'
-        - $ref: '#/components/schemas/BasicAvatarScheme'
-        - $ref: '#/components/schemas/BasicEmailScheme'
+        - $ref: '#/components/schemas/BasicIdSchema'
+        - $ref: '#/components/schemas/BasicFirstNameSchema'
+        - $ref: '#/components/schemas/BasicLastNameSchema'
+        - $ref: '#/components/schemas/BasicAvatarSchema'
+        - $ref: '#/components/schemas/BasicEmailSchema'
         - $ref: '#/components/schemas/BasicIsAdminSchema'
-        - $ref: '#/components/schemas/AdminPositonScheme'
-        - $ref: '#/components/schemas/BasicIsActiveScheme'
-        - $ref: '#/components/schemas/BasicPositionScheme'
-        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'    
+        - $ref: '#/components/schemas/AdminPositonSchema'
+        - $ref: '#/components/schemas/BasicIsActiveSchema'
+        - $ref: '#/components/schemas/BasicPositionSchema'
+        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'    
 
-    AdminAboutCompanyScheme:
+    AdminAboutCompanySchema:
       allOf:
         - type: object
-        - $ref: '#/components/schemas/BasicIdScheme'
-        - $ref: '#/components/schemas/AdminTitleScheme'
-        - $ref: '#/components/schemas/AdminTextScheme'
-        - $ref: '#/components/schemas/BasicMediaWithExtensionScheme'
-        - $ref: '#/components/schemas/BasicPositionScheme'
-        - $ref: '#/components/schemas/BasicIsActiveScheme'
-        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+        - $ref: '#/components/schemas/BasicIdSchema'
+        - $ref: '#/components/schemas/AdminTitleSchema'
+        - $ref: '#/components/schemas/AdminTextSchema'
+        - $ref: '#/components/schemas/BasicMediaWithExtensionSchema'
+        - $ref: '#/components/schemas/BasicPositionSchema'
+        - $ref: '#/components/schemas/BasicIsActiveSchema'
+        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'
 
-    AdminPartnerScheme:
+    AdminPartnerSchema:
       allOf:
         - type: object
-        - $ref: '#/components/schemas/BasicIdScheme'
-        - $ref: '#/components/schemas/AdminTitleScheme'
-        - $ref: '#/components/schemas/BasicMediaWithExtensionScheme'
-        - $ref: '#/components/schemas/BasicLinkScheme'
-        - $ref: '#/components/schemas/BasicPositionScheme'
-        - $ref: '#/components/schemas/BasicIsActiveScheme'
-        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+        - $ref: '#/components/schemas/BasicIdSchema'
+        - $ref: '#/components/schemas/AdminTitleSchema'
+        - $ref: '#/components/schemas/BasicMediaWithExtensionSchema'
+        - $ref: '#/components/schemas/BasicLinkSchema'
+        - $ref: '#/components/schemas/BasicPositionSchema'
+        - $ref: '#/components/schemas/BasicIsActiveSchema'
+        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'
 
-    AdminBlogCategoryScheme:
+    AdminBlogCategorySchema:
       allOf:
         - type: object
-        - $ref: "#/components/schemas/BasicIdScheme"
-        - $ref: "#/components/schemas/AdminTitleScheme"
-        - $ref: "#/components/schemas/BasicIsActiveScheme"
-        - $ref: "#/components/schemas/BasicCreatedAtAndUpdatedAtScheme"
+        - $ref: "#/components/schemas/BasicIdSchema"
+        - $ref: "#/components/schemas/AdminTitleSchema"
+        - $ref: "#/components/schemas/BasicIsActiveSchema"
+        - $ref: "#/components/schemas/BasicCreatedAtAndUpdatedAtSchema"
 
-    AdminHashtagScheme:
+    AdminHashtagSchema:
       allOf:
         - type: object
-        - $ref: "#/components/schemas/BasicIdScheme"
-        - $ref: "#/components/schemas/BasicHashtagScheme"
+        - $ref: "#/components/schemas/BasicIdSchema"
+        - $ref: "#/components/schemas/BasicHashtagSchema"
         - properties:
             user_id:
               type: integer
               example: 6
-        - $ref: "#/components/schemas/BasicIsActiveScheme"
-        - $ref: "#/components/schemas/BasicCreatedAtAndUpdatedAtScheme"
+        - $ref: "#/components/schemas/BasicIsActiveSchema"
+        - $ref: "#/components/schemas/BasicCreatedAtAndUpdatedAtSchema"
     
-    AdminBlogScheme:
+    AdminBlogSchema:
       allOf:
         - type: object
-        - $ref: '#/components/schemas/BasicIdScheme'
-        - $ref: '#/components/schemas/AdminTitleScheme'
-        - $ref: '#/components/schemas/AdminTextScheme'
-        - $ref: '#/components/schemas/BasicMediaWithExtensionScheme'
-        - $ref: '#/components/schemas/BasicIsActiveScheme'
-        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+        - $ref: '#/components/schemas/BasicIdSchema'
+        - $ref: '#/components/schemas/AdminTitleSchema'
+        - $ref: '#/components/schemas/AdminTextSchema'
+        - $ref: '#/components/schemas/BasicMediaWithExtensionSchema'
+        - $ref: '#/components/schemas/BasicIsActiveSchema'
+        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'
         - properties:
             user:
               type: object
-              $ref: "#/components/schemas/AdminUserScheme"
+              $ref: "#/components/schemas/AdminUserSchema"
             category:
               type: object
-              $ref: "#/components/schemas/AdminBlogCategoryScheme"
+              $ref: "#/components/schemas/AdminBlogCategorySchema"
             tags:
               type: array
               items:
-                $ref: '#/components/schemas/AdminHashtagScheme'
+                $ref: '#/components/schemas/AdminHashtagSchema'
     
-    AdminCharScheme:
+    AdminCharSchema:
       type: object
       properties:
         char_en:
@@ -2536,37 +2619,60 @@ components:
           type: string
           example: 'T'
     
-    AdminAboutStepScheme:
+    AdminAboutStepSchema:
       allOf:
       - type: object
-      - $ref: '#/components/schemas/BasicIdScheme'
-      - $ref: '#/components/schemas/AdminCharScheme'
-      - $ref: '#/components/schemas/AdminTitleScheme'
-      - $ref: '#/components/schemas/AdminTextScheme'
-      - $ref: '#/components/schemas/BasicPositionScheme'
-      - $ref: '#/components/schemas/BasicIsActiveScheme'
-      - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+      - $ref: '#/components/schemas/BasicIdSchema'
+      - $ref: '#/components/schemas/AdminCharSchema'
+      - $ref: '#/components/schemas/AdminTitleSchema'
+      - $ref: '#/components/schemas/AdminTextSchema'
+      - $ref: '#/components/schemas/BasicPositionSchema'
+      - $ref: '#/components/schemas/BasicIsActiveSchema'
+      - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'
 
-    AdminServicescheme:
+    AdminServiceSchema:
       allOf:
         - type: object
-        - $ref: '#/components/schemas/BasicIdScheme'
-        - $ref: '#/components/schemas/AdminTitleScheme'
-        - $ref: '#/components/schemas/AdminTextScheme'
-        - $ref: '#/components/schemas/BasicMediaWithExtensionScheme'
-        - $ref: '#/components/schemas/BasicIsActiveScheme'
-        - $ref: '#/components/schemas/BasicPositionScheme'
-        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+        - $ref: '#/components/schemas/BasicIdSchema'
+        - $ref: '#/components/schemas/AdminTitleSchema'
+        - $ref: '#/components/schemas/AdminTextSchema'
+        - $ref: '#/components/schemas/BasicMediaWithExtensionSchema'
+        - $ref: '#/components/schemas/BasicIsActiveSchema'
+        - $ref: '#/components/schemas/BasicPositionSchema'
+        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'
     
-    AdminStepScheme:
+    AdminStepSchema:
       allOf:
         -  type: object
-        -  $ref: '#/components/schemas/BasicIdScheme'
-        -  $ref: '#/components/schemas/AdminTitleScheme'
-        -  $ref: '#/components/schemas/AdminTextScheme'
-        -  $ref: '#/components/schemas/BasicPositionScheme'
-        -  $ref: '#/components/schemas/BasicIsActiveScheme'
-        -  $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+        -  $ref: '#/components/schemas/BasicIdSchema'
+        -  $ref: '#/components/schemas/BasicIconSchema'
+        -  $ref: '#/components/schemas/AdminTitleSchema'
+        -  $ref: '#/components/schemas/AdminTextSchema'
+        -  $ref: '#/components/schemas/BasicPositionSchema'
+        -  $ref: '#/components/schemas/BasicIsActiveSchema'
+        -  $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'
+    
+    AdminProcessSchema:
+      allOf:
+        -  type: object
+        -  $ref: '#/components/schemas/BasicIdSchema'
+        -  $ref: '#/components/schemas/BasicIconSchema'
+        -  $ref: '#/components/schemas/AdminTitleSchema'
+        -  $ref: '#/components/schemas/AdminTextSchema'
+        -  $ref: '#/components/schemas/BasicPositionSchema'
+        -  $ref: '#/components/schemas/BasicIsActiveSchema'
+        -  $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'
+
+    AdminChooseSchema:
+      allOf:
+        -  type: object
+        -  $ref: '#/components/schemas/BasicIdSchema'
+        -  $ref: '#/components/schemas/BasicIconSchema'
+        -  $ref: '#/components/schemas/AdminTitleSchema'
+        -  $ref: '#/components/schemas/AdminTextSchema'
+        -  $ref: '#/components/schemas/BasicPositionSchema'
+        -  $ref: '#/components/schemas/BasicIsActiveSchema'
+        -  $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'
     #endregion
 
     #region Client
@@ -2629,8 +2735,8 @@ components:
     ClientEmailSchema:
       allOf:
         - type: object
-        - $ref: '#/components/schemas/BasicIdScheme'
-        - $ref: '#/components/schemas/BasicEmailScheme'
+        - $ref: '#/components/schemas/BasicIdSchema'
+        - $ref: '#/components/schemas/BasicEmailSchema'
 
     ClientPhoneSchema:
       type: object
@@ -2645,55 +2751,55 @@ components:
           type: string
           example: "+1-754-482-3643"
 
-    ClientAboutCompanyScheme:
+    ClientAboutCompanySchema:
       allOf:
         - type: object
-        - $ref: '#/components/schemas/BasicIdScheme'
-        - $ref: '#/components/schemas/AdminTitleScheme'
-        - $ref: '#/components/schemas/AdminTextScheme'
-        - $ref: '#/components/schemas/BasicMediaWithExtensionScheme'
-        - $ref: '#/components/schemas/BasicPositionScheme'
-        - $ref: '#/components/schemas/BasicIsActiveScheme'
-        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+        - $ref: '#/components/schemas/BasicIdSchema'
+        - $ref: '#/components/schemas/AdminTitleSchema'
+        - $ref: '#/components/schemas/AdminTextSchema'
+        - $ref: '#/components/schemas/BasicMediaWithExtensionSchema'
+        - $ref: '#/components/schemas/BasicPositionSchema'
+        - $ref: '#/components/schemas/BasicIsActiveSchema'
+        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'
 
-    ClientAddressScheme:
+    # ClientAddressSchema:
+    #   allOf:
+    #     - type: object
+    #     - $ref: '#/components/schemas/BasicIdSchema'
+    #     - $ref: '#/components/schemas/AdminTitleSchema'
+    #     - $ref: '#/components/schemas/AdminTextSchema'
+    #     - $ref: '#/components/schemas/BasicMediaWithExtensionSchema'
+    #     - $ref: '#/components/schemas/BasicPositionSchema'
+    #     - $ref: '#/components/schemas/BasicIsActiveSchema'
+    #     - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'
+
+    ClientPartnerSchema:
       allOf:
         - type: object
-        - $ref: '#/components/schemas/BasicIdScheme'
-        - $ref: '#/components/schemas/AdminTitleScheme'
-        - $ref: '#/components/schemas/AdminTextScheme'
-        - $ref: '#/components/schemas/BasicMediaWithExtensionScheme'
-        - $ref: '#/components/schemas/BasicPositionScheme'
-        - $ref: '#/components/schemas/BasicIsActiveScheme'
-        - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+        - $ref: '#/components/schemas/BasicIdSchema'
+        - $ref: '#/components/schemas/ClientTitleSchema'
+        - $ref: '#/components/schemas/BasicMediaWithExtensionSchema'
+        - $ref: '#/components/schemas/BasicLinkSchema'
 
-    ClientPartnerScheme:
-      allOf:
-        - type: object
-        - $ref: '#/components/schemas/BasicIdScheme'
-        - $ref: '#/components/schemas/ClientTitleScheme'
-        - $ref: '#/components/schemas/BasicMediaWithExtensionScheme'
-        - $ref: '#/components/schemas/BasicLinkScheme'
-
-    ClientTitleScheme:
+    ClientTitleSchema:
       type: object
       properties:
         title:
           type: string
           example: "RU Test title title"
 
-    ClientTextScheme:
+    ClientTextSchema:
       type: object
       properties:
         text:
           type: string
           example: "RU Test text text text text text text text"
     
-    ClientBlogUserScheme:
+    ClientBlogUserSchema:
       type: object
       allOf:
         - type: object
-        - $ref: "#/components/schemas/BasicIdScheme"
+        - $ref: "#/components/schemas/BasicIdSchema"
         - properties:
             first_name:
               type: string
@@ -2705,85 +2811,101 @@ components:
               type: string
               example: "http://127.0.0.1:8982/storage/blogs/medias/5x4KyUGHMO7MdS25dVgtVhGqNfzZoGgC.jpg"
               nullable: true
-        - $ref: "#/components/schemas/BasicEmailScheme"
+        - $ref: "#/components/schemas/BasicEmailSchema"
 
-    ClientBlogCategoryScheme:
+    ClientBlogCategorySchema:
       allOf:
         - type: object
-        - $ref: "#/components/schemas/BasicIdScheme"
-        - $ref: "#/components/schemas/BasicTitleScheme"
+        - $ref: "#/components/schemas/BasicIdSchema"
+        - $ref: "#/components/schemas/BasicTitleSchema"
 
-    ClientHashtagScheme:
+    ClientHashtagSchema:
       allOf:
         - type: object
-        - $ref: "#/components/schemas/BasicIdScheme"
-        - $ref: "#/components/schemas/BasicHashtagScheme"
+        - $ref: "#/components/schemas/BasicIdSchema"
+        - $ref: "#/components/schemas/BasicHashtagSchema"
     
-    ClientBlogScheme:
+    ClientBlogSchema:
       allOf:
         - type: object
-        - $ref: "#/components/schemas/BasicIdScheme"
-        - $ref: "#/components/schemas/ClientTitleScheme"
-        - $ref: "#/components/schemas/ClientTextScheme"
-        - $ref: "#/components/schemas/BasicMediaWithExtensionScheme"
-        - $ref: "#/components/schemas/BasicCreatedAtScheme"
+        - $ref: "#/components/schemas/BasicIdSchema"
+        - $ref: "#/components/schemas/ClientTitleSchema"
+        - $ref: "#/components/schemas/ClientTextSchema"
+        - $ref: "#/components/schemas/BasicMediaWithExtensionSchema"
+        - $ref: "#/components/schemas/BasicCreatedAtSchema"
         - properties:
             user:
               type: object
-              $ref: "#/components/schemas/ClientBlogUserScheme"
+              $ref: "#/components/schemas/ClientBlogUserSchema"
             categoty:
               type: object
-              $ref: "#/components/schemas/ClientBlogCategoryScheme"
+              $ref: "#/components/schemas/ClientBlogCategorySchema"
             hashtags:
               type: array
               items:
-                $ref: "#/components/schemas/ClientHashtagScheme"
+                $ref: "#/components/schemas/ClientHashtagSchema"
 
-    ClientTeamSocialScheme:
+    ClientTeamSocialSchema:
       allOf:
         - type: object
-        - $ref: "#/components/schemas/BasicIdScheme"
-        - $ref: "#/components/schemas/BasicTeamSocialSlugScheme"
-        - $ref: "#/components/schemas/BasicLinkScheme"
+        - $ref: "#/components/schemas/BasicIdSchema"
+        - $ref: "#/components/schemas/BasicTeamSocialSlugSchema"
+        - $ref: "#/components/schemas/BasicLinkSchema"
 
-    ClientTeamScheme:
+    ClientTeamSchema:
       allOf:
         - type: object
-        - $ref: "#/components/schemas/BasicIdScheme"
-        - $ref: "#/components/schemas/BasicFirstNameScheme"
-        - $ref: "#/components/schemas/BasicLastNameScheme"
-        - $ref: "#/components/schemas/BasicAvatarScheme"
+        - $ref: "#/components/schemas/BasicIdSchema"
+        - $ref: "#/components/schemas/BasicFirstNameSchema"
+        - $ref: "#/components/schemas/BasicLastNameSchema"
+        - $ref: "#/components/schemas/BasicAvatarSchema"
         - properties:
             position:
               type: string
               example: "Accountant"
             socials:
-              $ref: "#/components/schemas/ClientTeamSocialScheme"
+              $ref: "#/components/schemas/ClientTeamSocialSchema"
     
-    ClientAboutStepScheme:
+    ClientAboutStepSchema:
       allOf:
         - type: object
-        - $ref: '#/components/schemas/BasicIdScheme'
-        - $ref: '#/components/schemas/BasicCharScheme'
-        - $ref: '#/components/schemas/BasicTitleScheme'
-        - $ref: '#/components/schemas/BasicTextScheme'
-
-    ClientServiceScheme:
-      allOf:
-        - type: object
-        - $ref: '#/components/schemas/BasicIdScheme'
-        - $ref: '#/components/schemas/BasicTitleScheme'
-        - $ref: '#/components/schemas/BasicTextScheme'
-        - $ref: '#/components/schemas/BasicMediaWithExtensionScheme'
-        - $ref: '#/components/schemas/BasicCreatedAtScheme'
+        - $ref: '#/components/schemas/BasicIdSchema'
+        - $ref: '#/components/schemas/BasicCharSchema'
+        - $ref: '#/components/schemas/BasicTitleSchema'
+        - $ref: '#/components/schemas/BasicTextSchema'
 
     ClientServiceSchema:
       allOf:
+        - type: object
+        - $ref: '#/components/schemas/BasicIdSchema'
+        - $ref: '#/components/schemas/BasicTitleSchema'
+        - $ref: '#/components/schemas/BasicTextSchema'
+        - $ref: '#/components/schemas/BasicMediaWithExtensionSchema'
+        - $ref: '#/components/schemas/BasicCreatedAtSchema'
+
+    ClientStepSchema:
+      allOf:
         -  type: object
-        -  $ref: '#/components/schemas/BasicIdScheme'
+        -  $ref: '#/components/schemas/BasicIdSchema'
         -  $ref: '#/components/schemas/BasicIconSchema'
-        -  $ref: '#/components/schemas/BasicTitleScheme'
-        -  $ref: '#/components/schemas/BasicTextScheme'
+        -  $ref: '#/components/schemas/BasicTitleSchema'
+        -  $ref: '#/components/schemas/BasicTextSchema'
+
+    ClientProcessSchema:
+      allOf:
+        -  type: object
+        -  $ref: '#/components/schemas/BasicIdSchema'
+        -  $ref: '#/components/schemas/BasicIconSchema'
+        -  $ref: '#/components/schemas/BasicTitleSchema'
+        -  $ref: '#/components/schemas/BasicTextSchema'
+
+    ClientChoosesSchema:
+      allOf:
+        -  type: object
+        -  $ref: '#/components/schemas/BasicIdSchema'
+        -  $ref: '#/components/schemas/BasicIconSchema'
+        -  $ref: '#/components/schemas/BasicTitleSchema'
+        -  $ref: '#/components/schemas/BasicTextSchema'
       
     #endregion
   headers:
@@ -2833,7 +2955,7 @@ components:
       name: hastag_id
       in: path
       required: true
-      scheme:
+      Schema:
         type: integer
         example: 2
     
@@ -2893,6 +3015,22 @@ components:
         type: integer
         example: 5
         default: 4
+    
+    ProcessParam:
+      name: process_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 1
+        
+    ChooseParam:
+      name: choose_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 1
 
   responses:
     NoContentResponse:
@@ -2906,14 +3044,14 @@ components:
           schema:
             type: array
             items:
-              - $ref: '#/components/schemas/AdminAboutCompanyScheme'
+              - $ref: '#/components/schemas/AdminAboutCompanySchema'
 
     AdminAboutCompanyResponse:
       description: "Success"
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/AdminAboutCompanyScheme'
+            $ref: '#/components/schemas/AdminAboutCompanySchema'
 
     AdminPartnersResponse:
       description: "Success"
@@ -2922,14 +3060,14 @@ components:
           schema:
             type: array
             items:
-              - $ref: '#/components/schemas/AdminPartnerScheme'
+              - $ref: '#/components/schemas/AdminPartnerSchema'
 
     AdminPartnerResponse:
       description: "Success"
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/AdminPartnerScheme'
+            $ref: '#/components/schemas/AdminPartnerSchema'
 
     AdminBlogResponse:
       description: "Success"
@@ -2938,7 +3076,7 @@ components:
           schema:
             type: array
             items: 
-              $ref: "#/components/schemas/AdminBlogScheme"
+              $ref: "#/components/schemas/AdminBlogSchema"
             
     AdminBlogPaginateResponse:
       description: "Success"
@@ -2947,26 +3085,26 @@ components:
           schema:
             allOf:
               - type: object
-              - $ref: "#/components/schemas/BasicPaginatorScheme"
+              - $ref: "#/components/schemas/BasicPaginatorSchema"
               - properties:
                   data:
                     type: array
                     items: 
-                      $ref: "#/components/schemas/AdminBlogScheme"
+                      $ref: "#/components/schemas/AdminBlogSchema"
     
     AdminBlogShowResponse:
       description: "Success"
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/AdminBlogScheme"
+            $ref: "#/components/schemas/AdminBlogSchema"
             
     AdminAboutsStepResponse:
       description: "Success"
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/AdminAboutStepScheme'
+            $ref: '#/components/schemas/AdminAboutStepSchema'
 
     AdminAboutsStepsResponse:
       description: "Success"
@@ -2975,14 +3113,14 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/AdminAboutStepScheme'
+              $ref: '#/components/schemas/AdminAboutStepSchema'
 
     AdimnServiceResponse:
       description: "Success"
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/AdminServicescheme'
+            $ref: '#/components/schemas/AdminServiceSchema'
 
     AdimnServicesResponse:
       description: "Success"
@@ -2991,14 +3129,14 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/AdminServicescheme'
+              $ref: '#/components/schemas/AdminServiceSchema'
 
     AdminStepResponse:
       description: "Success"
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/AdminStepScheme'
+            $ref: '#/components/schemas/AdminStepSchema'
 
     AdminStepsResponse:
       description: "Success"
@@ -3007,14 +3145,46 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/AdminStepScheme'
-              
+              $ref: '#/components/schemas/AdminStepSchema'
+
+    AdminProcessResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AdminProcessSchema"
+            
+    AdminProcessesResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AdminProcessSchema"
+    
+    AdminChooseResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AdminChooseSchema"
+            
+    AdminChoosesResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AdminChooseSchema"  
+
     AdminUserResponse:
       description: "Success"
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/AdminUserScheme'
+            $ref: '#/components/schemas/AdminUserSchema'
     
     AdminUsersResponse:
       description: "Success"
@@ -3023,12 +3193,12 @@ components:
           schema:
             allOf:
               -  type: object
-              -  $ref: '#/components/schemas/BasicPaginatorScheme'
+              -  $ref: '#/components/schemas/BasicPaginatorSchema'
               -  properties:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/AdminUserScheme'
+                      $ref: '#/components/schemas/AdminUserSchema'
 
   #endregion
 
@@ -3070,7 +3240,7 @@ components:
             type: array
             uniqueItems: true
             items:
-              $ref: '#/components/schemas/ClientPartnerScheme'
+              $ref: '#/components/schemas/ClientPartnerSchema'
 
     ClientHashtagsResponse:
       description: "Response hashTags"
@@ -3079,7 +3249,7 @@ components:
           schema:
             type: array
             items:
-              $ref: "#/components/schemas/ClientHashtagScheme"
+              $ref: "#/components/schemas/ClientHashtagSchema"
 
     ClientBlogCategoryResponse:
       description: "Success"
@@ -3089,7 +3259,7 @@ components:
             type: array
             uniqueItems: true
             items:
-              $ref: "#/components/schemas/ClientBlogCategoryScheme"
+              $ref: "#/components/schemas/ClientBlogCategorySchema"
 
     ClientBlogsPaginateResponse:
       description: "Success"
@@ -3098,12 +3268,12 @@ components:
           schema:
             allOf:
               - type: object
-              - $ref: "#/components/schemas/BasicPaginatorScheme"
+              - $ref: "#/components/schemas/BasicPaginatorSchema"
               - properties:
                   data:
                     type: array
                     items:
-                      $ref: "#/components/schemas/ClientBlogScheme"
+                      $ref: "#/components/schemas/ClientBlogSchema"
 
     ClientBlogsPopularResponse:
       description: "Success"
@@ -3111,7 +3281,7 @@ components:
         application/json:
           schema:
             items:
-              $ref: "#/components/schemas/ClientBlogScheme"
+              $ref: "#/components/schemas/ClientBlogSchema"
 
     ClientBlogShowResponse:
       description: "Success"
@@ -3119,7 +3289,7 @@ components:
         application/json:
           schema:
             type: object
-            $ref: "#/components/schemas/ClientBlogScheme"
+            $ref: "#/components/schemas/ClientBlogSchema"
 
     ClientTeamResponse:
       description: "Success"
@@ -3128,12 +3298,12 @@ components:
           schema:
             allOf:
               - type: object
-              - $ref: "#/components/schemas/BasicPaginatorScheme"
+              - $ref: "#/components/schemas/BasicPaginatorSchema"
               - properties:
                   data:
                     type: array
                     items:
-                      $ref: "#/components/schemas/ClientTeamScheme"
+                      $ref: "#/components/schemas/ClientTeamSchema"
                       
     ClientBlogStepsResponse:
       description: "Success"
@@ -3142,7 +3312,7 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/ClientAboutStepScheme'
+              $ref: '#/components/schemas/ClientAboutStepSchema'
 
     ClientServiceRespose:
       description: "Success"
@@ -3151,7 +3321,7 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/ClientServiceScheme'
+              $ref: '#/components/schemas/ClientServiceSchema'
 
     ClientStepResponse:
       description: "Success"
@@ -3160,7 +3330,32 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/ClientServiceSchema'
+              $ref: '#/components/schemas/ClientStepSchema'
+
+    ClientProcessResponse:
+      description: "Process"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClientProcessSchema'
+    
+    ClientProcessesResponse:
+      description: "Process"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ClientProcessSchema'
+
+    ClientChoosesResponse:
+      description: "Process"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ClientChoosesSchema'
     #endregion
 
   requestBodies:
@@ -3171,9 +3366,9 @@ components:
           schema:
             allOf:
               - type: object
-              - $ref: '#/components/schemas/AdminTitleScheme'
-              - $ref: '#/components/schemas/AdminTextScheme'
-              - $ref: '#/components/schemas/BasicUploadMediaScheme'
+              - $ref: '#/components/schemas/AdminTitleSchema'
+              - $ref: '#/components/schemas/AdminTextSchema'
+              - $ref: '#/components/schemas/BasicUploadMediaSchema'
 
     AdminCreatePartnerRequest:
       content:
@@ -3181,9 +3376,9 @@ components:
           schema:
             allOf:
               - type: object
-              - $ref: '#/components/schemas/AdminTitleScheme'
-              - $ref: '#/components/schemas/BasicUploadMediaScheme'
-              - $ref: '#/components/schemas/BasicLinkScheme'
+              - $ref: '#/components/schemas/AdminTitleSchema'
+              - $ref: '#/components/schemas/BasicUploadMediaSchema'
+              - $ref: '#/components/schemas/BasicLinkSchema'
     #endregion
     
     #region
@@ -3203,13 +3398,13 @@ components:
               - text_tk
             allOf:
             - type: object
-            - $ref: '#/components/schemas/BasicIdScheme'
-            - $ref: '#/components/schemas/AdminCharScheme'
-            - $ref: '#/components/schemas/AdminTitleScheme'
-            - $ref: '#/components/schemas/AdminTextScheme'
-            - $ref: '#/components/schemas/BasicPositionScheme'
-            - $ref: '#/components/schemas/BasicIsActiveScheme'
-            - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtScheme'
+            - $ref: '#/components/schemas/BasicIdSchema'
+            - $ref: '#/components/schemas/AdminCharSchema'
+            - $ref: '#/components/schemas/AdminTitleSchema'
+            - $ref: '#/components/schemas/AdminTextSchema'
+            - $ref: '#/components/schemas/BasicPositionSchema'
+            - $ref: '#/components/schemas/BasicIsActiveSchema'
+            - $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'
 
     AdminCreateServiceRequest:
       content:
@@ -3225,12 +3420,12 @@ components:
               - media
             allOf:
               - type: object
-              - $ref: "#/components/schemas/BasicIdScheme"
-              - $ref: "#/components/schemas/AdminTitleScheme"
-              - $ref: "#/components/schemas/AdminTextScheme"
-              - $ref: "#/components/schemas/BasicMediaScheme"
-              - $ref: "#/components/schemas/BasicIsActiveScheme"
-              - $ref: "#/components/schemas/BasicPositionScheme"
+              - $ref: "#/components/schemas/BasicIdSchema"
+              - $ref: "#/components/schemas/AdminTitleSchema"
+              - $ref: "#/components/schemas/AdminTextSchema"
+              - $ref: "#/components/schemas/BasicMediaSchema"
+              - $ref: "#/components/schemas/BasicIsActiveSchema"
+              - $ref: "#/components/schemas/BasicPositionSchema"
 
     AdminUpdateServiceRequest:
       content:
@@ -3238,12 +3433,12 @@ components:
           schema:
             allOf:
               - type: object
-              - $ref: "#/components/schemas/BasicIdScheme"
-              - $ref: "#/components/schemas/AdminTitleScheme"
-              - $ref: "#/components/schemas/AdminTextScheme"
-              - $ref: "#/components/schemas/BasicMediaScheme"
-              - $ref: "#/components/schemas/BasicIsActiveScheme"
-              - $ref: "#/components/schemas/BasicPositionScheme"
+              - $ref: "#/components/schemas/BasicIdSchema"
+              - $ref: "#/components/schemas/AdminTitleSchema"
+              - $ref: "#/components/schemas/AdminTextSchema"
+              - $ref: "#/components/schemas/BasicMediaSchema"
+              - $ref: "#/components/schemas/BasicIsActiveSchema"
+              - $ref: "#/components/schemas/BasicPositionSchema"
 
     AdminUpdateStepRquest:
       content:
@@ -3251,10 +3446,32 @@ components:
           schema:
             allOf:
               -  type: object
-              -  $ref: '#/components/schemas/AdminTitleScheme'
-              -  $ref: '#/components/schemas/AdminTextScheme'
-              -  $ref: '#/components/schemas/BasicPositionScheme'
-              -  $ref: '#/components/schemas/BasicIsActiveScheme'
+              -  $ref: '#/components/schemas/AdminTitleSchema'
+              -  $ref: '#/components/schemas/AdminTextSchema'
+              -  $ref: '#/components/schemas/BasicPositionSchema'
+              -  $ref: '#/components/schemas/BasicIsActiveSchema'
+
+    AdminUpdateProcessRquest:
+      content:
+        application/json:
+          schema:
+            allOf:
+              -  type: object
+              -  $ref: '#/components/schemas/AdminTitleSchema'
+              -  $ref: '#/components/schemas/AdminTextSchema'
+              -  $ref: '#/components/schemas/BasicPositionSchema'
+              -  $ref: '#/components/schemas/BasicIsActiveSchema'
+
+    AdminUpdateChoosesRquest:
+      content:
+        application/json:
+          schema:
+            allOf:
+              -  type: object
+              -  $ref: '#/components/schemas/AdminTitleSchema'
+              -  $ref: '#/components/schemas/AdminTextSchema'
+              -  $ref: '#/components/schemas/BasicPositionSchema'
+              -  $ref: '#/components/schemas/BasicIsActiveSchema'
 
     AdminCreateUserRequest:
       content:
@@ -3269,13 +3486,13 @@ components:
               -  position_tk
             allOf:
               -  type: object
-              -  $ref: "#/components/schemas/BasicFirstNameScheme"
-              -  $ref: "#/components/schemas/BasicLastNameScheme"
-              -  $ref: "#/components/schemas/BasicEmailScheme"
-              -  $ref: "#/components/schemas/BasicUploadAvatarScheme"
+              -  $ref: "#/components/schemas/BasicFirstNameSchema"
+              -  $ref: "#/components/schemas/BasicLastNameSchema"
+              -  $ref: "#/components/schemas/BasicEmailSchema"
+              -  $ref: "#/components/schemas/BasicUploadAvatarSchema"
               -  $ref: "#/components/schemas/BasicIsAdminSchema"
-              -  $ref: "#/components/schemas/AdminPositonScheme"
-              -  $ref: "#/components/schemas/BasicIsActiveScheme"
+              -  $ref: "#/components/schemas/AdminPositonSchema"
+              -  $ref: "#/components/schemas/BasicIsActiveSchema"
 
     AdminUpdateUserRequest:
       content:
@@ -3283,16 +3500,16 @@ components:
           schema:
             allOf:
               -  type: object
-              -  $ref: "#/components/schemas/BasicFirstNameScheme"
-              -  $ref: "#/components/schemas/BasicLastNameScheme"
-              -  $ref: "#/components/schemas/BasicEmailScheme"
-              -  $ref: "#/components/schemas/BasicUploadAvatarScheme"
+              -  $ref: "#/components/schemas/BasicFirstNameSchema"
+              -  $ref: "#/components/schemas/BasicLastNameSchema"
+              -  $ref: "#/components/schemas/BasicEmailSchema"
+              -  $ref: "#/components/schemas/BasicUploadAvatarSchema"
               -  $ref: "#/components/schemas/BasicIsAdminSchema"
-              -  $ref: "#/components/schemas/AdminPositonScheme"
-              -  $ref: "#/components/schemas/BasicIsActiveScheme"
+              -  $ref: "#/components/schemas/AdminPositonSchema"
+              -  $ref: "#/components/schemas/BasicIsActiveSchema"
 
     #endregion
-  securitySchemes:
+  securitySchemas:
     bearerToken: []
   examples:
 x-webhooks:
