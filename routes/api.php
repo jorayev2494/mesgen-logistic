@@ -70,7 +70,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
         Route::apiResource('/blogs', 'BlogController', ['except' => ['update']]);
         Route::apiResource('/steps', 'StepController', ['only' => ['index', 'show', 'update']]);
         Route::apiResource('/processes', 'ProcessController', ['only' => ['index', 'show', 'update']]);     
-        Route::apiResource('/chooses', 'ChooseController', ['only' => ['index', 'show', 'update']]);     
+        Route::apiResource('/chooses', 'ChooseController', ['only' => ['index', 'show', 'update']]);
+        Route::apiResource('/work_hours', 'WorkHourController');
     });
 });
 #endregion
@@ -106,5 +107,6 @@ Route::group(['middleware' => 'lang'], static function (): void {
     Route::get('/steps', 'StepController');
     Route::get('/processes', 'ProcessController');
     Route::get('/chooses', 'ChooseController');
+    Route::get('/work_hours/{country_id}', 'WorkHourController');
 });
 #endregion
