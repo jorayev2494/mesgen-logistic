@@ -3,6 +3,7 @@
 namespace App\Services\Base;
 
 use App\Enums\Services\SliderServiceEnum;
+use App\Repositories\Base\BaseRepository;
 use App\Repositories\Base\RestApiRepository;
 use App\Services\Contracts\RestApiServiceInterface;
 use App\Traits\FileTrait;

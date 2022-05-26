@@ -93,6 +93,7 @@ x-tagGroups:
       - Admin Users
       - Admin Processes
       - Admin Chooses
+      - Admin Work hours
 
   - name: Client
     tags:
@@ -1793,6 +1794,38 @@ paths:
         200:
           $ref: "#/components/responses/AdminChooseResponse"
 
+  /admin/work_hours:
+    get:
+      summary: "Get Work hours"
+      tags:
+        - Admin Work hours
+      responses:
+        200:
+          $ref: "#/components/responses/AdminWorkWoursResponse"
+          
+  /admin/work_hours/{country_id}:
+    get:
+      summary: "Show Work hour"
+      tags:
+        - Admin Work hours
+      parameters:
+        - $ref: '#/components/parameters/CountryParam' 
+      responses:
+        200:
+          $ref: "#/components/responses/AdminWorkWoursResponse"
+
+    put:
+      summary: "Update Work hour"
+      tags:
+        - Admin Work hours
+      parameters:
+        - $ref: '#/components/parameters/CountryParam'
+      requestBody:
+        $ref: '#/components/requestBodies/AdminUpdateWorkHourRequest'
+      responses:
+        200:
+          $ref: "#/components/responses/AdminWorkWoursResponse"
+
   /sliders:
     get:
       summary: "Get sliders"
@@ -2156,6 +2189,15 @@ paths:
         200:
           $ref: '#/components/responses/ClientChoosesResponse'
 
+  /work_hours:
+      get:
+        summary: "Get Work Hours"
+        tags:
+          -  Client
+        responses:
+          200:
+            $ref: '#/components/responses/ClientWorkHourResponse'
+
 components:
   schemas:
     #region Basic Types
@@ -2411,6 +2453,21 @@ components:
           enum:
             - true
             - false
+
+    BasicFromSchema:
+      type: object
+      properties:
+        from:
+          type: string
+          example: "09:00"
+
+    BasicToSchema:
+      type: object
+      properties:
+        to:
+          type: string
+          example: "18:00"
+        
     #endregion
 
     #region Admin
@@ -2673,6 +2730,17 @@ components:
         -  $ref: '#/components/schemas/BasicPositionSchema'
         -  $ref: '#/components/schemas/BasicIsActiveSchema'
         -  $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'
+
+    AdminWorkHour:
+      allOf:
+        -  type: object
+        -  $ref: '#/components/schemas/BasicIdSchema'
+        -  $ref: '#/components/schemas/AdminTitleSchema'
+        -  $ref: '#/components/schemas/BasicFromSchema'
+        -  $ref: '#/components/schemas/BasicToSchema'
+        -  $ref: '#/components/schemas/BasicPositionSchema'
+        -  $ref: '#/components/schemas/BasicIsActiveSchema'
+        -  $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'
     #endregion
 
     #region Client
@@ -2906,6 +2974,14 @@ components:
         -  $ref: '#/components/schemas/BasicIconSchema'
         -  $ref: '#/components/schemas/BasicTitleSchema'
         -  $ref: '#/components/schemas/BasicTextSchema'
+
+    ClientWorkHour:
+      allOf:
+        -  type: object
+        -  $ref: '#/components/schemas/BasicIdSchema'
+        -  $ref: '#/components/schemas/AdminTitleSchema'
+        -  $ref: '#/components/schemas/BasicFromSchema'
+        -  $ref: '#/components/schemas/BasicToSchema'
       
     #endregion
   headers:
@@ -3199,6 +3275,22 @@ components:
                     type: array
                     items:
                       $ref: '#/components/schemas/AdminUserSchema'
+                      
+    AdminWorkWoursResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/AdminWorkHour'
+              
+    AdminWorkWourResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdminWorkHour'
 
   #endregion
 
@@ -3356,6 +3448,15 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/ClientChoosesSchema'
+
+    ClientWorkHourResponse:
+      description: "Process"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ClientWorkHour'
     #endregion
 
   requestBodies:
@@ -3470,6 +3571,18 @@ components:
               -  type: object
               -  $ref: '#/components/schemas/AdminTitleSchema'
               -  $ref: '#/components/schemas/AdminTextSchema'
+              -  $ref: '#/components/schemas/BasicPositionSchema'
+              -  $ref: '#/components/schemas/BasicIsActiveSchema'
+
+    AdminUpdateWorkHourRequest:
+      content:
+        application/json:
+          schema:
+            allOf:
+              -  type: object
+              -  $ref: '#/components/schemas/AdminTitleSchema'
+              -  $ref: '#/components/schemas/BasicFromSchema'
+              -  $ref: '#/components/schemas/BasicToSchema'
               -  $ref: '#/components/schemas/BasicPositionSchema'
               -  $ref: '#/components/schemas/BasicIsActiveSchema'
 

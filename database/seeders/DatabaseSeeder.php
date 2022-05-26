@@ -37,5 +37,6 @@ class DatabaseSeeder extends Seeder
         $this->call(StepSeeder::class);
         $this->call(ProcessSeeder::class);
         $this->call(ChooseSeeder::class);
+        $this->call(WorkHourSeeder::class);
     }
 }
