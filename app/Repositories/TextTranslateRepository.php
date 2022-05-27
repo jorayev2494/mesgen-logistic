@@ -21,7 +21,7 @@ class TextTranslateRepository extends RestApiRepository
      * @param string|null $slug
      * @return Collection
      */
-    public function getTextTranslate(?string $slug): Collection
+    public function getTextTranslate(?string $slug, array $columns = ['*']): Collection
     {
         return $this->getModelClone()->newQuery()
                                     ->select($this->getColumns())
