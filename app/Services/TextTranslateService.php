@@ -15,8 +15,8 @@ class TextTranslateService extends RestApiService
         $this->repository = $repository;
     }
 
-    public function getTextTranslate(?string $slug): Collection
+    public function getTextTranslate(?string $slug, array $columns = ['*']): Collection
     {
-        return $this->repository->getTextTranslate($slug);
+        return $this->repository->setColumns($columns)->getTextTranslate($slug, $columns);
     }
 }
