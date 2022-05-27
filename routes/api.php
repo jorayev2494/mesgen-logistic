@@ -14,21 +14,21 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
     });
 
     Route::group(['middleware' => ['auth:api', 'admin']], static function (): void {
-        Route::controller('UserController')->group(static function (Router $route): void {
-            $route->get('/users', 'UserController@index');
-            $route->post('/users', 'UserController@store');
-            $route->get('/users/{id}', 'UserController@show');
-            $route->post('/users/{id}', 'UserController@update');
-            $route->delete('/users/{id}', 'UserController@destroy');
+        Route::controller('UserController')->group(static function (Router $router): void {
+            $router->get('/users', 'UserController@index');
+            $router->post('/users', 'UserController@store');
+            $router->get('/users/{id}', 'UserController@show');
+            $router->post('/users/{id}', 'UserController@update');
+            $router->delete('/users/{id}', 'UserController@destroy');
         });
 
         Route::apiResource('/sliders/blocks', 'SliderBlockController', ['only' => ['index', 'show', 'update']]);
-        Route::controller('SliderController')->group(static function (): void {
-            Route::get('/sliders', 'index')->name('sliders.index');
-            Route::post('/sliders', 'store')->name('sliders.store');
-            Route::get('/sliders/{id}', 'show')->name('sliders.show');
-            Route::post('/sliders/{id}', 'update')->name('sliders.update');
-            Route::delete('/sliders/{id}', 'destroy')->name('sliders.destroy');
+        Route::controller('SliderController')->group(static function (Router $router): void {
+            $router->get('/sliders', 'index')->name('sliders.index');
+            $router->post('/sliders', 'store')->name('sliders.store');
+            $router->get('/sliders/{id}', 'show')->name('sliders.show');
+            $router->post('/sliders/{id}', 'update')->name('sliders.update');
+            $router->delete('/sliders/{id}', 'destroy')->name('sliders.destroy');
         });
 
         Route::apiResource('/socials', 'SocialController', ['only' => ['index', 'show', 'update']]);
@@ -37,29 +37,29 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
         Route::apiResource('/countries.addresses', 'AddressController');
         Route::apiResource('/countries.phones', 'PhoneController');
 
-        Route::controller('PartnerController')->group(static function (): void {
-            Route::get('/partners', 'index');
-            Route::post('/partners', 'store');
-            Route::get('/partners/{partner}', 'show');
-            Route::post('/partners/{partner}', 'update');
-            Route::delete('/partners/{partner}', 'destroy');
+        Route::controller('PartnerController')->group(static function (Router $router): void {
+            $router->get('/partners', 'index');
+            $router->post('/partners', 'store');
+            $router->get('/partners/{partner}', 'show');
+            $router->post('/partners/{partner}', 'update');
+            $router->delete('/partners/{partner}', 'destroy');
         });
 
         Route::group(['prefix' => 'abouts', 'namespace' => 'About'], static function (): void {
             Route::apiResource('/steps', 'AboutStepController', ['except' => 'store', 'delete']);
-            Route::controller('AboutController')->group(static function (): void {
-                Route::get('/company', 'index');
-                Route::get('/company/{company}', 'show');
-                Route::post('/company/{company}', 'update');
+            Route::controller('AboutController')->group(static function (Router $router): void {
+                $router->get('/company', 'index');
+                $router->get('/company/{company}', 'show');
+                $router->post('/company/{company}', 'update');
             });
         });
 
-        Route::controller('ServiceController')->group(static function (): void {
-            Route::get('/services', 'index');
-            Route::post('/services', 'store');
-            Route::get('/services/{service}', 'show');
-            Route::post('/services/{service}', 'update');
-            Route::delete('/services/{service}', 'destroy');
+        Route::controller('ServiceController')->group(static function (Router $router): void {
+            $router->get('/services', 'index');
+            $router->post('/services', 'store');
+            $router->get('/services/{service}', 'show');
+            $router->post('/services/{service}', 'update');
+            $router->delete('/services/{service}', 'destroy');
         });
 
         Route::apiResource('/services', 'ServiceController');
@@ -72,6 +72,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
         Route::apiResource('/processes', 'ProcessController', ['only' => ['index', 'show', 'update']]);     
         Route::apiResource('/chooses', 'ChooseController', ['only' => ['index', 'show', 'update']]);
         Route::apiResource('/work_hours', 'WorkHourController');
+        Route::apiResource('/text_translates', 'TextTranslateController');
     });
 });
 #endregion
@@ -87,9 +88,9 @@ Route::group(['middleware' => 'lang'], static function (): void {
     Route::get('/countries/{country}/phones', 'PhoneController');
     Route::get('/partners', 'PartnerController');
 
-    Route::group(['prefix' => 'abouts', 'namespace' => 'About'], static function (): void {
-        Route::get('/company', 'AboutController@about');
-        Route::get('/steps', 'AboutStepController');
+    Route::group(['prefix' => 'abouts', 'namespace' => 'About'], static function (Router $router): void {
+        $router->get('/company', 'AboutController@about');
+        $router->get('/steps', 'AboutStepController');
     });
 
     Route::post('/contact', ['uses' => 'ContactController@contact']);
@@ -108,5 +109,6 @@ Route::group(['middleware' => 'lang'], static function (): void {
     Route::get('/processes', 'ProcessController');
     Route::get('/chooses', 'ChooseController');
     Route::get('/work_hours/{country_id}', 'WorkHourController');
+    Route::get('/text_translates', 'TextTranslateController');
 });
 #endregion
