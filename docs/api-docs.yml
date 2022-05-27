@@ -94,6 +94,7 @@ x-tagGroups:
       - Admin Processes
       - Admin Chooses
       - Admin Work hours
+      - Admin Text Translates
 
   - name: Client
     tags:
@@ -1826,6 +1827,61 @@ paths:
         200:
           $ref: "#/components/responses/AdminWorkWoursResponse"
 
+  /admin/text_translate:
+    get:
+      summary: "Get Text Translates"
+      tags:
+        - Admin Text Translates
+      parameters:
+        - $ref: '#/components/parameters/SlugParam'
+      responses:
+        200:
+          $ref: '#/components/responses/AdminTextTranslatesResponse'
+          
+    # post:
+    #   summary: "Create Text Translate"
+    #   tags:
+    #     - Admin Text Translates
+    #   requestBody:
+    #     $ref: '#/components/requestBodies/AdminCreateTextTranslateRequest'
+    #   responses:
+    #     200:
+    #       $ref: '#/components/responses/AdminTextTranslateResponse'
+
+  /admin/text_translate/{text_translate_id}:
+    # get:
+    #   summary: "Show Text Translate"
+    #   tags:
+    #     -  Admin Text Translates
+    #   parameters:
+    #     - $ref: '#/components/parameters/TextTranslateParam'
+    #   responses:
+    #     200:
+    #       $ref: '#/components/responses/AdminTextTranslatesResponse'
+      
+    put:
+      summary: "Update Text Translate"
+      tags:
+        -  Admin Text Translates
+      parameters:
+        - $ref: '#/components/parameters/TextTranslateParam'
+      requestBody:
+        $ref: '#/components/requestBodies/AdminUpdateTextTranslateRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/AdminTextTranslatesResponse'
+          
+    # delete:
+    #   summary: "Delete Text Translate"
+    #   tags:
+    #     -  Admin Text Translates
+    #   parameters:
+    #     - $ref: '#/components/parameters/TextTranslateParam'
+    #   responses:
+    #     204:
+    #       $ref: '#/components/responses/NoContentResponse'
+        
+
   /sliders:
     get:
       summary: "Get sliders"
@@ -2189,14 +2245,27 @@ paths:
         200:
           $ref: '#/components/responses/ClientChoosesResponse'
 
-  /work_hours:
+  /work_hours/{country_id}:
       get:
         summary: "Get Work Hours"
         tags:
           -  Client
+        parameters:
+          - $ref: "#/components/parameters/CountryParam"
         responses:
           200:
             $ref: '#/components/responses/ClientWorkHourResponse'
+
+  /text_translates:
+    get:
+      summary: "Get Text Translates"
+      tags:
+        - Client
+      parameters:
+        - $ref: '#/components/parameters/SlugParam'
+      responses:
+        200:
+          $ref: '#/components/responses/ClientTextTranslatesResponse'
 
 components:
   schemas:
@@ -2317,7 +2386,7 @@ components:
           nullable: true
           uniqueItems: true
           
-    BasicTeamSocialSlugSchema:
+    BasicSlugSchema:
       type: object
       properties:
         slug:
@@ -2741,6 +2810,18 @@ components:
         -  $ref: '#/components/schemas/BasicPositionSchema'
         -  $ref: '#/components/schemas/BasicIsActiveSchema'
         -  $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'
+
+    AdminTextTranslateSchema:
+      allOf:
+        -  type: object
+        -  $ref: '#/components/schemas/BasicIdSchema'
+        -  $ref: '#/components/schemas/BasicSlugSchema'
+        -  $ref: '#/components/schemas/BasicIconSchema'
+        -  $ref: '#/components/schemas/AdminTitleSchema'
+        -  $ref: '#/components/schemas/AdminTextSchema'
+        -  $ref: '#/components/schemas/BasicPositionSchema'
+        -  $ref: '#/components/schemas/BasicIsActiveSchema'
+        -  $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'
     #endregion
 
     #region Client
@@ -2917,7 +2998,7 @@ components:
       allOf:
         - type: object
         - $ref: "#/components/schemas/BasicIdSchema"
-        - $ref: "#/components/schemas/BasicTeamSocialSlugSchema"
+        - $ref: "#/components/schemas/BasicSlugSchema"
         - $ref: "#/components/schemas/BasicLinkSchema"
 
     ClientTeamSchema:
@@ -2982,6 +3063,16 @@ components:
         -  $ref: '#/components/schemas/AdminTitleSchema'
         -  $ref: '#/components/schemas/BasicFromSchema'
         -  $ref: '#/components/schemas/BasicToSchema'
+
+    ClientTextTranslateSchema:
+      allOf:
+        -  type: object
+        -  $ref: '#/components/schemas/BasicIdSchema'
+        -  $ref: '#/components/schemas/BasicSlugSchema'
+        -  $ref: '#/components/schemas/BasicIconSchema'
+        -  $ref: '#/components/schemas/AdminTitleSchema'
+        -  $ref: '#/components/schemas/AdminTextSchema'
+        -  $ref: '#/components/schemas/BasicCreatedAtSchema'
       
     #endregion
   headers:
@@ -3102,6 +3193,21 @@ components:
         
     ChooseParam:
       name: choose_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 1
+    
+    SlugParam:
+      name: slug
+      in: query
+      schema:
+        type: string
+        example: "service-title"
+    
+    TextTranslateParam:
+      name: text_translate_id
       in: path
       required: true
       schema:
@@ -3292,6 +3398,22 @@ components:
           schema:
             $ref: '#/components/schemas/AdminWorkHour'
 
+    AdminTextTranslateResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdminTextTranslateSchema'
+
+    AdminTextTranslatesResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/AdminTextTranslateSchema'
+
   #endregion
 
     #region Client
@@ -3457,6 +3579,15 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/ClientWorkHour'
+
+    ClientTextTranslatesResponse:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ClientTextTranslateSchema"
     #endregion
 
   requestBodies:
@@ -3620,6 +3751,37 @@ components:
               -  $ref: "#/components/schemas/BasicIsAdminSchema"
               -  $ref: "#/components/schemas/AdminPositonSchema"
               -  $ref: "#/components/schemas/BasicIsActiveSchema"
+
+    AdminCreateTextTranslateRequest:
+      content:
+        application/json:
+          schema:
+            required:
+              - title_en
+              - title_ru
+              - title_tk
+              - text_en
+              - text_ru
+              - text_tk
+            allOf:
+              - type: object
+              - $ref: "#/components/schemas/BasicIconSchema"
+              - $ref: "#/components/schemas/AdminTitleSchema"
+              - $ref: "#/components/schemas/AdminTextSchema"
+              - $ref: "#/components/schemas/BasicIsActiveSchema"
+              - $ref: "#/components/schemas/BasicPositionSchema"
+    
+    AdminUpdateTextTranslateRequest:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+              - $ref: "#/components/schemas/BasicIconSchema"
+              - $ref: "#/components/schemas/AdminTitleSchema"
+              - $ref: "#/components/schemas/AdminTextSchema"
+              - $ref: "#/components/schemas/BasicIsActiveSchema"
+              - $ref: "#/components/schemas/BasicPositionSchema"
 
     #endregion
   securitySchemas:

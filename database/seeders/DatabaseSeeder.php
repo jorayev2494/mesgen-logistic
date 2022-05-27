@@ -38,5 +38,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ProcessSeeder::class);
         $this->call(ChooseSeeder::class);
         $this->call(WorkHourSeeder::class);
+        $this->call(TextTranslateSeeder::class);
     }
 }
