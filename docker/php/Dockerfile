@@ -1,10 +1,10 @@
 FROM php:8.1-fpm
 
-# create user
+# Add user for laravel application
 RUN groupadd -g 1000 laravel
 RUN useradd -u 1000 -ms /bin/bash -g laravel laravel
 
-WORKDIR /var/project
+# WORKDIR /var/project
 
 RUN apt-get update \
     && apt-get install -y libpq-dev \
@@ -63,6 +63,13 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/ \
     && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
+# Copy existing application directory permissions
+COPY --chown=laravel:laravel . /var/project
+
+# Change current user to www
+USER laravel
+
+WORKDIR /var/project
 
 COPY ./php.ini /usr/local/etc/php/conf.d/php.ini
 RUN mkdir "/var/project/storage" && chown -R laravel:laravel /var/project/storage

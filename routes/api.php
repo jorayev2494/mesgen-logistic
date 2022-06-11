@@ -14,6 +14,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'lang', 'namespace' => 'Admin
     });
 
     Route::group(['middleware' => ['auth:api', 'admin']], static function (): void {
+        Route::group(['prefix' => 'profile'], static function (Router $router): void {
+            $router->get('/', 'ProfileController@getProfile');
+            $router->post('/', 'ProfileController@updateProfile');
+        });
+
         Route::controller('UserController')->group(static function (Router $router): void {
             $router->get('/users', 'UserController@index');
             $router->post('/users', 'UserController@store');
