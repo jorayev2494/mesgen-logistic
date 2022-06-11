@@ -78,6 +78,7 @@ x-tagGroups:
     tags:
       - Admin login
       - Admin Restore
+      - Admin Profile
       - Admin Sliders
       - Admin Socials
       - Admin Slider Blocks
@@ -162,6 +163,35 @@ paths:
           description: "Success sent restore code to admin email"
 #          content:
 #            application/json:
+
+  /admin/profile:
+    get:
+      summary: "Get profile"
+      tags: 
+        -  Admin Profile
+      responses: 
+        200:
+          $ref: "#/components/responses/AdminProfileResponse"
+          
+    post: 
+      summary: "Update profile"
+      tags: 
+        -  Admin Profile
+      requestBody: 
+        content:
+         application/json:
+          schema: 
+            allOf: 
+              -  type: object
+              -  $ref: "#/components/schemas/BasicFirstNameSchema"
+              -  $ref: "#/components/schemas/BasicLastNameSchema"
+              -  $ref: "#/components/schemas/BasicEmailSchema"
+              -  $ref: "#/components/schemas/BasicUploadAvatarSchema"
+              -  $ref: "#/components/schemas/AdminPositonSchema"
+      responses: 
+        202: 
+          $ref: "#/components/responses/AdminProfileResponse"
+        
 
   /admin/auth/password_restore/restore:
     post:
@@ -2822,6 +2852,20 @@ components:
         -  $ref: '#/components/schemas/BasicPositionSchema'
         -  $ref: '#/components/schemas/BasicIsActiveSchema'
         -  $ref: '#/components/schemas/BasicCreatedAtAndUpdatedAtSchema'
+        
+    AdminProfileSchema:
+      allOf: 
+        -  type: object
+        -  $ref: "#/components/schemas/BasicIdSchema"
+        -  $ref: "#/components/schemas/BasicFirstNameSchema"
+        -  $ref: "#/components/schemas/BasicLastNameSchema"
+        -  $ref: "#/components/schemas/BasicAvatarSchema"
+        -  $ref: "#/components/schemas/BasicEmailSchema"
+        -  $ref: "#/components/schemas/BasicIsAdminSchema"
+        -  $ref: "#/components/schemas/AdminPositonSchema"
+        -  $ref: "#/components/schemas/BasicIsActiveSchema"
+        -  $ref: "#/components/schemas/BasicPositionSchema"
+        -  $ref: "#/components/schemas/BasicCreatedAtAndUpdatedAtSchema"
     #endregion
 
     #region Client
@@ -3413,6 +3457,13 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/AdminTextTranslateSchema'
+              
+    AdminProfileResponse:
+      description: "Success"
+      content: 
+        application/json:
+          schema: 
+            $ref: "#/components/schemas/AdminProfileSchema"
 
   #endregion
 

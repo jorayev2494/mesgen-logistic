@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Base\AuthModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends AuthModel
 {
@@ -51,6 +52,16 @@ class User extends AuthModel
         'created_at' => 'datetime:d-m-Y H:i:s',
         'updated_at' => 'datetime:d-m-Y H:i:s',
     ];
+
+    /**
+     * @return Attribute
+     */
+    public function avatar(): Attribute
+    {
+        return Attribute::get(
+            static fn (string $val): string => filter_var($val, FILTER_VALIDATE_URL) ?: env('APP_URL') . $val
+        );
+    }
 
     /**
      * @return HasMany

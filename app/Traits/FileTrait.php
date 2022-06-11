@@ -35,6 +35,7 @@ trait FileTrait
         $fileData['user_file_name'] = $uploadedFile->getClientOriginalName();
         $fileData['name'] = Str::random($this->lengthRandomName) . '.' . $fileData['type'];
         $fileData['full_path'] = "/storage/{$uploadedFile->storeAs($path, $fileData['name'], ['disk' => $disk])}";
+        $fileData['url'] = env('APP_URL') . $fileData['full_path'];
 
         return $fileData;
     }

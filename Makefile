@@ -3,7 +3,8 @@
 COMPOSE_FILE_PATH := ./docker/docker-compose.yml
 
 init:
-	@make init_project && $make init_docker
+	@make init_project
+	@make init_docker
 
 init_project:
 	@cp .env.example .env
@@ -12,7 +13,12 @@ init_docker:
 	@cp ./docker/.env.example ./docker/.env
 
 install:
-	@make -s init
+	@make init
+	@make up
+	@make vendor_install
+	@make migrate_seed
+	@make jwt_generate
+	@make ps
 
 up:			## Up project
 	@docker-compose --file $(COMPOSE_FILE_PATH) up --build -d
@@ -32,14 +38,18 @@ ps:			## Show project process
 cc:			## Clear cache
 	@docker-compose --file $(COMPOSE_FILE_PATH) exec php-fpm ./artisan optimize:clear
 
-migrate:
+migrate:			## Migratge
 	@docker-compose --file $(COMPOSE_FILE_PATH) exec php-fpm ./artisan migrate
 
-migrate_seed:
+migrate_seed:		## Migrate and Seed
 	@docker-compose --file $(COMPOSE_FILE_PATH) exec php-fpm ./artisan migrate:refresh --seed
 
 vendor_install:		## Composer install
 	@docker-compose --file $(COMPOSE_FILE_PATH) exec php-fpm composer install
+	@docker-compose --file $(COMPOSE_FILE_PATH) exec php-fpm ./artisan key:generate
+
+jwt_generate:		## Composer install
+	@docker-compose --file $(COMPOSE_FILE_PATH) exec php-fpm ./artisan jwt:secret
 
 .PHONY: help
 help:		## Show Project commands
