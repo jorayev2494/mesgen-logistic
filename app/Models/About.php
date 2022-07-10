@@ -25,7 +25,6 @@ class About extends Model
 
         'extension',
         'media',
-        'position',
         'is_active',
     ];
 

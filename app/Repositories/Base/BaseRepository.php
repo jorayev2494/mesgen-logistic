@@ -146,9 +146,9 @@ abstract class BaseRepository implements BaseModelRepositoryInterface
         return $this->getModelClone()->newQuery()
                                     ->select($columns)
                                     ->when(
-                                        fn (Builder $query): bool => in_array('is_active', $query->getModel()->getFillable()) || $isAdmin,
+                                        fn (Builder $query): bool => $isAdmin && in_array('is_active', $query->getModel()->getFillable()),
+                                        fn (Builder $query): Builder => $query,
                                         fn (Builder $query): Builder => $query->where('is_active', true),
-                                        fn (Builder $query): Builder => $query
                                     )
                                     ->when(
                                         fn (Builder $query): bool => in_array('position', $query->getModel()->getFillable()),

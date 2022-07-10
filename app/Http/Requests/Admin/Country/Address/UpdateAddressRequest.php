@@ -16,6 +16,11 @@ class UpdateAddressRequest extends FormRequest
         return auth()->check();
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge($this->route()->parameters);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,21 +29,12 @@ class UpdateAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'country_id' => 'required|integer|exists:countries,id',
+            'country' => 'required|integer|exists:countries,id',
             'address_en' => 'string',
             'address_ru' => 'string',
             'address_tk' => 'string',
             'position' => 'integer|min:1',
             'is_active' => 'boolean',
         ];
-    }
-
-    /**
-     * @param $keys
-     * @return array
-     */
-    public function all($keys = null): array
-    {
-        return array_merge($this->route()->parameters);
     }
 }
