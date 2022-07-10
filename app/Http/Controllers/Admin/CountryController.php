@@ -29,7 +29,7 @@ class CountryController extends Controller
      */
     public function index(): JsonResponse
     {
-        $result = $this->service->get(true);
+        $result = $this->service->index(true);
 
         return response()->json($result);
     }

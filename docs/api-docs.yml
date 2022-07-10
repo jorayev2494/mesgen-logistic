@@ -1834,13 +1834,13 @@ paths:
         200:
           $ref: "#/components/responses/AdminWorkWoursResponse"
           
-  /admin/work_hours/{country_id}:
+  /admin/work_hours/{work_hour_id}:
     get:
       summary: "Show Work hour"
       tags:
         - Admin Work hours
       parameters:
-        - $ref: '#/components/parameters/CountryParam' 
+        - $ref: '#/components/parameters/WorkHourParam' 
       responses:
         200:
           $ref: "#/components/responses/AdminWorkWoursResponse"
@@ -1850,7 +1850,7 @@ paths:
       tags:
         - Admin Work hours
       parameters:
-        - $ref: '#/components/parameters/CountryParam'
+        - $ref: '#/components/parameters/WorkHourParam'
       requestBody:
         $ref: '#/components/requestBodies/AdminUpdateWorkHourRequest'
       responses:
@@ -3257,6 +3257,14 @@ components:
       schema:
         type: integer
         example: 1
+
+    WorkHourParam:
+      name: work_hour_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 2
 
   responses:
     NoContentResponse:
